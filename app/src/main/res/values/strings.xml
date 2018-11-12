@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">UQCS</string>
+
+    <string name="view_members_list">members list</string>
+    <string name="view_docs">Documentation</string>
+
+    <string name="uqcs_full_name">The University of Queensland Computing Society</string>
 </resources>
