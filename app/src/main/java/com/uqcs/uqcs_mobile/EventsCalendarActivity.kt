@@ -8,17 +8,16 @@ import kotlinx.android.synthetic.main.activity_events_calendar.*
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import android.support.annotation.NonNull
 import android.util.EventLog
+import android.util.Log
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import org.threeten.bp.LocalDate
-
+import java.util.*
 
 class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_events_calendar)
-
-
 
         calendarView.setOnDateChangedListener(this)
 
@@ -33,7 +32,9 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
         selected: Boolean
     ) {
         //If you change a decorate, you need to invalidate decorators
-
+        dateText.text = resources.getString(R.string.date_format, Util.monthNumberToName(date.month), date.day,date.year)
         widget.invalidateDecorators()
     }
+
+
 }
