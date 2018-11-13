@@ -9,4 +9,6 @@
     <string name="date_format">%s %d, %d</string>
 
     <string name="add_event">Add event</string>
+
+    <string name="events_calendar_title"> Events Calendar</string>
 </resources>

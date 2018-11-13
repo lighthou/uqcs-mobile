@@ -46,7 +46,7 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
     fun addEvent(v : View) {
         val calendarDays : MutableList<CalendarDay> = mutableListOf<CalendarDay>()
         calendarDays.add(currentlySelectedDate as CalendarDay)
-        calendarView.addDecorator(EventDecorator(Color.BLACK, calendarDays))
+        calendarView.addDecorator(EventDecorator(Color.BLACK, calendarDays, this))
     }
 
 
