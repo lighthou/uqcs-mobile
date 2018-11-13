@@ -24,4 +24,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(documentationIntent)
     }
 
+    fun onCalenderClick(v: View?) {
+        val documentationIntent = Intent(this, EventsCalendarActivity::class.java)
+        startActivity(documentationIntent)
+    }
+
 }

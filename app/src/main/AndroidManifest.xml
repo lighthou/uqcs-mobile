@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".DocumentationActivity">
         </activity>
+        <activity android:name=".EventsCalendarActivity">
+        </activity>
     </application>
 
 </manifest>
