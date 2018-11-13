@@ -7,4 +7,6 @@
     <string name="uqcs_full_name">The University of Queensland Computing Society</string>
     <string name="calendar">Calender</string>
     <string name="date_format">%s %d, %d</string>
+
+    <string name="add_event">Add event</string>
 </resources>
