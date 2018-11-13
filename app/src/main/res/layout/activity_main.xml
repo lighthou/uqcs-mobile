@@ -61,7 +61,7 @@
             android:background="@drawable/uqcs_button"
             android:text="@string/calendar"
             android:fontFamily="@font/open_sans_semibold"
-            android:onClick="onDocumentationClick"
+            android:onClick="onCalenderClick"
             app:layout_constraintTop_toBottomOf="@id/documentation_button"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
