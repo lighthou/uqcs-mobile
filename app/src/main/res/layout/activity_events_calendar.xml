@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".EventsCalendarActivity">
-
+    <include layout="@layout/loading_overlay"/>
     <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"

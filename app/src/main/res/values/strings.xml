@@ -21,4 +21,9 @@
     <string name="date">Date</string>
     <string name="back">Back</string>
 
+
+
+    <!-- Misc -->
+    <string name="loading_text">Loading...</string>
+
 </resources>

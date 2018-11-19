@@ -19,6 +19,8 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import kotlinx.android.synthetic.main.loading_overlay.*
+import kotlinx.android.synthetic.main.loading_overlay.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import org.threeten.bp.LocalDate
@@ -34,9 +36,13 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
     private val EVENTS_URL = "http://45.76.123.29:80/events"
     private var eventsMap : MutableMap<CalendarDay, Event> = mutableMapOf()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_events_calendar)
+
+        progress_overlay.loading_text.text = "Fetching Events..."
+        Util.animateView(this, progress_overlay, View.VISIBLE, 0.8f, 200)
 
         calendarView.setOnDateChangedListener(this)
         //Set calendar to current date.
@@ -66,8 +72,10 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
                     if (eventDate != "") {
                         val tempEvent: Event = Event(eventDate, eventDescription, eventSummary, eventLocation)
                         addEventToCalendar(calendarDayFromEvent(tempEvent))
-                        eventsMap.put(calendarDayFromEvent(tempEvent), tempEvent)
+                        eventsMap[calendarDayFromEvent(tempEvent)] = tempEvent
                     }
+
+                    Util.animateView(this, progress_overlay, View.GONE, 0.8f, 200);
                 }
             },
             Response.ErrorListener {

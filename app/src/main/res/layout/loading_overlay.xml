@@ -1,0 +1,33 @@
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/progress_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:animateLayoutChanges="true"
+        android:background="@android:color/black"
+        android:clickable="true"
+        android:visibility="gone"
+        android:focusable="true"
+        android:elevation="1000dp">
+
+    <ImageView
+            android:id="@+id/loading_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@mipmap/uqcs_logo"
+            android:indeterminate="true"/>
+
+    <TextView
+            android:id="@+id/loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/open_sans_semibold"
+            android:text="@string/loading_text"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"/>
+
+</FrameLayout>
