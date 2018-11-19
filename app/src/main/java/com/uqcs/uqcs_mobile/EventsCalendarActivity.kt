@@ -46,7 +46,6 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
         dateText.text = resources.getString(R.string.date_format, Util.monthNumberToName(currentlySelectedDate?.month as Int),
             currentlySelectedDate?.day, currentlySelectedDate?.year)
 
-
         requestQueue = Volley.newRequestQueue(this)
         requestQueue?.add(getCalendarEventsRequest())
     }
@@ -83,7 +82,13 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
     ) {
         //If you change a decorate, you need to invalidate decorators
         dateText.text = resources.getString(R.string.date_format, Util.monthNumberToName(date.month), date.day,date.year)
-        eventName.text = eventsMap.get(date)?.summary
+        if (eventsMap.containsKey(date)) {
+            eventName.text = eventsMap[date]?.summary
+            eventDetailsButton.visibility = View.VISIBLE
+        } else {
+            eventName.text = "No Events"
+            eventDetailsButton.visibility = View.INVISIBLE
+        }
         currentlySelectedDate = date
 
 
@@ -102,6 +107,10 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
         val calendarDays : MutableList<CalendarDay> = mutableListOf<CalendarDay>()
         calendarDays.add(day)
         calendarView.addDecorator(EventDecorator(Color.BLACK, calendarDays, this))
+    }
+
+    fun viewEventDetails(v : View) {
+        EventDetailsDialog(this, eventsMap[currentlySelectedDate] as Event).show()
     }
 
 

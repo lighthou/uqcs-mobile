@@ -70,7 +70,7 @@
                     android:background="@drawable/uqcs_button"
                     android:text="view Details"
                     android:fontFamily="@font/open_sans_semibold"
-                    android:onClick="addEvent"/>
+                    android:onClick="viewEventDetails"/>
 
     </LinearLayout>
 
@@ -84,7 +84,6 @@
             android:background="@drawable/uqcs_button"
             android:text="@string/add_event"
             android:fontFamily="@font/open_sans_semibold"
-            android:onClick="addEvent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
