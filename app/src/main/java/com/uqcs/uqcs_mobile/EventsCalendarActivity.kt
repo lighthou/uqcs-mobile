@@ -24,10 +24,7 @@ import kotlinx.android.synthetic.main.loading_overlay.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import org.threeten.bp.LocalDate
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
 
@@ -49,6 +46,7 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
         calendarView.setSelectedDate(LocalDate.now())
         val c : Calendar = Calendar.getInstance()
         currentlySelectedDate = CalendarDay.from(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
+        // CalendarDay uses a 1-12 day whereas monthNumberToName indexes 0-11 so we subtract one.
         dateText.text = resources.getString(R.string.date_format, Util.monthNumberToName(currentlySelectedDate?.month as Int - 1),
             currentlySelectedDate?.day, currentlySelectedDate?.year)
 
@@ -75,8 +73,8 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
                         eventsMap[calendarDayFromEvent(tempEvent)] = tempEvent
                     }
 
-                    Util.animateView(this, progress_overlay, View.GONE, 0.8f, 200);
                 }
+                Util.animateView(this, progress_overlay, View.GONE, 0.8f, 200)
             },
             Response.ErrorListener {
                 Log.i("VolleyIssues", it.toString())
