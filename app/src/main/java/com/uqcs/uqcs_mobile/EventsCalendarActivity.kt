@@ -43,7 +43,7 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
         calendarView.setSelectedDate(LocalDate.now())
         val c : Calendar = Calendar.getInstance()
         currentlySelectedDate = CalendarDay.from(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
-        dateText.text = resources.getString(R.string.date_format, Util.monthNumberToName(currentlySelectedDate?.month as Int),
+        dateText.text = resources.getString(R.string.date_format, Util.monthNumberToName(currentlySelectedDate?.month as Int - 1),
             currentlySelectedDate?.day, currentlySelectedDate?.year)
 
         requestQueue = Volley.newRequestQueue(this)
@@ -81,13 +81,13 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
         selected: Boolean
     ) {
         //If you change a decorate, you need to invalidate decorators
-        dateText.text = resources.getString(R.string.date_format, Util.monthNumberToName(date.month), date.day,date.year)
+        dateText.text = resources.getString(R.string.date_format, Util.monthNumberToName(date.month - 1), date.day,date.year)
         if (eventsMap.containsKey(date)) {
             eventName.text = eventsMap[date]?.summary
             eventDetailsButton.visibility = View.VISIBLE
         } else {
             eventName.text = "No Events"
-            eventDetailsButton.visibility = View.INVISIBLE
+            eventDetailsButton.visibility = View.GONE
         }
         currentlySelectedDate = date
 
