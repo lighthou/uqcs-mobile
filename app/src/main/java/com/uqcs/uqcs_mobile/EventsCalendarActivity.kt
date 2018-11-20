@@ -30,7 +30,7 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
 
     private var currentlySelectedDate : CalendarDay? = null
     private var requestQueue: RequestQueue? = null
-    private val EVENTS_URL = "http://45.76.123.29:80/events"
+    private val EVENTS_URL = "http://www.ryankurz.me/events"
     private var eventsMap : MutableMap<CalendarDay, Event> = mutableMapOf()
 
 
@@ -46,9 +46,7 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
         calendarView.setSelectedDate(LocalDate.now())
         val c : Calendar = Calendar.getInstance()
         currentlySelectedDate = CalendarDay.from(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
-        // CalendarDay uses a 1-12 day whereas monthNumberToName indexes 0-11 so we subtract one.
-        dateText.text = resources.getString(R.string.date_format, Util.monthNumberToName(currentlySelectedDate?.month as Int - 1),
-            currentlySelectedDate?.day, currentlySelectedDate?.year)
+        onDateSelected(calendarView, currentlySelectedDate as CalendarDay, true)
 
         requestQueue = Volley.newRequestQueue(this)
         requestQueue?.add(getCalendarEventsRequest())
@@ -86,7 +84,7 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
         date: CalendarDay,
         selected: Boolean
     ) {
-        //If you change a decorate, you need to invalidate decorators
+        // CalendarDay uses a 1-12 day whereas monthNumberToName indexes 0-11 so we subtract one.
         dateText.text = resources.getString(R.string.date_format, Util.monthNumberToName(date.month - 1), date.day,date.year)
         if (eventsMap.containsKey(date)) {
             eventName.text = eventsMap[date]?.summary
@@ -97,7 +95,7 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
         }
         currentlySelectedDate = date
 
-
+        //If you change a decorate, you need to invalidate decorators
         widget.invalidateDecorators()
     }
 
