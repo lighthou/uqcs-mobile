@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.uqcs.uqcs_mobile">
+          package="com.uqcs.mobile">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -12,20 +12,18 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.uqcs.mobile.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MemberListActivity">
+        <activity android:name="com.uqcs.mobile.MemberListActivity">
         </activity>
-        <activity android:name=".DocumentationActivity">
+        <activity android:name="com.uqcs.mobile.DocumentationActivity">
         </activity>
-        <activity android:name=".EventsCalendarActivity">
-        </activity>
-        <activity android:name=".EventDetailsActivity">
+        <activity android:name="com.uqcs.mobile.EventsCalendarActivity">
         </activity>
     </application>
 

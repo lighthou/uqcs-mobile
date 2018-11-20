@@ -1,12 +1,10 @@
-package com.uqcs.uqcs_mobile
+package com.uqcs.mobile
 
 import java.text.SimpleDateFormat
 import java.util.*
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
-import android.support.v4.view.ViewCompat.animate
-import android.support.v4.view.ViewCompat.setAlpha
 import android.view.View
 import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.loading_overlay.view.*
@@ -15,10 +13,10 @@ import kotlinx.android.synthetic.main.loading_overlay.view.*
 class Util {
     companion object {
         fun monthNumberToName(monthNumber : Int): String {
-            var calendar : Calendar = Calendar.getInstance()
-            var month_date : SimpleDateFormat = SimpleDateFormat("MMMM")
+            val calendar : Calendar = Calendar.getInstance()
+            val monthDate = SimpleDateFormat("MMMM", Locale.UK)
             calendar.set(Calendar.MONTH, monthNumber)
-            return month_date.format(calendar.time)
+            return monthDate.format(calendar.time)
         }
 
         /**

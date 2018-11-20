@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.uqcs.uqcs_mobile"
+        applicationId "com.uqcs.mobile"
         minSdkVersion 26
         targetSdkVersion 28
         versionCode 1

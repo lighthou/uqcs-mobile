@@ -1,4 +1,4 @@
-package com.uqcs.uqcs_mobile
+package com.uqcs.mobile
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.uqcs.uqcs_mobile", appContext.packageName)
+        assertEquals("com.uqcs.mobile", appContext.packageName)
     }
 }

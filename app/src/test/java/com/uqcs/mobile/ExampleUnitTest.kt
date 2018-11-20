@@ -1,4 +1,4 @@
-package com.uqcs.uqcs_mobile
+package com.uqcs.mobile
 
 import org.junit.Test
 

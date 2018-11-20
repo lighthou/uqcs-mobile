@@ -1,4 +1,4 @@
-package com.uqcs.uqcs_mobile
+package com.uqcs.mobile
 
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
@@ -6,17 +6,12 @@ import android.os.Bundle
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import kotlinx.android.synthetic.main.activity_events_calendar.*
 import com.prolificinteractive.materialcalendarview.CalendarDay
-import android.support.annotation.NonNull
-import android.util.EventLog
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import kotlinx.android.synthetic.main.loading_overlay.*
@@ -38,7 +33,7 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_events_calendar)
 
-        progress_overlay.loading_text.text = "Fetching Events..."
+        progress_overlay.loading_text.text = getString(R.string.fetching_events)
         Util.animateView(this, progress_overlay, View.VISIBLE, 0.8f, 200)
 
         calendarView.setOnDateChangedListener(this)
@@ -66,7 +61,7 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
                     val eventLocation : String = if (event.has("location")) event.getString("location") else ""
 
                     if (eventDate != "") {
-                        val tempEvent: Event = Event(eventDate, eventDescription, eventSummary, eventLocation)
+                        val tempEvent = Event(eventDate, eventDescription, eventSummary, eventLocation)
                         addEventToCalendar(calendarDayFromEvent(tempEvent))
                         eventsMap[calendarDayFromEvent(tempEvent)] = tempEvent
                     }
@@ -90,7 +85,7 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
             eventName.text = eventsMap[date]?.summary
             eventDetailsButton.visibility = View.VISIBLE
         } else {
-            eventName.text = "No Events"
+            eventName.text = getString(R.string.no_events)
             eventDetailsButton.visibility = View.GONE
         }
         currentlySelectedDate = date
@@ -99,7 +94,7 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
         widget.invalidateDecorators()
     }
 
-    fun calendarDayFromEvent(event: Event) : CalendarDay {
+    private fun calendarDayFromEvent(event: Event) : CalendarDay {
         val date: Date = event.date // your date
         val cal = Calendar.getInstance()
         cal.time = date
@@ -107,10 +102,10 @@ class EventsCalendarActivity : AppCompatActivity(), OnDateSelectedListener {
     }
 
 
-    fun addEventToCalendar(day : CalendarDay) {
-        val calendarDays : MutableList<CalendarDay> = mutableListOf<CalendarDay>()
+    private fun addEventToCalendar(day : CalendarDay) {
+        val calendarDays : MutableList<CalendarDay> = mutableListOf()
         calendarDays.add(day)
-        calendarView.addDecorator(EventDecorator(Color.BLACK, calendarDays, this))
+        calendarView.addDecorator(EventDecorator(calendarDays, this))
     }
 
     fun viewEventDetails(v : View) {

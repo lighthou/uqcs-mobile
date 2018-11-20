@@ -8,10 +8,14 @@
     <string name="calendar">Calender</string>
 
 
+
     <!-- Events Calendar -->
     <string name="date_format">%s %d, %d</string>
     <string name="add_event">Add event</string>
     <string name="events_calendar_title">Events Calendar</string>
+    <string name="view_details">View Details</string>
+    <string name="no_events">No Events</string>
+    <string name="fetching_events">Fetching Events...</string>
 
     <!-- Events Details -->
     <string name="events_details_title"> Events Details</string>
@@ -25,5 +29,5 @@
 
     <!-- Misc -->
     <string name="loading_text">Loading...</string>
-
+    <string name="uqcs_logo_content_desc">Uqcs logo</string>
 </resources>
