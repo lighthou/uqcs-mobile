@@ -13,7 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:tableView_headerColor="@color/uqcsBlue">
-
     </de.codecrafters.tableview.TableView>
 
 </android.support.constraint.ConstraintLayout>

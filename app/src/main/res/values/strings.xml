@@ -26,6 +26,9 @@
     <string name="back">Back</string>
 
 
+    <!-- Members List -->
+    <string name="fetching_members">Fetching Members...</string>
+
 
     <!-- Misc -->
     <string name="loading_text">Loading...</string>
