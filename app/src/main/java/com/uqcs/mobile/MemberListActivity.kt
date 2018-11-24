@@ -1,5 +1,6 @@
 package com.uqcs.mobile
 
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -20,8 +21,17 @@ import kotlinx.android.synthetic.main.loading_overlay.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter
+
+
 import com.uqcs.mobile.R.id.tableView
 import de.codecrafters.tableview.listeners.SwipeToRefreshListener
+import android.support.v4.content.ContextCompat
+import com.uqcs.mobile.R.id.tableView
+import android.os.AsyncTask.execute
+
+
+
+
 
 
 class MemberListActivity : AppCompatActivity() {
@@ -29,17 +39,28 @@ class MemberListActivity : AppCompatActivity() {
     private var membersList = mutableListOf<Array<String>>()
     private val TABLE_HEADERS = arrayOf("First Name", "Last Name", "Email", "Paid")
     private var requestQueue : RequestQueue? = null
+    // todo private val filterHelper: FilterHelper<Member>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_member_list)
-
         progress_overlay.loading_text.text = getString(R.string.fetching_members)
 
+
+        val headerAdapter =
+            SimpleTableHeaderAdapter(this, "First Name", "Last Name", "Email", "Paid")
+        headerAdapter.setTextColor(Color.WHITE)
+        tableView.headerAdapter = headerAdapter
 
         requestQueue = Volley.newRequestQueue(this)
         tableView.isSwipeToRefreshEnabled = true
         tableView.setSwipeToRefreshListener { refreshMembersList() }
+
+        tableView.setSwipeToRefreshListener { refreshIndicator ->
+            refreshMembersList()
+            refreshIndicator.hide()
+        }
+
         refreshMembersList()
     }
 
@@ -72,7 +93,7 @@ class MemberListActivity : AppCompatActivity() {
                                             tempMember.paid.toString())
                     )
                 }
-                tableView.dataAdapter = ((SimpleTableDataAdapter(this, membersList)))
+                tableView.dataAdapter = (SimpleTableDataAdapter(this, membersList))
                 Util.animateView(this, progress_overlay, View.GONE, 0.8f, 200)
             },
             Response.ErrorListener {
