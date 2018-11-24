@@ -3,10 +3,8 @@ package com.uqcs.mobile
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.HeaderViewListAdapter
 import android.widget.Toast
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
@@ -23,12 +21,6 @@ import org.json.JSONObject
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter
 
 
-import com.uqcs.mobile.R.id.tableView
-import de.codecrafters.tableview.listeners.SwipeToRefreshListener
-import android.support.v4.content.ContextCompat
-import com.uqcs.mobile.R.id.tableView
-import android.os.AsyncTask.execute
-
 
 
 
@@ -37,7 +29,6 @@ import android.os.AsyncTask.execute
 class MemberListActivity : AppCompatActivity() {
     private val EVENTS_URL = "http://www.ryankurz.me/members"
     private var membersList = mutableListOf<Array<String>>()
-    private val TABLE_HEADERS = arrayOf("First Name", "Last Name", "Email", "Paid")
     private var requestQueue : RequestQueue? = null
     // todo private val filterHelper: FilterHelper<Member>? = null
 
@@ -82,7 +73,7 @@ class MemberListActivity : AppCompatActivity() {
                 val members = JSONArray(responseString)
                 for (i in 0..(members.length() - 1)) {
                     val member: JSONObject = members.getJSONObject(i)
-                    val tempMember : Member = Member(member.getString("first_name"),
+                    val tempMember = Member(member.getString("first_name"),
                                                      member.getString("last_name"),
                                                      member.getString("email"),
                                                      member.getBoolean("paid"))
