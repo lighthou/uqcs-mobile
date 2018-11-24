@@ -8,11 +8,13 @@
         tools:context=".MemberListActivity">
     <include layout="@layout/loading_overlay"/>
 
-    <de.codecrafters.tableview.TableView
+    <com.sortabletableview.recyclerview.TableView
             android:id="@+id/tableView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:tableView_headerColor="@color/uqcsBlue">
-    </de.codecrafters.tableview.TableView>
+            app:tableView_headerBackgroundColor="@color/uqcsBlue"
+            app:tableView_headerElevation="10dp">
+
+    </com.sortabletableview.recyclerview.TableView>
 
 </android.support.constraint.ConstraintLayout>

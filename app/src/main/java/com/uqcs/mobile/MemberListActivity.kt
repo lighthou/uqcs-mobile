@@ -12,31 +12,26 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter
 import kotlinx.android.synthetic.main.activity_member_list.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
 import org.json.JSONArray
 import org.json.JSONObject
-import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter
 import android.support.v4.view.MenuItemCompat.getActionView
 import android.R.menu
 import android.view.Menu
 import android.view.MenuInflater
-
-
-
-
-
-
-
+import android.widget.SearchView
+import com.sortabletableview.recyclerview.toolkit.FilterHelper
+import com.sortabletableview.recyclerview.toolkit.SimpleTableDataAdapter
+import com.sortabletableview.recyclerview.toolkit.SimpleTableHeaderAdapter
 
 
 class MemberListActivity : AppCompatActivity() {
     private val EVENTS_URL = "http://www.ryankurz.me/members"
     private var membersList = mutableListOf<Array<String>>()
     private var requestQueue : RequestQueue? = null
-    // todo private val filterHelper: FilterHelper<Member>? = null
+    private val filterHelper: FilterHelper<Member>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,32 +94,4 @@ class MemberListActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to fetch members list", Toast.LENGTH_LONG).show()
             })
     }
-
-/*
-    fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.fragment_search_datamain, menu)
-        val item = menu.findItem(R.id.menu_search)
-        val searchView = item.getActionView() as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener() {
-            fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            fun onQueryTextChange(query: String): Boolean {
-                // ******************** Interesting Code Section **********************************************************
-                filterHelper.setFilter(FlightFilter(query))
-                // ******************** Interesting Code Section **********************************************************
-                return false
-            }
-        })
-        searchView.setOnCloseListener(object : SearchView.OnCloseListener() {
-            fun onClose(): Boolean {
-                // ******************** Interesting Code Section **********************************************************
-                filterHelper.clearFilter()
-                // ******************** Interesting Code Section **********************************************************
-                return false
-            }
-        })
-        super.onCreateOptionsMenu(menu, inflater)
-    }*/
 }

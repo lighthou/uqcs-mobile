@@ -2,19 +2,14 @@ package com.uqcs.mobile
 
 import android.R.attr.data
 
-/*
-import com.sortabletableview.recyclerview.exampleapp.data.Flight
-import com.sortabletableview.recyclerview.exampleapp.simpledata.FlightStringValueExtractors
+
 import com.sortabletableview.recyclerview.toolkit.FilterHelper
-import com.sortabletableview.recyclerview.toolkit.SimpleTableDataColumnAdapter
 
-import android.R.attr.data
-
-internal class FlightFilter(query: String) : FilterHelper.Filter<Member> {
+internal class MemberFilter(query: String) : FilterHelper.Filter<Member> {
 
     private val query: String = query.toLowerCase()
 
-    fun apply(member: Member): Boolean {
+    override fun apply(member: Member): Boolean {
         // search for airline name
 
         if (member.firstName.toLowerCase().contains(query)) {
@@ -28,4 +23,4 @@ internal class FlightFilter(query: String) : FilterHelper.Filter<Member> {
         }
         return false
     }
-}*/
+}
