@@ -8,7 +8,6 @@
     <string name="calendar">Calender</string>
 
 
-
     <!-- Events Calendar -->
     <string name="date_format">%s %d, %d</string>
     <string name="add_event">Add event</string>

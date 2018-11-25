@@ -1,21 +1,21 @@
 package com.uqcs.mobile
 
-
 import android.util.Log
 import com.sortabletableview.recyclerview.toolkit.FilterHelper
 
-internal class MemberFilter(query: String) : FilterHelper.Filter<Member> {
+internal class MemberFilter(private val query: String) : FilterHelper.Filter<Member> {
 
-    private val query: String = query.toLowerCase()
-
+    init {
+        Log.i("NOT_WORKING", "AH")
+    }
     override fun apply(member: Member): Boolean {
-        // search for airline name
-        Log.i("KKKK", "ok")
+        Log.i("WORKING", "AH")
+        val queryLowerCase = query.toLowerCase()
         return when {
-            member.firstName.toLowerCase().contains(query) -> true
-            member.lastName.toLowerCase().contains(query) -> true
-            member.email.toLowerCase().contains(query) -> true
-            member.paid.toString().contains(query) -> true
+            member.firstName.toLowerCase().contains(queryLowerCase) -> true
+            member.lastName.toLowerCase().contains(queryLowerCase) -> true
+            member.email.toLowerCase().contains(queryLowerCase) -> true
+            member.paid.toString().contains(queryLowerCase) -> true
             else -> false
         }
     }
