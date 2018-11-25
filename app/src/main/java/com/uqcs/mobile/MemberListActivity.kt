@@ -89,16 +89,7 @@ class MemberListActivity : AppCompatActivity() {
                 TableDataRowBackgroundProviders.alternatingRowColors(colorEvenRows, colorOddRows)
 
         // change column widths
-        val tableColumnModel: TableColumnWeightModel
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // show 6 columns in landscape mode
-            tableColumnModel = TableColumnWeightModel(6)
-            tableColumnModel.setColumnWeight(4, 2)
-            tableColumnModel.setColumnWeight(5, 3)
-        } else {
-            // show 4 columns in portrait mode
-            tableColumnModel = TableColumnWeightModel(4)
-        }
+        val tableColumnModel = TableColumnWeightModel(4)
         tableColumnModel.setColumnWeight(0, 4)
         tableColumnModel.setColumnWeight(1, 4)
         tableColumnModel.setColumnWeight(2, 4)
@@ -114,16 +105,12 @@ class MemberListActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(query: String): Boolean {
-                // ******************** Interesting Code Section **********************************************************
                 filterHelper!!.setFilter(MemberFilter(query))
-                // ******************** Interesting Code Section **********************************************************
                 return false
             }
         })
         searchView.setOnCloseListener {
-            // ******************** Interesting Code Section **********************************************************
             filterHelper!!.clearFilter()
-            // ******************** Interesting Code Section **********************************************************
             false
         }
     }
