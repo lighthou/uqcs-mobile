@@ -8,12 +8,22 @@
         tools:context=".MemberListActivity">
     <include layout="@layout/loading_overlay"/>
 
+    <android.support.v7.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+    </android.support.v7.widget.SearchView>
+
     <com.sortabletableview.recyclerview.TableView
             android:id="@+id/tableView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:tableView_headerBackgroundColor="@color/uqcsBlue"
-            app:tableView_headerElevation="10dp">
+            app:tableView_headerElevation="10dp"
+            app:layout_constraintTop_toBottomOf="@id/searchView"
+            app:layout_constraintBottom_toBottomOf="parent">
 
     </com.sortabletableview.recyclerview.TableView>
 

@@ -1,8 +1,7 @@
 package com.uqcs.mobile
 
-import android.R.attr.data
 
-
+import android.util.Log
 import com.sortabletableview.recyclerview.toolkit.FilterHelper
 
 internal class MemberFilter(query: String) : FilterHelper.Filter<Member> {
@@ -11,16 +10,13 @@ internal class MemberFilter(query: String) : FilterHelper.Filter<Member> {
 
     override fun apply(member: Member): Boolean {
         // search for airline name
-
-        if (member.firstName.toLowerCase().contains(query)) {
-            return true
-        } else if (member.lastName.toLowerCase().contains(query)) {
-            return true
-        } else if (member.email.toLowerCase().contains(query)) {
-            return true
-        } else if (member.paid.toString().contains(query)) {
-            return true
+        Log.i("KKKK", "ok")
+        return when {
+            member.firstName.toLowerCase().contains(query) -> true
+            member.lastName.toLowerCase().contains(query) -> true
+            member.email.toLowerCase().contains(query) -> true
+            member.paid.toString().contains(query) -> true
+            else -> false
         }
-        return false
     }
 }
