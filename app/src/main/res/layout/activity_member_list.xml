@@ -16,7 +16,7 @@
 
     </android.support.v7.widget.SearchView>
 
-    <com.sortabletableview.recyclerview.TableView
+    <com.sortabletableview.recyclerview.SortableTableView
             android:id="@+id/tableView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -25,6 +25,6 @@
             app:layout_constraintTop_toBottomOf="@id/searchView"
             app:layout_constraintBottom_toBottomOf="parent">
 
-    </com.sortabletableview.recyclerview.TableView>
+    </com.sortabletableview.recyclerview.SortableTableView>
 
 </android.support.constraint.ConstraintLayout>

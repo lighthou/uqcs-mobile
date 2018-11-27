@@ -15,13 +15,12 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
+import com.sortabletableview.recyclerview.SortableTableView
 import com.sortabletableview.recyclerview.TableDataColumnAdapterDelegator
 import com.sortabletableview.recyclerview.TableView
 import com.sortabletableview.recyclerview.model.TableColumnWeightModel
-import com.sortabletableview.recyclerview.toolkit.FilterHelper
-import com.sortabletableview.recyclerview.toolkit.SimpleTableDataColumnAdapter
-import com.sortabletableview.recyclerview.toolkit.SimpleTableHeaderAdapter
-import com.sortabletableview.recyclerview.toolkit.TableDataRowBackgroundProviders
+import com.sortabletableview.recyclerview.providers.SortStateViewProvider
+import com.sortabletableview.recyclerview.toolkit.*
 import kotlinx.android.synthetic.main.activity_member_list.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
@@ -78,7 +77,7 @@ class MemberListActivity : AppCompatActivity() {
         dataAdapter.setColumnAdapter(3, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forPaid()))
 
         // set up the table view
-        val tableView = findViewById<TableView<Member>>(R.id.tableView)
+        val tableView = findViewById<SortableTableView<Member>>(R.id.tableView)
         tableView.headerAdapter = headerAdapter
         tableView.dataAdapter = dataAdapter
 
@@ -95,6 +94,13 @@ class MemberListActivity : AppCompatActivity() {
         tableColumnModel.setColumnWeight(2, 4)
         tableColumnModel.setColumnWeight(3, 4)
         tableView.columnModel = tableColumnModel
+
+        tableView.headerSortStateViewProvider = SortStateViewProviders.brightArrows();
+
+        tableView.setColumnComparator(0, MemberComparator.forFirstName());
+        tableView.setColumnComparator(1, MemberComparator.forLastName());
+        tableView.setColumnComparator(2, MemberComparator.forEmail());
+        tableView.setColumnComparator(3, MemberComparator.forPaid());
 
         filterHelper = FilterHelper(tableView)
 
