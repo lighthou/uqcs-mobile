@@ -71,10 +71,13 @@ class MemberListActivity : AppCompatActivity() {
         val headerAdapter = SimpleTableHeaderAdapter(this, "First", "Last", "Email", "Paid")
         // set up data adapter
         val dataAdapter = TableDataColumnAdapterDelegator<Member>(this, membersList)
-        dataAdapter.setColumnAdapter(0, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forFirstName()))
-        dataAdapter.setColumnAdapter(1, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forLastName()))
-        dataAdapter.setColumnAdapter(2, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forEmail()))
-        dataAdapter.setColumnAdapter(3, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forPaid()))
+        dataAdapter.apply {
+            setColumnAdapter(0, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forFirstName()))
+            setColumnAdapter(1, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forLastName()))
+            setColumnAdapter(2, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forEmail()))
+            setColumnAdapter(3, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forPaid()))
+        }
+
 
         // set up the table view
         val tableView = findViewById<SortableTableView<Member>>(R.id.tableView)
@@ -89,18 +92,24 @@ class MemberListActivity : AppCompatActivity() {
 
         // change column widths
         val tableColumnModel = TableColumnWeightModel(4)
-        tableColumnModel.setColumnWeight(0, 4)
-        tableColumnModel.setColumnWeight(1, 4)
-        tableColumnModel.setColumnWeight(2, 4)
-        tableColumnModel.setColumnWeight(3, 4)
+        tableColumnModel.apply {
+            setColumnWeight(0, 4)
+            setColumnWeight(1, 4)
+            setColumnWeight(2, 4)
+            setColumnWeight(3, 4)
+        }
+
         tableView.columnModel = tableColumnModel
 
         tableView.headerSortStateViewProvider = SortStateViewProviders.brightArrows();
 
-        tableView.setColumnComparator(0, MemberComparator.forFirstName());
-        tableView.setColumnComparator(1, MemberComparator.forLastName());
-        tableView.setColumnComparator(2, MemberComparator.forEmail());
-        tableView.setColumnComparator(3, MemberComparator.forPaid());
+        tableView.apply {
+            setColumnComparator(0, MemberComparator.forFirstName())
+            setColumnComparator(1, MemberComparator.forLastName())
+            setColumnComparator(2, MemberComparator.forEmail())
+            setColumnComparator(3, MemberComparator.forPaid())
+        }
+
 
         filterHelper = FilterHelper(tableView)
 
