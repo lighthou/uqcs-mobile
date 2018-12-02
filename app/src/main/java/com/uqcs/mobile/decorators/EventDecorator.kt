@@ -1,4 +1,4 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.decorators
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -6,9 +6,7 @@ import android.support.v4.content.ContextCompat
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
-
-
-
+import com.uqcs.mobile.R
 
 
 class EventDecorator(dates: Collection<CalendarDay>, private val context: Context) : DayViewDecorator {

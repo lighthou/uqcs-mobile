@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import android.util.Base64.NO_WRAP
 import com.android.volley.toolbox.Volley
+import com.uqcs.mobile.Helpers.Util
 import kotlinx.android.synthetic.main.loading_overlay.view.*
 
 

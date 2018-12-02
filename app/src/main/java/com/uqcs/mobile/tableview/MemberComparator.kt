@@ -1,4 +1,6 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.tableview
+
+import com.uqcs.mobile.data.classes.Member
 
 class MemberComparator {
 

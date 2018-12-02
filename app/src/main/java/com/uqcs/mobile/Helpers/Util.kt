@@ -1,4 +1,4 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.Helpers
 
 import java.text.SimpleDateFormat
 import java.util.*
@@ -7,6 +7,7 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.view.View
 import android.view.animation.AnimationUtils
+import com.uqcs.mobile.R
 import kotlinx.android.synthetic.main.loading_overlay.view.*
 
 
@@ -31,7 +32,9 @@ class Util {
                 view.alpha = 0f
             }
             view.visibility = View.VISIBLE
-            view.loading_image.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotate_indefinitely))
+            view.loading_image.startAnimation(AnimationUtils.loadAnimation(context,
+                R.anim.rotate_indefinitely
+            ))
             view.animate()
                 .setDuration(duration.toLong())
                 .alpha(if (show) toAlpha else 0f)

@@ -1,12 +1,13 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.fragments
 
-import android.content.res.Configuration
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
+import android.util.Base64
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -18,36 +19,50 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.sortabletableview.recyclerview.SortableTableView
 import com.sortabletableview.recyclerview.TableDataColumnAdapterDelegator
-import com.sortabletableview.recyclerview.TableView
 import com.sortabletableview.recyclerview.model.TableColumnWeightModel
-import com.sortabletableview.recyclerview.providers.SortStateViewProvider
 import com.sortabletableview.recyclerview.toolkit.*
+import com.uqcs.mobile.R
+import com.uqcs.mobile.Helpers.Util
+import com.uqcs.mobile.MainActivity
+import com.uqcs.mobile.data.classes.Member
+import com.uqcs.mobile.tableview.MemberComparator
+import com.uqcs.mobile.tableview.MemberFilter
+import com.uqcs.mobile.tableview.MemberStringValueExtractor
 import kotlinx.android.synthetic.main.activity_member_list.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.ArrayList
+import java.util.*
 
-/**
- * A simple [Fragment] subclass.
- * create an instance of this fragment.
- */
-class MemberListActivity : AppCompatActivity() {
+class MembersListFragment : Fragment() {
 
     private var filterHelper: FilterHelper<Member>? = null
     private val EVENTS_URL = "http://www.ryankurz.me/members"
     private val membersList : ArrayList<Member> = ArrayList<Member>()
     private var requestQueue : RequestQueue? = null
+    private var username = ""
+    private var password = ""
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_member_list)
+    companion object {
+        fun newInstance(): MembersListFragment {
+            return MembersListFragment()
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.activity_member_list, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         progress_overlay.loading_text.text = getString(R.string.fetching_members)
         searchView.queryHint = "Search Here"
-        Util.animateView(this, progress_overlay, View.VISIBLE, 0.8f, 200)
-
-        requestQueue = Volley.newRequestQueue(this)
+        Util.animateView(context as Context, progress_overlay, View.VISIBLE, 0.8f, 200)
+        username = (context as MainActivity).username
+        password = (context as MainActivity).password
+        requestQueue = Volley.newRequestQueue(context as Context)
 
         tableView.isSwipeToRefreshEnabled = true
 
@@ -60,18 +75,18 @@ class MemberListActivity : AppCompatActivity() {
 
     private fun refreshMembersList() {
         membersList.clear()
-        Util.animateView(this, progress_overlay, View.VISIBLE, 0.8f, 200)
+        Util.animateView(context as Context, progress_overlay, View.VISIBLE, 0.8f, 200)
         val request = getMembersListRequest()
-        request.retryPolicy = DefaultRetryPolicy( 50000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        request.retryPolicy = DefaultRetryPolicy( 30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         requestQueue?.add(getMembersListRequest())
     }
 
 
     private fun setUpTable() {
         // set up header adapter
-        val headerAdapter = SimpleTableHeaderAdapter(this, "First", "Last", "Email", "Paid")
+        val headerAdapter = SimpleTableHeaderAdapter(context as Context, "First", "Last", "Email", "Paid")
         // set up data adapter
-        val dataAdapter = TableDataColumnAdapterDelegator<Member>(this, membersList)
+        val dataAdapter = TableDataColumnAdapterDelegator<Member>(context as Context, membersList)
         dataAdapter.apply {
             setColumnAdapter(0, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forFirstName()))
             setColumnAdapter(1, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forLastName()))
@@ -81,14 +96,14 @@ class MemberListActivity : AppCompatActivity() {
 
 
         // set up the table view
-        val tableView = findViewById<SortableTableView<Member>>(R.id.tableView)
-        tableView.headerAdapter = headerAdapter
-        tableView.dataAdapter = dataAdapter
+        val tableView = view?.findViewById<SortableTableView<Member>>(R.id.tableView)
+        tableView?.headerAdapter = headerAdapter
+        tableView?.dataAdapter = dataAdapter
 
         // do some styling
-        val colorOddRows = ContextCompat.getColor(this, R.color.colorOddRows)
-        val colorEvenRows = ContextCompat.getColor(this, R.color.colorEvenRows)
-        tableView.dataRowBackgroundProvider =
+        val colorOddRows = ContextCompat.getColor(context as Context, R.color.colorOddRows)
+        val colorEvenRows = ContextCompat.getColor(context as Context, R.color.colorEvenRows)
+        tableView?.dataRowBackgroundProvider =
                 TableDataRowBackgroundProviders.alternatingRowColors(colorEvenRows, colorOddRows)
 
         // change column widths
@@ -100,11 +115,11 @@ class MemberListActivity : AppCompatActivity() {
             setColumnWeight(3, 4)
         }
 
-        tableView.columnModel = tableColumnModel
+        tableView?.columnModel = tableColumnModel
 
-        tableView.headerSortStateViewProvider = SortStateViewProviders.brightArrows();
+        tableView?.headerSortStateViewProvider = SortStateViewProviders.brightArrows();
 
-        tableView.apply {
+        tableView?.apply {
             setColumnComparator(0, MemberComparator.forFirstName())
             setColumnComparator(1, MemberComparator.forLastName())
             setColumnComparator(2, MemberComparator.forEmail())
@@ -114,8 +129,8 @@ class MemberListActivity : AppCompatActivity() {
 
         filterHelper = FilterHelper(tableView)
 
-        val searchView = findViewById<SearchView>(R.id.searchView)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        val searchView = view?.findViewById<SearchView>(R.id.searchView)
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
@@ -125,7 +140,7 @@ class MemberListActivity : AppCompatActivity() {
                 return false
             }
         })
-        searchView.setOnCloseListener {
+        searchView?.setOnCloseListener {
             filterHelper!!.clearFilter()
             false
         }
@@ -133,7 +148,7 @@ class MemberListActivity : AppCompatActivity() {
 
     private fun getMembersListRequest() : JsonArrayRequest {
 
-        return JsonArrayRequest(
+        return object : JsonArrayRequest(
             Request.Method.GET, EVENTS_URL, null,
             Response.Listener<JSONArray> { response ->
                 val responseString = response.toString()
@@ -141,20 +156,31 @@ class MemberListActivity : AppCompatActivity() {
                 membersList.clear()
                 for (i in 0..(members.length() - 1)) {
                     val member: JSONObject = members.getJSONObject(i)
-                    val tempMember = Member(member.getString("first_name"),
+                    val tempMember = Member(
+                        member.getString("first_name"),
                         member.getString("last_name"),
                         member.getString("email"),
-                        member.getBoolean("paid"))
+                        member.getBoolean("paid")
+                    )
 
                     membersList.add(tempMember)
                 }
                 setUpTable()
-                Util.animateView(this, progress_overlay, View.GONE, 0.8f, 200)
+                Util.animateView(context as Context, progress_overlay, View.GONE, 0.8f, 200)
             },
             Response.ErrorListener {
                 Log.i("VolleyIssues", it.toString())
-                Util.animateView(this, progress_overlay, View.GONE, 0.8f, 200)
-                Toast.makeText(this, "Failed to fetch members list", Toast.LENGTH_LONG).show()
-            })
+                Util.animateView(context as Context, progress_overlay, View.GONE, 0.8f, 200)
+                Toast.makeText(context as Context, "Failed to fetch members list", Toast.LENGTH_LONG).show()
+            }) {
+            override fun getHeaders(): Map<String, String> {
+                val params = mutableMapOf<String, String>()
+                val userAndPassword = "$username:$password"
+                val basicAuth = "Basic " + Base64.encodeToString(userAndPassword.toByteArray(), Base64.NO_WRAP)
+                params["Authorization"] = basicAuth
+                Log.i("auth", basicAuth)
+                return params
+            }
+        }
     }
 }

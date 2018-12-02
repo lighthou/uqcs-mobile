@@ -1,4 +1,4 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.data.classes
 
 import java.text.SimpleDateFormat
 import java.util.*

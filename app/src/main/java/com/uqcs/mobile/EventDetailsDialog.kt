@@ -6,6 +6,7 @@ import android.view.Window
 import kotlinx.android.synthetic.main.event_details_layout.*
 import android.app.Activity
 import android.text.method.ScrollingMovementMethod
+import com.uqcs.mobile.data.classes.Event
 
 
 class EventDetailsDialog(private var activity: Activity, private var event: Event) : Dialog(activity) {

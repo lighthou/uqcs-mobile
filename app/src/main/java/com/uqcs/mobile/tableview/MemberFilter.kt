@@ -1,7 +1,8 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.tableview
 
 import android.util.Log
 import com.sortabletableview.recyclerview.toolkit.FilterHelper
+import com.uqcs.mobile.data.classes.Member
 
 internal class MemberFilter(private val query: String) : FilterHelper.Filter<Member> {
 
