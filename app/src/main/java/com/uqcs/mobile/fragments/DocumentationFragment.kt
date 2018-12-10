@@ -42,6 +42,12 @@ class DocumentationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         progress_overlay.loading_text.text = getString(R.string.fetching_members)
 
+        edit_ll.setOnClickListener {
+            markdown_view.text = "Hello Hello"
+            markdown_view.focusable = View.FOCUSABLE
+            markdown_view.editableText
+        }
+
         markdown_view.markdown = "# Accessing full members list\n" +
                 "\n" +
                 "**Note:** If you do not require the full table including student numbers and simply need a basic members list you may visit [the web portal](https://join.uqcs.org.au/admin/list). Username and password must be provided by the committee member who setup your members list database for the year, or should be accessable on lastpass. If you are the new committee and havent yet set up your coming years database and dont want to alter the web portal yet, ask a previous committee member for their details. If you want to make your own database for the coming year, see [here](https://github.com/UQComputingSociety/committee/blob/master/docs/processes/member-list-for-new-year.md).\n" +
