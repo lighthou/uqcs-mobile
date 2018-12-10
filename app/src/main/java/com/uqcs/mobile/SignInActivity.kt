@@ -1,5 +1,6 @@
 package com.uqcs.mobile
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.android.volley.toolbox.JsonArrayRequest
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import android.util.Base64.NO_WRAP
+import android.view.inputmethod.InputMethodManager
 import com.android.volley.toolbox.Volley
 import com.uqcs.mobile.Helpers.Util
 import kotlinx.android.synthetic.main.loading_overlay.view.*
@@ -34,6 +36,13 @@ class SignInActivity : AppCompatActivity() {
     fun login(v: View) {
         Util.animateView(this, progress_overlay, View.VISIBLE, 0.8f, 200)
         requestQueue?.add(createSignInRequest())
+        try {
+            val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        } catch (e: Exception) {
+            // Failed to hide keyboard. Doesn't matter.
+        }
+
     }
 
     private fun createSignInRequest() : JsonArrayRequest {

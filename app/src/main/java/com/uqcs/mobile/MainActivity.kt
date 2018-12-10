@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.MenuItem
 import com.uqcs.mobile.fragments.CalendarFragment
+import com.uqcs.mobile.fragments.DocumentationFragment
 import com.uqcs.mobile.fragments.MembersListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             selectedMenuItem = savedInstanceState.getInt(SELECTED_ITEM, 0)
             selectedItem = bottom_nav.menu.findItem(selectedMenuItem ?: return)
         } else {
-            selectedItem = bottom_nav.menu.getItem(1)
+            selectedItem = bottom_nav.menu.getItem(0)
         }
         selectFragment(selectedItem)
     }
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_calendar -> frag = CalendarFragment.newInstance()
             R.id.menu_members -> frag = MembersListFragment.newInstance()
+            R.id.menu_docs -> frag = DocumentationFragment.newInstance()
         }
 
         // update selected item
