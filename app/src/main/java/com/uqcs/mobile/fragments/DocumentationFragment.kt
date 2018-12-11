@@ -7,6 +7,7 @@ import android.support.v4.app.ListFragment
 import android.util.Base64
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -25,8 +26,7 @@ import kotlinx.android.synthetic.main.loading_overlay.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import android.widget.ArrayAdapter
-
-
+import com.uqcs.mobile.data.classes.Documentation
 
 
 class DocumentationFragment : ListFragment() {
@@ -36,7 +36,7 @@ class DocumentationFragment : ListFragment() {
     private var password = ""
     private var adapter: ArrayAdapter<String>? = null
     private var listItems : MutableList<String>? = mutableListOf()
-
+    private var documentation : Documentation? = null
     companion object {
         fun newInstance(): DocumentationFragment {
             return DocumentationFragment()
@@ -81,10 +81,22 @@ class DocumentationFragment : ListFragment() {
             Response.Listener<JSONObject> { response ->
                 val responseString = response.toString()
                 val docs = JSONObject(responseString)
-                for (key : String in docs.getJSONObject("committee").keys()) {
-                    listItems?.add(key)
-                }
+                documentation = Documentation(docs)
+                listItems?.clear()
+                listItems?.addAll(documentation!!.getListState())
                 adapter?.notifyDataSetChanged()
+
+                list.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+                    val selectedItem = parent.getItemAtPosition(position) as String
+                    if (selectedItem.endsWith(".md")) {
+                        documentation!!.fileSelected(selectedItem)
+                    }
+                    documentation!!.itemSelected(selectedItem)
+                    listItems?.clear()
+                    listItems?.addAll(documentation!!.getListState())
+                    adapter?.notifyDataSetChanged()
+                }
+
                 Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
             },
             Response.ErrorListener {
