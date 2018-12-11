@@ -59,10 +59,10 @@ class MembersListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         progress_overlay.loading_text.text = getString(R.string.fetching_members)
         searchView.queryHint = "Search Here"
-        Util.animateView(context as Context, progress_overlay, View.VISIBLE, 0.8f, 200)
+        Util.animateView(context!!, progress_overlay, View.VISIBLE, 0.8f, 200)
         username = (context as MainActivity).username
         password = (context as MainActivity).password
-        requestQueue = Volley.newRequestQueue(context as Context)
+        requestQueue = Volley.newRequestQueue(context!!)
 
         tableView.isSwipeToRefreshEnabled = true
 
@@ -75,7 +75,7 @@ class MembersListFragment : Fragment() {
 
     private fun refreshMembersList() {
         membersList.clear()
-        Util.animateView(context as Context, progress_overlay, View.VISIBLE, 0.8f, 200)
+        Util.animateView(context!!, progress_overlay, View.VISIBLE, 0.8f, 200)
         val request = getMembersListRequest()
         request.retryPolicy = DefaultRetryPolicy( 30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         requestQueue?.add(getMembersListRequest())
@@ -84,9 +84,9 @@ class MembersListFragment : Fragment() {
 
     private fun setUpTable() {
         // set up header adapter
-        val headerAdapter = SimpleTableHeaderAdapter(context as Context, "First", "Last", "Email", "Paid")
+        val headerAdapter = SimpleTableHeaderAdapter(context!!, "First", "Last", "Email", "Paid")
         // set up data adapter
-        val dataAdapter = TableDataColumnAdapterDelegator<Member>(context as Context, membersList)
+        val dataAdapter = TableDataColumnAdapterDelegator<Member>(context!!, membersList)
         dataAdapter.apply {
             setColumnAdapter(0, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forFirstName()))
             setColumnAdapter(1, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forLastName()))
@@ -101,8 +101,8 @@ class MembersListFragment : Fragment() {
         tableView?.dataAdapter = dataAdapter
 
         // do some styling
-        val colorOddRows = ContextCompat.getColor(context as Context, R.color.colorOddRows)
-        val colorEvenRows = ContextCompat.getColor(context as Context, R.color.colorEvenRows)
+        val colorOddRows = ContextCompat.getColor(context!!, R.color.colorOddRows)
+        val colorEvenRows = ContextCompat.getColor(context!!, R.color.colorEvenRows)
         tableView?.dataRowBackgroundProvider =
                 TableDataRowBackgroundProviders.alternatingRowColors(colorEvenRows, colorOddRows)
 
@@ -166,19 +166,18 @@ class MembersListFragment : Fragment() {
                     membersList.add(tempMember)
                 }
                 setUpTable()
-                Util.animateView(context as Context, progress_overlay, View.GONE, 0.8f, 200)
+                Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
             },
             Response.ErrorListener {
                 Log.i("VolleyIssues", it.toString())
-                Util.animateView(context as Context, progress_overlay, View.GONE, 0.8f, 200)
-                Toast.makeText(context as Context, "Failed to fetch members list", Toast.LENGTH_LONG).show()
+                Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
+                Toast.makeText(context!!, "Failed to fetch members list", Toast.LENGTH_LONG).show()
             }) {
             override fun getHeaders(): Map<String, String> {
                 val params = mutableMapOf<String, String>()
                 val userAndPassword = "$username:$password"
                 val basicAuth = "Basic " + Base64.encodeToString(userAndPassword.toByteArray(), Base64.NO_WRAP)
                 params["Authorization"] = basicAuth
-                Log.i("auth", basicAuth)
                 return params
             }
         }

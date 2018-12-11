@@ -3,19 +3,39 @@ package com.uqcs.mobile.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.ListFragment
+import android.util.Base64
+import android.util.Log
 import android.view.*
+import android.widget.Toast
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.uqcs.mobile.Helpers.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
+import com.uqcs.mobile.data.classes.Member
 import kotlinx.android.synthetic.main.activity_documentation.*
 import kotlinx.android.synthetic.main.activity_member_list.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
+import org.json.JSONArray
+import org.json.JSONObject
+import android.widget.ArrayAdapter
 
 
-class DocumentationFragment : Fragment() {
 
+
+class DocumentationFragment : ListFragment() {
+    private var requestQueue: RequestQueue? = null
+    private val DOCS_URL = "http://www.ryankurz.me/docs"
+    private var username = ""
+    private var password = ""
+    private var adapter: ArrayAdapter<String>? = null
+    private var listItems : MutableList<String>? = mutableListOf()
 
     companion object {
         fun newInstance(): DocumentationFragment {
@@ -42,37 +62,43 @@ class DocumentationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         progress_overlay.loading_text.text = getString(R.string.fetching_members)
 
-        edit_ll.setOnClickListener {
-            markdown_view.text = "Hello Hello"
-            markdown_view.focusable = View.FOCUSABLE
-            markdown_view.editableText
+        username = (context as MainActivity).username
+        password = (context as MainActivity).password
+
+        requestQueue = Volley.newRequestQueue(context!!)
+        Util.animateView(context!!, progress_overlay, View.VISIBLE, 0.8f, 200)
+
+        requestQueue?.add(getDocsRequest())
+
+        adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, listItems as MutableList)
+        listAdapter = adapter
+    }
+
+    private fun getDocsRequest() : JsonObjectRequest {
+
+        return object : JsonObjectRequest(
+            Request.Method.GET, DOCS_URL, null,
+            Response.Listener<JSONObject> { response ->
+                val responseString = response.toString()
+                val docs = JSONObject(responseString)
+                for (key : String in docs.getJSONObject("committee").keys()) {
+                    listItems?.add(key)
+                }
+                adapter?.notifyDataSetChanged()
+                Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
+            },
+            Response.ErrorListener {
+                Log.i("VolleyIssues", it.toString())
+                Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
+                Toast.makeText(context!!, "Failed to fetch docs", Toast.LENGTH_LONG).show()
+            }) {
+            override fun getHeaders(): Map<String, String> {
+                val params = mutableMapOf<String, String>()
+                val userAndPassword = "$username:$password"
+                val basicAuth = "Basic " + Base64.encodeToString(userAndPassword.toByteArray(), Base64.NO_WRAP)
+                params["Authorization"] = basicAuth
+                return params
+            }
         }
-
-        markdown_view.markdown = "# Accessing full members list\n" +
-                "\n" +
-                "**Note:** If you do not require the full table including student numbers and simply need a basic members list you may visit [the web portal](https://join.uqcs.org.au/admin/list). Username and password must be provided by the committee member who setup your members list database for the year, or should be accessable on lastpass. If you are the new committee and havent yet set up your coming years database and dont want to alter the web portal yet, ask a previous committee member for their details. If you want to make your own database for the coming year, see [here](https://github.com/UQComputingSociety/committee/blob/master/docs/processes/member-list-for-new-year.md).\n" +
-                "\n" +
-                "**For full access to the databases and tables in UQ cloud read below.**\n" +
-                "\n" +
-                "## Requirements\n" +
-                "- UQ Cloud Access (walkthrough for UQ Cloud induction may be found [here](https://github.com/UQComputingSociety/committee/blob/master/docs/induction/6-uqcloud.md))\n" +
-                "\n" +
-                "\n" +
-                "## Steps \n" +
-                "1. SSH into UQ Cloud (ssh sXXXXXXX@uqcs1.uqcloud.net)\n" +
-                "     - Enter university password for authentication\n" +
-                "2. Get to psql with `sudo -u postgres psql`\n" +
-                "     - Enter university password for authentication\n" +
-                "     - You should be able to use `\\l` in order to list databases. \n" +
-                "     - Here you should see, amoung others, `signup, signup2018, signup2017` etc\n" +
-                "3. Access the signup table with `\\c signup` or `\\c table_name` for whichever table you'd like to see\n" +
-                "     - You should see `You are now connected to database \"signup\" as user \"postgres\".` pop up in the terminal following your command \n" +
-                "4. Execute sql query (examples below)\n" +
-                "     - Get full list of names and if they've paid and more  `select * from member;`\n" +
-                "     - Get full list of student numbers `select student_no from student;`\n" +
-                "     - Get full list of student numbers and details `select * from student`\n" +
-                "     - **Note: existing tables are `adminuser`, `member`, `session` and `student`**\n"
-        //Util.animateView(context as Context, progress_overlay, View.VISIBLE, 0.8f, 200)
-
     }
 }

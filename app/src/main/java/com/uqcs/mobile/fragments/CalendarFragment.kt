@@ -55,7 +55,7 @@ class CalendarFragment : Fragment(), OnDateSelectedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         progress_overlay.loading_text.text = getString(R.string.fetching_events)
-        Util.animateView(context as Context, progress_overlay, View.VISIBLE, 0.8f, 200)
+        Util.animateView(context!!, progress_overlay, View.VISIBLE, 0.8f, 200)
 
         username = (context as MainActivity).username
         password = (context as MainActivity).password
@@ -69,7 +69,7 @@ class CalendarFragment : Fragment(), OnDateSelectedListener {
         eventDetailsButton.setOnClickListener { v ->
             viewEventDetails(v)
         }
-        requestQueue = Volley.newRequestQueue(context as Context)
+        requestQueue = Volley.newRequestQueue(context!!)
         requestQueue?.add(getCalendarEventsRequest())
     }
 
@@ -95,19 +95,18 @@ class CalendarFragment : Fragment(), OnDateSelectedListener {
                     }
 
                 }
-                Util.animateView(context as Context, progress_overlay, View.GONE, 0.8f, 200)
+                Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
             },
             Response.ErrorListener {
                 Log.i("VolleyIssues", it.toString())
-                Util.animateView(context as Context, progress_overlay, View.GONE, 0.8f, 200)
-                Toast.makeText(context as Context, "Failed to fetch calendar events", Toast.LENGTH_LONG).show()
+                Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
+                Toast.makeText(context!!, "Failed to fetch calendar events", Toast.LENGTH_LONG).show()
             })  {
             override fun getHeaders(): Map<String, String> {
                 val params = mutableMapOf<String, String>()
                 val userAndPassword = "$username:$password"
                 val basicAuth = "Basic " + Base64.encodeToString(userAndPassword.toByteArray(), Base64.NO_WRAP)
                 params["Authorization"] = basicAuth
-                Log.i("auth", basicAuth)
                 return params
             }
         }
@@ -147,7 +146,7 @@ class CalendarFragment : Fragment(), OnDateSelectedListener {
     private fun addEventToCalendar(day : CalendarDay) {
         val calendarDays : MutableList<CalendarDay> = mutableListOf()
         calendarDays.add(day)
-        calendarView.addDecorator(EventDecorator(calendarDays, context as Context))
+        calendarView.addDecorator(EventDecorator(calendarDays, context!!))
     }
 
     fun viewEventDetails(v : View) {

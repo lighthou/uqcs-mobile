@@ -70,7 +70,6 @@ class SignInActivity : AppCompatActivity() {
                 val userAndPassword = "$usernameText:$passwordText"
                 val basicAuth = "Basic " + Base64.encodeToString(userAndPassword.toByteArray(), NO_WRAP)
                 params["Authorization"] = basicAuth
-                Log.i("auth", basicAuth)
                 return params
             }
         }
