@@ -75,6 +75,18 @@ class DocumentationFragment : ListFragment() {
         listAdapter = adapter
     }
 
+    private fun setBackButtonByState() {
+        back_btn.setOnClickListener {
+            if (documentation!!.screenIsFile) {
+                markdown_view.visibility = View.GONE
+                list.visibility = View.VISIBLE
+            }
+            listItems?.clear()
+            listItems?.addAll(documentation!!.goBack())
+            adapter?.notifyDataSetChanged()
+
+        }
+    }
     private fun getDocsRequest() : JsonObjectRequest {
 
         return object : JsonObjectRequest(
@@ -101,11 +113,7 @@ class DocumentationFragment : ListFragment() {
                     adapter?.notifyDataSetChanged()
                 }
 
-                back_btn.setOnClickListener {
-                    listItems?.clear()
-                    listItems?.addAll(documentation!!.goBack())
-                    adapter?.notifyDataSetChanged()
-                }
+                setBackButtonByState()
 
                 Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
             },

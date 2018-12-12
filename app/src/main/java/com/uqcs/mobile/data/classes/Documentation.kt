@@ -7,6 +7,8 @@ class Documentation(val docsDictionary : JSONObject) {
 
     private var state : JSONObject = docsDictionary
     private var stateKeys : MutableList<String> = mutableListOf<String>()
+    var screenIsFile = false
+
     init {
         val keysList : MutableList<String> = mutableListOf()
         for (key : String in docsDictionary.keys()) {
@@ -32,16 +34,10 @@ class Documentation(val docsDictionary : JSONObject) {
     }
 
     fun goBack() : MutableList<String> {
+        screenIsFile = false
         if (stateKeys.isEmpty()) return state.get("list") as MutableList<String>
         stateKeys.removeAt(stateKeys.size - 1)
         var currentDic = docsDictionary
-        for (key : String in stateKeys) {
-            Log.i("HelloThere222222", key)
-
-        }
-        for (key : String in docsDictionary.keys()) {
-            Log.i("HelloThere", key)
-        }
         for (i in 0 until stateKeys.size) {
             currentDic = currentDic.getJSONObject(stateKeys[i])
         }
@@ -56,6 +52,7 @@ class Documentation(val docsDictionary : JSONObject) {
     }
 
     fun fileSelected(file : String) : String {
+        screenIsFile = true
         stateKeys.add(file)
         return state.getString(file)
     }
