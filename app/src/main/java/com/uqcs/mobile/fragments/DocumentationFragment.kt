@@ -70,6 +70,7 @@ class DocumentationFragment : ListFragment() {
 
         requestQueue?.add(getDocsRequest())
 
+
         adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, listItems as MutableList)
         listAdapter = adapter
     }
@@ -85,15 +86,24 @@ class DocumentationFragment : ListFragment() {
                 listItems?.clear()
                 listItems?.addAll(documentation!!.getListState())
                 adapter?.notifyDataSetChanged()
-
                 list.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                     val selectedItem = parent.getItemAtPosition(position) as String
                     if (selectedItem.endsWith(".md")) {
-                        documentation!!.fileSelected(selectedItem)
+                        list.visibility = View.GONE
+                        markdown_view.visibility = View.VISIBLE
+                        markdown_view.markdown = documentation!!.fileSelected(selectedItem)
+                    } else {
+
+                        documentation!!.itemSelected(selectedItem)
                     }
-                    documentation!!.itemSelected(selectedItem)
                     listItems?.clear()
                     listItems?.addAll(documentation!!.getListState())
+                    adapter?.notifyDataSetChanged()
+                }
+
+                back_btn.setOnClickListener {
+                    listItems?.clear()
+                    listItems?.addAll(documentation!!.goBack())
                     adapter?.notifyDataSetChanged()
                 }
 
