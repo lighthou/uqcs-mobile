@@ -1,9 +1,8 @@
 package com.uqcs.mobile.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.app.ListFragment
+import android.support.v7.app.AppCompatActivity
 import android.util.Base64
 import android.util.Log
 import android.view.*
@@ -12,31 +11,28 @@ import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.uqcs.mobile.Helpers.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
-import com.uqcs.mobile.data.classes.Member
 import kotlinx.android.synthetic.main.activity_documentation.*
-import kotlinx.android.synthetic.main.activity_member_list.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
-import org.json.JSONArray
 import org.json.JSONObject
 import android.widget.ArrayAdapter
 import com.uqcs.mobile.data.classes.Documentation
 
 
 class DocumentationFragment : ListFragment() {
-    private var requestQueue: RequestQueue? = null
     private val DOCS_URL = "http://www.ryankurz.me/docs"
-    private var username = ""
-    private var password = ""
     private var adapter: ArrayAdapter<String>? = null
     private var listItems : MutableList<String>? = mutableListOf()
-    private var documentation : Documentation? = null
+    private lateinit var username : String
+    private lateinit var password : String
+    private lateinit var documentation : Documentation
+    private lateinit var requestQueue: RequestQueue
+
     companion object {
         fun newInstance(): DocumentationFragment {
             return DocumentationFragment()
@@ -49,7 +45,8 @@ class DocumentationFragment : ListFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        // TODO Add your menu entries here
+        menu.clear()
+        inflater.inflate(R.menu.documentation_toolbar_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -58,9 +55,54 @@ class DocumentationFragment : ListFragment() {
     }
 
 
+    private fun backPressed() {
+        Toast.makeText(activity, "Hello", Toast.LENGTH_LONG).show()
+        if (documentation.screenIsFile) {
+            markdown_view.visibility = View.GONE
+            list.visibility = View.VISIBLE
+        }
+        documentation.goBack()
+        updateList()
+        setBackButtonState()
+    }
+
+    private fun onListItemSelected(selectedItem : String) {
+        if (selectedItem.endsWith(".md")) {
+            list.visibility = View.GONE
+            markdown_view.visibility = View.VISIBLE
+            markdown_view.markdown = documentation.fileSelected(selectedItem)
+        } else {
+            documentation.itemSelected(selectedItem)
+        }
+        updateList()
+        setBackButtonState()
+    }
+
+    private fun updateList() {
+        listItems?.clear()
+        listItems?.addAll(documentation.getListState())
+        adapter?.notifyDataSetChanged()
+    }
+
+    private fun setBackButtonState() {
+        if (documentation.stateKeys.isEmpty()) {
+            my_toolbar.navigationIcon = null
+        } else {
+            my_toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material)
+            my_toolbar.setNavigationOnClickListener {
+                backPressed()
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        progress_overlay.loading_text.text = getString(R.string.fetching_members)
+
+        my_toolbar.title = ""
+
+        (activity as AppCompatActivity).setSupportActionBar(my_toolbar)
+
+        progress_overlay.loading_text.text = getString(R.string.fetching_docs)
 
         username = (context as MainActivity).username
         password = (context as MainActivity).password
@@ -68,25 +110,14 @@ class DocumentationFragment : ListFragment() {
         requestQueue = Volley.newRequestQueue(context!!)
         Util.animateView(context!!, progress_overlay, View.VISIBLE, 0.8f, 200)
 
-        requestQueue?.add(getDocsRequest())
+        requestQueue.add(getDocsRequest())
+        android.R.layout.simple_list_item_1
 
 
-        adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, listItems as MutableList)
+        adapter = ArrayAdapter(context!!, R.layout.documentation_list_item, listItems as MutableList)
         listAdapter = adapter
     }
 
-    private fun setBackButtonByState() {
-        back_btn.setOnClickListener {
-            if (documentation!!.screenIsFile) {
-                markdown_view.visibility = View.GONE
-                list.visibility = View.VISIBLE
-            }
-            listItems?.clear()
-            listItems?.addAll(documentation!!.goBack())
-            adapter?.notifyDataSetChanged()
-
-        }
-    }
     private fun getDocsRequest() : JsonObjectRequest {
 
         return object : JsonObjectRequest(
@@ -95,25 +126,11 @@ class DocumentationFragment : ListFragment() {
                 val responseString = response.toString()
                 val docs = JSONObject(responseString)
                 documentation = Documentation(docs)
-                listItems?.clear()
-                listItems?.addAll(documentation!!.getListState())
-                adapter?.notifyDataSetChanged()
+                updateList()
                 list.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                     val selectedItem = parent.getItemAtPosition(position) as String
-                    if (selectedItem.endsWith(".md")) {
-                        list.visibility = View.GONE
-                        markdown_view.visibility = View.VISIBLE
-                        markdown_view.markdown = documentation!!.fileSelected(selectedItem)
-                    } else {
-
-                        documentation!!.itemSelected(selectedItem)
-                    }
-                    listItems?.clear()
-                    listItems?.addAll(documentation!!.getListState())
-                    adapter?.notifyDataSetChanged()
+                    onListItemSelected(selectedItem)
                 }
-
-                setBackButtonByState()
 
                 Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
             },

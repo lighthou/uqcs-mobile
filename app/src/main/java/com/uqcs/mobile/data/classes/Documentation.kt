@@ -6,7 +6,7 @@ import org.json.JSONObject
 class Documentation(val docsDictionary : JSONObject) {
 
     private var state : JSONObject = docsDictionary
-    private var stateKeys : MutableList<String> = mutableListOf<String>()
+    var stateKeys : MutableList<String> = mutableListOf<String>()
     var screenIsFile = false
 
     init {
@@ -33,16 +33,15 @@ class Documentation(val docsDictionary : JSONObject) {
         }
     }
 
-    fun goBack() : MutableList<String> {
+    fun goBack() {
         screenIsFile = false
-        if (stateKeys.isEmpty()) return state.get("list") as MutableList<String>
+        if (stateKeys.isEmpty()) return
         stateKeys.removeAt(stateKeys.size - 1)
         var currentDic = docsDictionary
         for (i in 0 until stateKeys.size) {
             currentDic = currentDic.getJSONObject(stateKeys[i])
         }
         state = currentDic
-        return state.get("list") as MutableList<String>
     }
 
     fun itemSelected(item : String) : MutableList<String>{

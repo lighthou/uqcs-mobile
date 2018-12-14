@@ -38,4 +38,7 @@
     <!-- Misc -->
     <string name="loading_text">Loading...</string>
     <string name="uqcs_logo_content_desc">Uqcs logo</string>
+
+    <!-- Documentation -->
+    <string name="fetching_docs">Fetching Documentation...</string>
 </resources>
