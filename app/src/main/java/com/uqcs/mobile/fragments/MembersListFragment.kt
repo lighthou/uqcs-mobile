@@ -4,12 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.util.Base64
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
@@ -28,6 +27,7 @@ import com.uqcs.mobile.data.classes.Member
 import com.uqcs.mobile.tableview.MemberComparator
 import com.uqcs.mobile.tableview.MemberFilter
 import com.uqcs.mobile.tableview.MemberStringValueExtractor
+import kotlinx.android.synthetic.main.activity_documentation.*
 import kotlinx.android.synthetic.main.activity_member_list.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
@@ -50,6 +50,42 @@ class MembersListFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.members_list_toolbar_menu, menu)
+        val myActionMenuItem = menu.findItem(R.id.action_search)
+        myActionMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                return true
+            }
+        })
+        val searchView = (myActionMenuItem.actionView as SearchView)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(s: String): Boolean {
+                filterHelper?.setFilter(MemberFilter(s))
+                return false
+            }
+        })
+        searchView.setOnCloseListener {
+            filterHelper?.clearFilter()
+            true
+        }
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.activity_member_list, container, false)
     }
@@ -57,8 +93,11 @@ class MembersListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        members_list_toolbar.title = "Members List"
+
+        (activity as AppCompatActivity).setSupportActionBar(members_list_toolbar)
+
         progress_overlay.loading_text.text = getString(R.string.fetching_members)
-        searchView.queryHint = "Search Here"
         Util.animateView(context!!, progress_overlay, View.VISIBLE, 0.8f, 200)
         username = (context as MainActivity).username
         password = (context as MainActivity).password
@@ -128,22 +167,8 @@ class MembersListFragment : Fragment() {
 
 
         filterHelper = FilterHelper(tableView)
+        activity?.invalidateOptionsMenu()
 
-        val searchView = view?.findViewById<SearchView>(R.id.searchView)
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(query: String): Boolean {
-                filterHelper!!.setFilter(MemberFilter(query))
-                return false
-            }
-        })
-        searchView?.setOnCloseListener {
-            filterHelper!!.clearFilter()
-            false
-        }
     }
 
     private fun getMembersListRequest() : JsonArrayRequest {

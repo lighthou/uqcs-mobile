@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.loading_overlay.view.*
 import org.json.JSONObject
 import android.widget.ArrayAdapter
 import com.uqcs.mobile.data.classes.Documentation
-import com.uqcs.mobile.R.id.searchView
 import android.support.v4.view.MenuItemCompat.getActionView
 import android.support.v7.widget.SearchView
 import android.widget.TextView
@@ -160,7 +159,7 @@ class DocumentationFragment : ListFragment() {
             sb.append(key)
             sb.append('/')
         }
-        my_toolbar.title = sb.toString()
+        documentation_toolbar.title = sb.toString()
 
         menu.findItem(R.id.action_search).isVisible = !documentation!!.screenIsFile
         menu.findItem(R.id.edit_item).isVisible = documentation!!.screenIsFile && !documentation!!.isInEditMode
@@ -168,10 +167,10 @@ class DocumentationFragment : ListFragment() {
 
 
         if (documentation?.stateKeys!!.isEmpty()) {
-            my_toolbar.navigationIcon = null
+            documentation_toolbar.navigationIcon = null
         } else {
-            my_toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material)
-            my_toolbar.setNavigationOnClickListener {
+            documentation_toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material)
+            documentation_toolbar.setNavigationOnClickListener {
                 backPressed()
             }
         }
@@ -180,9 +179,9 @@ class DocumentationFragment : ListFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        my_toolbar.title = ""
+        documentation_toolbar.title = ""
 
-        (activity as AppCompatActivity).setSupportActionBar(my_toolbar)
+        (activity as AppCompatActivity).setSupportActionBar(documentation_toolbar)
 
         progress_overlay.loading_text.text = getString(R.string.fetching_docs)
 

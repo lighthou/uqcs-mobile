@@ -5,20 +5,19 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MemberListActivity">
+        tools:context=".MainActivity">
 
     <include layout="@layout/loading_overlay"/>
 
-    <android.support.v7.widget.SearchView
-            android:id="@+id/searchView"
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/members_list_toolbar"
             android:layout_width="match_parent"
-            android:layoutDirection="rtl"
-            android:background="@drawable/search_view_background"
-            app:iconifiedByDefault="false"
-            android:layout_height="50dp"
-            app:layout_constraintTop_toTopOf="parent">
-
-    </android.support.v7.widget.SearchView>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <com.sortabletableview.recyclerview.SortableTableView
             android:id="@+id/tableView"
@@ -26,7 +25,7 @@
             android:layout_height="0dp"
             app:tableView_headerBackgroundColor="@color/uqcsBlue"
             app:tableView_headerElevation="10dp"
-            app:layout_constraintTop_toBottomOf="@id/searchView"
+            app:layout_constraintTop_toBottomOf="@id/members_list_toolbar"
             app:layout_constraintBottom_toBottomOf="parent">
 
     </com.sortabletableview.recyclerview.SortableTableView>
