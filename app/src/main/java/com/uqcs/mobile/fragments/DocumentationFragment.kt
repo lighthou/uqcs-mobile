@@ -22,6 +22,12 @@ import kotlinx.android.synthetic.main.loading_overlay.view.*
 import org.json.JSONObject
 import android.widget.ArrayAdapter
 import com.uqcs.mobile.data.classes.Documentation
+import com.uqcs.mobile.R.id.searchView
+import android.support.v4.view.MenuItemCompat.getActionView
+import android.support.v7.widget.SearchView
+import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_sign_in.view.*
+import ru.noties.markwon.Markwon
 
 
 class DocumentationFragment : ListFragment() {
@@ -30,7 +36,7 @@ class DocumentationFragment : ListFragment() {
     private var listItems : MutableList<String>? = mutableListOf()
     private lateinit var username : String
     private lateinit var password : String
-    private lateinit var documentation : Documentation
+    private var documentation : Documentation? = null
     private lateinit var requestQueue: RequestQueue
 
     companion object {
@@ -43,10 +49,11 @@ class DocumentationFragment : ListFragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
-
+    
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.documentation_toolbar_menu, menu)
+        updateToolbarState(menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -56,36 +63,81 @@ class DocumentationFragment : ListFragment() {
 
 
     private fun backPressed() {
-        Toast.makeText(activity, "Hello", Toast.LENGTH_LONG).show()
-        if (documentation.screenIsFile) {
+        if (documentation!!.screenIsFile) {
             markdown_view.visibility = View.GONE
             list.visibility = View.VISIBLE
         }
-        documentation.goBack()
-        updateList()
-        setBackButtonState()
+        documentation!!.goBack()
+        updateListAndToolbar()
+        activity?.invalidateOptionsMenu()
     }
 
     private fun onListItemSelected(selectedItem : String) {
         if (selectedItem.endsWith(".md")) {
             list.visibility = View.GONE
             markdown_view.visibility = View.VISIBLE
-            markdown_view.markdown = documentation.fileSelected(selectedItem)
+            Markwon.setMarkdown(markdown_view, documentation!!.fileSelected(selectedItem))
         } else {
-            documentation.itemSelected(selectedItem)
+            documentation!!.itemSelected(selectedItem)
         }
-        updateList()
-        setBackButtonState()
+        Log.i("Hey there", documentation!!.getListState().toString())
+        Log.i("Hey there", documentation!!.getListState().toString())
+        Log.i("Hey there", documentation!!.getListState().toString())
+        updateListAndToolbar()
     }
 
-    private fun updateList() {
+    private fun updateListAndToolbar() {
+        activity?.invalidateOptionsMenu()
         listItems?.clear()
-        listItems?.addAll(documentation.getListState())
+        listItems?.addAll(documentation!!.getListState())
+        adapter?.notifyDataSetChanged()
+        activity?.invalidateOptionsMenu()
+    }
+
+    fun handleSearchQuery(query : String){
+        listItems?.clear()
+        listItems?.addAll(documentation!!.search(query))
         adapter?.notifyDataSetChanged()
     }
 
-    private fun setBackButtonState() {
-        if (documentation.stateKeys.isEmpty()) {
+    private fun updateToolbarState(menu : Menu) {
+        val myActionMenuItem = menu.findItem(R.id.action_search)
+        myActionMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                handleSearchQuery("")
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                updateListAndToolbar()
+                return true
+            }
+        })
+        val searchView = (myActionMenuItem.actionView as SearchView)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(s: String): Boolean {
+                if (s != "") {
+                    handleSearchQuery(s)
+                }
+                return false
+            }
+        })
+
+        if (documentation == null) return
+        val sb = StringBuilder()
+        for (key in documentation!!.stateKeys) {
+            sb.append(key)
+            sb.append('/')
+        }
+        my_toolbar.title = sb.toString()
+
+        menu.findItem(R.id.edit_item).isVisible = documentation!!.screenIsFile
+
+        if (documentation?.stateKeys!!.isEmpty()) {
             my_toolbar.navigationIcon = null
         } else {
             my_toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material)
@@ -126,7 +178,7 @@ class DocumentationFragment : ListFragment() {
                 val responseString = response.toString()
                 val docs = JSONObject(responseString)
                 documentation = Documentation(docs)
-                updateList()
+                updateListAndToolbar()
                 list.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                     val selectedItem = parent.getItemAtPosition(position) as String
                     onListItemSelected(selectedItem)

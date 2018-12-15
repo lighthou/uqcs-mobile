@@ -19,7 +19,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_constraintTop_toTopOf="parent"/>
 
-    <ru.noties.markwon.view.MarkwonView
+    <TextView
             android:id="@+id/markdown_view"
             android:layout_width="0dp"
             android:layout_height="0dp"

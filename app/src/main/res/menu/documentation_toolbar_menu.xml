@@ -3,9 +3,17 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/menu_calendar"
+            android:id="@+id/edit_item"
             android:title="@string/events_calendar_title"
             android:icon="@android:drawable/ic_menu_edit"
             app:showAsAction="ifRoom"
+            android:visible="false"
             />
+
+    <item
+            android:id="@+id/action_search"
+            android:icon="@android:drawable/ic_menu_search"
+            app:showAsAction="always|collapseActionView"
+            app:actionViewClass="android.support.v7.widget.SearchView"
+            android:title="Search"/>
 </menu>
