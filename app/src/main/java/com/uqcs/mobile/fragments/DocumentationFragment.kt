@@ -49,7 +49,29 @@ class DocumentationFragment : ListFragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
-    
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            //Back button
+            R.id.edit_item -> {
+                markdown_view.visibility = View.GONE
+                edit_view.visibility = View.VISIBLE
+                documentation!!.isInEditMode = true
+                updateListAndToolbar()
+                true
+            }
+            R.id.preview -> {
+                markdown_view.visibility = View.VISIBLE
+                edit_view.visibility = View.GONE
+                Markwon.setMarkdown(markdown_view, edit_view.text.toString())
+                true
+            }
+            else ->
+                super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.documentation_toolbar_menu, menu)
@@ -64,30 +86,35 @@ class DocumentationFragment : ListFragment() {
 
     private fun backPressed() {
         if (documentation!!.screenIsFile) {
-            markdown_view.visibility = View.GONE
-            list.visibility = View.VISIBLE
+            if (documentation!!.isInEditMode) {
+                documentation!!.isInEditMode = false
+                edit_view.visibility = View.GONE
+                markdown_view.visibility = View.VISIBLE
+                updateListAndToolbar()
+                return
+            } else {
+                markdown_view.visibility = View.GONE
+                list.visibility = View.VISIBLE
+            }
         }
         documentation!!.goBack()
         updateListAndToolbar()
-        activity?.invalidateOptionsMenu()
     }
 
     private fun onListItemSelected(selectedItem : String) {
         if (selectedItem.endsWith(".md")) {
             list.visibility = View.GONE
             markdown_view.visibility = View.VISIBLE
-            Markwon.setMarkdown(markdown_view, documentation!!.fileSelected(selectedItem))
+            val markdownText = documentation!!.fileSelected(selectedItem)
+            Markwon.setMarkdown(markdown_view, markdownText)
+            edit_view.setText(markdownText)
         } else {
             documentation!!.itemSelected(selectedItem)
         }
-        Log.i("Hey there", documentation!!.getListState().toString())
-        Log.i("Hey there", documentation!!.getListState().toString())
-        Log.i("Hey there", documentation!!.getListState().toString())
         updateListAndToolbar()
     }
 
     private fun updateListAndToolbar() {
-        activity?.invalidateOptionsMenu()
         listItems?.clear()
         listItems?.addAll(documentation!!.getListState())
         adapter?.notifyDataSetChanged()
@@ -135,7 +162,10 @@ class DocumentationFragment : ListFragment() {
         }
         my_toolbar.title = sb.toString()
 
-        menu.findItem(R.id.edit_item).isVisible = documentation!!.screenIsFile
+        menu.findItem(R.id.action_search).isVisible = !documentation!!.screenIsFile
+        menu.findItem(R.id.edit_item).isVisible = documentation!!.screenIsFile && !documentation!!.isInEditMode
+        menu.findItem(R.id.preview).isVisible = documentation!!.screenIsFile && documentation!!.isInEditMode
+
 
         if (documentation?.stateKeys!!.isEmpty()) {
             my_toolbar.navigationIcon = null

@@ -16,4 +16,11 @@
             app:showAsAction="always|collapseActionView"
             app:actionViewClass="android.support.v7.widget.SearchView"
             android:title="Search"/>
+
+    <item
+            android:id="@+id/preview"
+            android:icon="@android:drawable/ic_menu_view"
+            app:showAsAction="ifRoom"
+            android:visible="false"
+            android:title="Preview"/>
 </menu>

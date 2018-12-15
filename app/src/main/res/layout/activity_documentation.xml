@@ -37,6 +37,26 @@
             app:layout_constraintRight_toRightOf="parent"
             />
 
+    <EditText
+            android:id="@+id/edit_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:padding="25dp"
+            android:textAlignment="gravity"
+            android:gravity="top"
+            android:visibility="gone"
+            android:textColor="@color/uqcsGray"
+            android:fontFamily="@font/open_sans_regular"
+            android:background="@drawable/documentation_background"
+            app:layout_constraintTop_toBottomOf="@id/my_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
     <ListView
             android:id="@android:id/list"
             android:layout_width="0dp"
