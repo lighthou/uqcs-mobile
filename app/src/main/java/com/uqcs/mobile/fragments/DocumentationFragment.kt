@@ -22,12 +22,13 @@ import kotlinx.android.synthetic.main.loading_overlay.view.*
 import org.json.JSONObject
 import android.widget.ArrayAdapter
 import com.uqcs.mobile.data.classes.Documentation
-import android.support.v4.view.MenuItemCompat.getActionView
 import android.support.v7.widget.SearchView
-import android.widget.TextView
+import android.text.Editable
+import android.text.TextWatcher
 import com.uqcs.mobile.data.classes.DocumentationState
-import kotlinx.android.synthetic.main.activity_sign_in.view.*
 import ru.noties.markwon.Markwon
+import android.content.DialogInterface
+import android.support.v7.app.AlertDialog
 
 
 class DocumentationFragment : ListFragment() {
@@ -39,6 +40,7 @@ class DocumentationFragment : ListFragment() {
     private var documentation : Documentation? = null
     private lateinit var requestQueue: RequestQueue
     private var uneditedText = ""
+    private lateinit var builder : AlertDialog.Builder
 
     companion object {
         fun newInstance(): DocumentationFragment {
@@ -68,6 +70,10 @@ class DocumentationFragment : ListFragment() {
                 Markwon.setMarkdown(markdown_view, edit_view.text.toString())
                 documentation!!.screenState = DocumentationState.PREVIEW_FILE
                 updateListAndToolbar()
+                true
+            }
+            R.id.save -> {
+                Toast.makeText(context!!, "Not implemented", Toast.LENGTH_LONG).show()
                 true
             }
             else ->
@@ -101,19 +107,29 @@ class DocumentationFragment : ListFragment() {
                 updateListAndToolbar()
             }
             DocumentationState.EDIT_FILE -> {
-                documentation!!.screenState = DocumentationState.VIEW_FILE
-                edit_view.visibility = View.GONE
-                markdown_view.visibility = View.VISIBLE
-                Markwon.setMarkdown(markdown_view, uneditedText)
-                updateListAndToolbar()
+                if (documentation!!.fileHasBeenEdited) {
+                    builder.show()
+                } else {
+                    documentation!!.screenState = DocumentationState.VIEW_FILE
+                    edit_view.visibility = View.GONE
+                    markdown_view.visibility = View.VISIBLE
+                    Markwon.setMarkdown(markdown_view, uneditedText)
+                    edit_view.setText(uneditedText)
+                    updateListAndToolbar()
+                }
+
             }
             DocumentationState.PREVIEW_FILE -> {
-                documentation!!.screenState = DocumentationState.VIEW_FILE
-                edit_view.visibility = View.GONE
-                markdown_view.visibility = View.VISIBLE
-                Markwon.setMarkdown(markdown_view, uneditedText)
-                updateListAndToolbar()
-
+                if (documentation!!.fileHasBeenEdited) {
+                    builder.show()
+                } else {
+                    documentation!!.screenState = DocumentationState.VIEW_FILE
+                    edit_view.visibility = View.GONE
+                    markdown_view.visibility = View.VISIBLE
+                    Markwon.setMarkdown(markdown_view, uneditedText)
+                    edit_view.setText(uneditedText)
+                    updateListAndToolbar()
+                }
             }
         }
     }
@@ -157,6 +173,7 @@ class DocumentationFragment : ListFragment() {
                 return true
             }
         })
+
         val searchView = (myActionMenuItem.actionView as SearchView)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -172,23 +189,32 @@ class DocumentationFragment : ListFragment() {
         })
 
         if (documentation == null) return
-        val sb = StringBuilder()
-        for (key in documentation!!.stateKeys) {
-            sb.append(key)
-            sb.append('/')
+        if (documentation!!.fileHasBeenEdited) {
+            documentation_toolbar.title = "Editing..."
+        } else {
+            val sb = StringBuilder()
+            for (key in documentation!!.stateKeys) {
+                sb.append(key)
+                sb.append('/')
+            }
+            documentation_toolbar.title = sb.toString()
         }
-        documentation_toolbar.title = sb.toString()
+
 
         menu.findItem(R.id.action_search).isVisible = documentation!!.screenState == DocumentationState.LIST
         menu.findItem(R.id.edit_item).isVisible = documentation!!.screenState == DocumentationState.VIEW_FILE ||
                 documentation!!.screenState == DocumentationState.PREVIEW_FILE
         menu.findItem(R.id.preview).isVisible = documentation!!.screenState == DocumentationState.EDIT_FILE
+        menu.findItem(R.id.save).isVisible = documentation!!.fileHasBeenEdited
 
-
-        if (documentation?.stateKeys!!.isEmpty()) {
+        if (documentation!!.stateKeys.isEmpty()) {
             documentation_toolbar.navigationIcon = null
         } else {
-            documentation_toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material)
+            if (documentation!!.fileHasBeenEdited) {
+                documentation_toolbar.setNavigationIcon(R.drawable.abc_ic_clear_material)
+            } else {
+                documentation_toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material)
+            }
             documentation_toolbar.setNavigationOnClickListener {
                 backPressed()
             }
@@ -201,6 +227,40 @@ class DocumentationFragment : ListFragment() {
         documentation_toolbar.title = ""
 
         (activity as AppCompatActivity).setSupportActionBar(documentation_toolbar)
+
+        edit_view.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (edit_view.text.toString() != uneditedText) {
+                    documentation!!.fileHasBeenEdited = true
+                    activity?.invalidateOptionsMenu()
+                } else {
+                    documentation!!.fileHasBeenEdited = false
+                    activity?.invalidateOptionsMenu()
+                }
+            }
+        })
+
+        val dialogClickListener = DialogInterface.OnClickListener { dialog, item ->
+            when (item) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    documentation!!.screenState = DocumentationState.VIEW_FILE
+                    edit_view.visibility = View.GONE
+                    markdown_view.visibility = View.VISIBLE
+                    Markwon.setMarkdown(markdown_view, uneditedText)
+                    edit_view.setText(uneditedText)
+                    updateListAndToolbar()
+                }
+
+                DialogInterface.BUTTON_NEGATIVE -> {}
+            }
+        }
+
+        builder = AlertDialog.Builder(context!!)
+        builder.setTitle("Confirm Cancel")
+        builder.setMessage("Clear all changes?").setPositiveButton("Yes", dialogClickListener)
+            .setNegativeButton("No", dialogClickListener)
 
         progress_overlay.loading_text.text = getString(R.string.fetching_docs)
 

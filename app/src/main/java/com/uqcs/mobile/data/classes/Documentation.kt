@@ -9,6 +9,7 @@ class Documentation(val docsDictionary : JSONObject) {
     var state : JSONObject = docsDictionary
     var stateKeys : MutableList<String> = mutableListOf<String>()
     var screenState : DocumentationState = DocumentationState.LIST
+    var fileHasBeenEdited = false
 
     init {
         val keysList : MutableList<String> = mutableListOf()
