@@ -25,6 +25,7 @@ import com.uqcs.mobile.data.classes.Documentation
 import android.support.v4.view.MenuItemCompat.getActionView
 import android.support.v7.widget.SearchView
 import android.widget.TextView
+import com.uqcs.mobile.data.classes.DocumentationState
 import kotlinx.android.synthetic.main.activity_sign_in.view.*
 import ru.noties.markwon.Markwon
 
@@ -37,6 +38,7 @@ class DocumentationFragment : ListFragment() {
     private lateinit var password : String
     private var documentation : Documentation? = null
     private lateinit var requestQueue: RequestQueue
+    private var uneditedText = ""
 
     companion object {
         fun newInstance(): DocumentationFragment {
@@ -56,7 +58,7 @@ class DocumentationFragment : ListFragment() {
             R.id.edit_item -> {
                 markdown_view.visibility = View.GONE
                 edit_view.visibility = View.VISIBLE
-                documentation!!.isInEditMode = true
+                documentation!!.screenState = DocumentationState.EDIT_FILE
                 updateListAndToolbar()
                 true
             }
@@ -64,6 +66,8 @@ class DocumentationFragment : ListFragment() {
                 markdown_view.visibility = View.VISIBLE
                 edit_view.visibility = View.GONE
                 Markwon.setMarkdown(markdown_view, edit_view.text.toString())
+                documentation!!.screenState = DocumentationState.PREVIEW_FILE
+                updateListAndToolbar()
                 true
             }
             else ->
@@ -84,29 +88,43 @@ class DocumentationFragment : ListFragment() {
 
 
     private fun backPressed() {
-        if (documentation!!.screenIsFile) {
-            if (documentation!!.isInEditMode) {
-                documentation!!.isInEditMode = false
-                edit_view.visibility = View.GONE
-                markdown_view.visibility = View.VISIBLE
+        when (documentation!!.screenState) {
+            DocumentationState.LIST -> {
+                documentation!!.goBack()
                 updateListAndToolbar()
-                return
-            } else {
+            }
+            DocumentationState.VIEW_FILE -> {
+                documentation!!.screenState = DocumentationState.LIST
                 markdown_view.visibility = View.GONE
                 list.visibility = View.VISIBLE
+                documentation!!.goBack()
+                updateListAndToolbar()
+            }
+            DocumentationState.EDIT_FILE -> {
+                documentation!!.screenState = DocumentationState.VIEW_FILE
+                edit_view.visibility = View.GONE
+                markdown_view.visibility = View.VISIBLE
+                Markwon.setMarkdown(markdown_view, uneditedText)
+                updateListAndToolbar()
+            }
+            DocumentationState.PREVIEW_FILE -> {
+                documentation!!.screenState = DocumentationState.VIEW_FILE
+                edit_view.visibility = View.GONE
+                markdown_view.visibility = View.VISIBLE
+                Markwon.setMarkdown(markdown_view, uneditedText)
+                updateListAndToolbar()
+
             }
         }
-        documentation!!.goBack()
-        updateListAndToolbar()
     }
 
     private fun onListItemSelected(selectedItem : String) {
         if (selectedItem.endsWith(".md")) {
             list.visibility = View.GONE
             markdown_view.visibility = View.VISIBLE
-            val markdownText = documentation!!.fileSelected(selectedItem)
-            Markwon.setMarkdown(markdown_view, markdownText)
-            edit_view.setText(markdownText)
+            uneditedText = documentation!!.fileSelected(selectedItem)
+            Markwon.setMarkdown(markdown_view, uneditedText)
+            edit_view.setText(uneditedText)
         } else {
             documentation!!.itemSelected(selectedItem)
         }
@@ -161,9 +179,10 @@ class DocumentationFragment : ListFragment() {
         }
         documentation_toolbar.title = sb.toString()
 
-        menu.findItem(R.id.action_search).isVisible = !documentation!!.screenIsFile
-        menu.findItem(R.id.edit_item).isVisible = documentation!!.screenIsFile && !documentation!!.isInEditMode
-        menu.findItem(R.id.preview).isVisible = documentation!!.screenIsFile && documentation!!.isInEditMode
+        menu.findItem(R.id.action_search).isVisible = documentation!!.screenState == DocumentationState.LIST
+        menu.findItem(R.id.edit_item).isVisible = documentation!!.screenState == DocumentationState.VIEW_FILE ||
+                documentation!!.screenState == DocumentationState.PREVIEW_FILE
+        menu.findItem(R.id.preview).isVisible = documentation!!.screenState == DocumentationState.EDIT_FILE
 
 
         if (documentation?.stateKeys!!.isEmpty()) {

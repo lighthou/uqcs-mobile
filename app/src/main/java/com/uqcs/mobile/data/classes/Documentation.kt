@@ -8,8 +8,7 @@ class Documentation(val docsDictionary : JSONObject) {
 
     var state : JSONObject = docsDictionary
     var stateKeys : MutableList<String> = mutableListOf<String>()
-    var screenIsFile = false
-    var isInEditMode = false
+    var screenState : DocumentationState = DocumentationState.LIST
 
     init {
         val keysList : MutableList<String> = mutableListOf()
@@ -36,7 +35,7 @@ class Documentation(val docsDictionary : JSONObject) {
     }
 
     fun goBack() {
-        screenIsFile = false
+        screenState = DocumentationState.LIST
         if (stateKeys.isEmpty()) return
         stateKeys.removeAt(stateKeys.size - 1)
         var currentDic = docsDictionary
@@ -56,7 +55,7 @@ class Documentation(val docsDictionary : JSONObject) {
     }
 
     fun fileSelected(file : String) : String {
-        screenIsFile = true
+        screenState = DocumentationState.VIEW_FILE
         if (state.has(file)) {
             stateKeys.add(file)
             return state.getString(file)
