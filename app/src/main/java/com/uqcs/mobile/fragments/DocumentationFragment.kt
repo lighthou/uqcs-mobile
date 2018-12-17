@@ -28,7 +28,9 @@ import android.text.TextWatcher
 import com.uqcs.mobile.data.classes.DocumentationState
 import ru.noties.markwon.Markwon
 import android.content.DialogInterface
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AlertDialog
+import com.uqcs.mobile.CommitDialog
 
 
 class DocumentationFragment : ListFragment() {
@@ -73,7 +75,9 @@ class DocumentationFragment : ListFragment() {
                 true
             }
             R.id.save -> {
-                Toast.makeText(context!!, "Not implemented", Toast.LENGTH_LONG).show()
+                val dialog = CommitDialog(activity!!)
+                dialog.window.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+                dialog.show()
                 true
             }
             else ->
