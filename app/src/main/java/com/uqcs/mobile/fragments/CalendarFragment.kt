@@ -2,6 +2,8 @@ package com.uqcs.mobile.fragments
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Base64
@@ -149,8 +151,10 @@ class CalendarFragment : Fragment(), OnDateSelectedListener {
         calendarView.addDecorator(EventDecorator(calendarDays, context!!))
     }
 
-    fun viewEventDetails(v : View) {
-        EventDetailsDialog(activity as Activity, eventsMap[currentlySelectedDate] as Event).show()
+    private fun viewEventDetails(v : View) {
+        val dialog = EventDetailsDialog(activity as Activity, eventsMap[currentlySelectedDate] as Event)
+        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
     }
 
 

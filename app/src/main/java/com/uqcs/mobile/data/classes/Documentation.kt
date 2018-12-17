@@ -47,6 +47,8 @@ class Documentation(val docsDictionary : JSONObject) {
     }
 
     fun itemSelected(item : String) : MutableList<String>{
+        screenState = DocumentationState.LIST
+
         if (state.has(item)) {
             stateKeys.add(item)
             state = state.getJSONObject(item)

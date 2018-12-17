@@ -140,6 +140,7 @@ class DocumentationFragment : ListFragment() {
 
     private fun onListItemSelected(selectedItem : String) {
         if (selectedItem.endsWith(".md")) {
+
             list.visibility = View.GONE
             markdown_view.visibility = View.VISIBLE
             uneditedText = documentation!!.fileSelected(selectedItem)
