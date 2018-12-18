@@ -48,4 +48,6 @@ dependencies {
     // Sortable table view liscense and implementation
     implementation fileTree(dir: 'libs', include: '*.jar')
     implementation 'com.sortabletableview.recyclerview:sortabletableview:3.1.1'
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
 }
