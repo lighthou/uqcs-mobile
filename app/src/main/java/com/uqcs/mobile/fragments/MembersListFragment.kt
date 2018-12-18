@@ -2,14 +2,14 @@ package com.uqcs.mobile.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.SearchView
 import android.util.Base64
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -68,21 +68,24 @@ class MembersListFragment : Fragment() {
                 return true
             }
         })
-        val searchView = (myActionMenuItem.actionView as SearchView)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
+        if (myActionMenuItem.actionView != null) {
+            val searchView = (myActionMenuItem.actionView as SearchView)
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    return false
+                }
 
-            override fun onQueryTextChange(s: String): Boolean {
-                filterHelper?.setFilter(MemberFilter(s))
-                return false
+                override fun onQueryTextChange(s: String): Boolean {
+                    filterHelper?.setFilter(MemberFilter(s))
+                    return false
+                }
+            })
+            searchView.setOnCloseListener {
+                filterHelper?.clearFilter()
+                true
             }
-        })
-        searchView.setOnCloseListener {
-            filterHelper?.clearFilter()
-            true
         }
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 

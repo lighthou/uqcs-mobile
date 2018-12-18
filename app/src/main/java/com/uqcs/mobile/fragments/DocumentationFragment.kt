@@ -1,8 +1,6 @@
 package com.uqcs.mobile.fragments
 
 import android.os.Bundle
-import android.support.v4.app.ListFragment
-import android.support.v7.app.AppCompatActivity
 import android.util.Base64
 import android.util.Log
 import android.view.*
@@ -16,24 +14,31 @@ import com.android.volley.toolbox.Volley
 import com.uqcs.mobile.Helpers.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
-import kotlinx.android.synthetic.main.activity_documentation.*
-import kotlinx.android.synthetic.main.loading_overlay.*
-import kotlinx.android.synthetic.main.loading_overlay.view.*
 import org.json.JSONObject
 import android.widget.ArrayAdapter
 import com.uqcs.mobile.data.classes.Documentation
-import android.support.v7.widget.SearchView
 import android.text.Editable
 import android.text.TextWatcher
 import com.uqcs.mobile.data.classes.DocumentationState
 import ru.noties.markwon.Markwon
 import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.ListFragment
 import com.uqcs.mobile.CommitDialog
+import com.uqcs.mobile.DocumentationViewModel
+import com.uqcs.mobile.R.id.documentation_toolbar
+import kotlinx.android.synthetic.main.activity_documentation.*
+import kotlinx.android.synthetic.main.loading_overlay.*
+import kotlinx.android.synthetic.main.loading_overlay.view.*
 
 
 class DocumentationFragment : ListFragment() {
+
+    private lateinit var viewModel : DocumentationViewModel
+
     private val DOCS_URL = "http://www.ryankurz.me/docs"
     private var adapter: ArrayAdapter<String>? = null
     private var listItems : MutableList<String>? = mutableListOf()
@@ -56,9 +61,7 @@ class DocumentationFragment : ListFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
         return when (item.itemId) {
-            //Back button
             R.id.edit_item -> {
                 markdown_view.visibility = View.GONE
                 edit_view.visibility = View.VISIBLE
@@ -179,19 +182,22 @@ class DocumentationFragment : ListFragment() {
             }
         })
 
-        val searchView = (myActionMenuItem.actionView as SearchView)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(s: String): Boolean {
-                if (s != "") {
-                    handleSearchQuery(s)
+        if (myActionMenuItem.actionView != null) {
+            val searchView = (myActionMenuItem.actionView as SearchView)
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    return false
                 }
-                return false
-            }
-        })
+
+                override fun onQueryTextChange(s: String): Boolean {
+                    if (s != "") {
+                        handleSearchQuery(s)
+                    }
+                    return false
+                }
+            })
+        }
+
 
         if (documentation == null) return
         if (documentation!!.fileHasBeenEdited) {
@@ -206,11 +212,8 @@ class DocumentationFragment : ListFragment() {
         }
 
 
-        menu.findItem(R.id.action_search).isVisible = documentation!!.screenState == DocumentationState.LIST
-        menu.findItem(R.id.edit_item).isVisible = documentation!!.screenState == DocumentationState.VIEW_FILE ||
-                documentation!!.screenState == DocumentationState.PREVIEW_FILE
-        menu.findItem(R.id.preview).isVisible = documentation!!.screenState == DocumentationState.EDIT_FILE
-        menu.findItem(R.id.save).isVisible = documentation!!.fileHasBeenEdited
+        setToolbarIconVisibility(menu)
+
 
         if (documentation!!.stateKeys.isEmpty()) {
             documentation_toolbar.navigationIcon = null
@@ -224,6 +227,18 @@ class DocumentationFragment : ListFragment() {
                 backPressed()
             }
         }
+    }
+
+    private fun setToolbarIconVisibility(menu : Menu) {
+        //Search Icon
+        menu.findItem(R.id.action_search).isVisible = documentation!!.screenState == DocumentationState.LIST
+        //Edit File Icon
+        menu.findItem(R.id.edit_item).isVisible = documentation!!.screenState == DocumentationState.VIEW_FILE ||
+                documentation!!.screenState == DocumentationState.PREVIEW_FILE
+        //Preview Icon
+        menu.findItem(R.id.preview).isVisible = documentation!!.screenState == DocumentationState.EDIT_FILE
+        //Save Icon
+        menu.findItem(R.id.save).isVisible = documentation!!.fileHasBeenEdited
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -273,7 +288,7 @@ class DocumentationFragment : ListFragment() {
         password = (context as MainActivity).password
 
         requestQueue = Volley.newRequestQueue(context!!)
-        Util.animateView(context!!, progress_overlay, View.VISIBLE, 0.8f, 200)
+        showLoadingScreen()
 
         requestQueue.add(getDocsRequest())
         android.R.layout.simple_list_item_1
@@ -283,13 +298,13 @@ class DocumentationFragment : ListFragment() {
         listAdapter = adapter
     }
 
+
     private fun getDocsRequest() : JsonObjectRequest {
 
         return object : JsonObjectRequest(
             Request.Method.GET, DOCS_URL, null,
             Response.Listener<JSONObject> { response ->
-                val responseString = response.toString()
-                val docs = JSONObject(responseString)
+                val docs = JSONObject(response.toString())
                 documentation = Documentation(docs)
                 updateListAndToolbar()
                 list.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
@@ -297,11 +312,11 @@ class DocumentationFragment : ListFragment() {
                     onListItemSelected(selectedItem)
                 }
 
-                Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
+                hideLoadingScreen()
             },
             Response.ErrorListener {
                 Log.i("VolleyIssues", it.toString())
-                Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
+                hideLoadingScreen()
                 Toast.makeText(context!!, "Failed to fetch docs", Toast.LENGTH_LONG).show()
             }) {
             override fun getHeaders(): Map<String, String> {
@@ -312,5 +327,13 @@ class DocumentationFragment : ListFragment() {
                 return params
             }
         }
+    }
+
+    private fun showLoadingScreen() {
+        Util.animateView(context!!, progress_overlay, View.VISIBLE, 0.8f, 200)
+    }
+
+    private fun hideLoadingScreen() {
+        Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
     }
 }

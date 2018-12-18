@@ -2,7 +2,6 @@ package com.uqcs.mobile
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -15,6 +14,7 @@ import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import android.util.Base64.NO_WRAP
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.toolbox.Volley
 import com.uqcs.mobile.Helpers.Util
 import kotlinx.android.synthetic.main.loading_overlay.view.*

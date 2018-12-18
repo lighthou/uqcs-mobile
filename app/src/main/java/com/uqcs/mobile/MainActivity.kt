@@ -1,9 +1,9 @@
 package com.uqcs.mobile
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.uqcs.mobile.fragments.CalendarFragment
 import com.uqcs.mobile.fragments.DocumentationFragment
 import com.uqcs.mobile.fragments.MembersListFragment
