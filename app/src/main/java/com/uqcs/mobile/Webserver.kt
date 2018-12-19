@@ -20,6 +20,4 @@ interface Webserver {
         @Field("file_data") fileData : String,
         @Field("commit_message") commitMessage : String
     )
-
-
 }

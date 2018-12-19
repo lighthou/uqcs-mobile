@@ -20,6 +20,7 @@ import com.uqcs.mobile.data.classes.Documentation
 import com.uqcs.mobile.data.classes.DocumentationStore
 import kotlinx.android.synthetic.main.activity_documentation.*
 import org.json.JSONObject
+import retrofit2.Retrofit
 
 
 class DocumentationViewModel(application: Application) : AndroidViewModel(application) {
@@ -31,10 +32,10 @@ class DocumentationViewModel(application: Application) : AndroidViewModel(applic
     private lateinit var HTTPAuth : String
 
     lateinit var observableListItems : List<String>
-    var requestQueue: RequestQueue = Volley.newRequestQueue(getApplication())
+    var webserver: Webserver = RetrofitClientInstance.retrofitInstance.create(Webserver::class.java)
 
     fun getDocumentationFromServer() {
-        requestQueue.add(getDocumentationRequest())
+        var ex : List<EventX> = webserver.events()
     }
 
     fun registerCredentials(username : String, password : String) {
