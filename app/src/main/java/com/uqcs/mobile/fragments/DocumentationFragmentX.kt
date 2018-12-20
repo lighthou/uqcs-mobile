@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.ViewModelStore
 import com.uqcs.mobile.DocumentationViewModel
 import com.uqcs.mobile.Helpers.Util
+import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
 import kotlinx.android.synthetic.main.loading_overlay.*
 
@@ -33,7 +34,7 @@ class DocumentationFragmentX : ListFragment() {
             if (shouldShowLoading) showLoadingOverlay() else hideLoadingOverlay()
         })
 
-        viewModel.registerCredentials("username", "password")
+        registerServerCredentials()
         viewModel.getDocumentationFromServer()
     }
 
@@ -47,5 +48,11 @@ class DocumentationFragmentX : ListFragment() {
 
     private fun hideLoadingOverlay() {
         Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
+    }
+
+    private fun registerServerCredentials() {
+        val username = (context as MainActivity).username
+        val password = (context as MainActivity).password
+        viewModel.registerCredentials(username, password)
     }
 }

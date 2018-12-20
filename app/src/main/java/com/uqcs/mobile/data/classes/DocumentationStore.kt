@@ -1,5 +1,6 @@
 package com.uqcs.mobile.data.classes
 
+import com.google.common.collect.Lists
 import org.json.JSONObject
 
 
@@ -51,7 +52,7 @@ class DocumentationStore(private val documentationDictionary : JSONObject) {
             newKeyState.addAll(keyState)
             newKeyState.add(key)
             if (directoryName == key) {
-                val listData = (tempDictionary[key] as JSONObject).keys() as List<String>
+                val listData : MutableList<String> = Lists.newArrayList((tempDictionary[key] as JSONObject).keys())
                 return Pair(keyState, listData)
             }
             if (!key.endsWith(".md")) {

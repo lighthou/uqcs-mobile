@@ -1,5 +1,6 @@
 package com.uqcs.mobile
 
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.GET
@@ -14,7 +15,10 @@ interface Webserver {
     @GET("/events")
     fun fetchEvents() : Call<List<EventX>>
 
-    @POST("./docs")
+    @GET("/docs")
+    fun fetchDocumentation() : Call<ResponseBody>
+
+    @POST("/docs")
     fun updateDocumentation(
         @Field("file_name") fileName : String,
         @Field("file_data") fileData : String,

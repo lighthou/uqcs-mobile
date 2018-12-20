@@ -52,4 +52,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
+    api 'com.google.guava:guava:27.0.1-android'
 }

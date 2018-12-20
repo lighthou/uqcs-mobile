@@ -12,43 +12,43 @@ import androidx.lifecycle.ViewModel
 import com.uqcs.mobile.data.classes.DocumentationState
 import com.uqcs.mobile.data.classes.DocumentationState.LIST
 import com.uqcs.mobile.data.classes.DocumentationStore
+import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+private const val DOCUMENTATION_URL = "http://www.ryankurz.me/docs"
 
 class DocumentationViewModel : ViewModel() {
 
-    private val DOCUMENTATION_URL = "http://www.ryankurz.me/docs"
     private lateinit var documentationStore : DocumentationStore
+    private lateinit var HTTPAuth : String
+    private lateinit var  webserver: Webserver
+
+    lateinit var listItems : MutableLiveData<List<String>>
+
+
     private var screenState : DocumentationState = LIST
     private var keyState = mutableListOf<String>()
-    private lateinit var HTTPAuth : String
-
-    lateinit var observableListItems : List<String>
-    lateinit var  webserver: Webserver
-    var showLoading : MutableLiveData<Boolean> = MutableLiveData(false)
+    var showLoading : MutableLiveData<Boolean> = MutableLiveData()
 
     fun getDocumentationFromServer() {
         showLoading.postValue(true)
-        val ex : Call<List<EventX>> = webserver.fetchEvents()
-        ex.enqueue(object : Callback<List<EventX>> {
+        val documentationRequests : Call<ResponseBody> = webserver.fetchDocumentation()
 
-            override fun onResponse(call: Call<List<EventX>>, response: Response<List<EventX>>) {
-                var eventList : List<EventX> = response.body()!!
-                Log.i("Hello", "there")
-
+        documentationRequests.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                documentationStore = DocumentationStore(JSONObject( response.body()?.string()))
                 showLoading.postValue(false)
-
             }
 
-            override fun onFailure(call: Call<List<EventX>>, t: Throwable) {
-                Log.i("HTTPError", t.toString())
-                showLoading.postValue(false)
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.i("ReturnValue", t.toString())
 
-                //Toast.makeText(this@MainActivity, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show()
+                showLoading.postValue(false)
             }
+
         })
     }
 
