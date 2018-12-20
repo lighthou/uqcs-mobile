@@ -9,10 +9,10 @@ import retrofit2.http.Query
 interface Webserver {
 
     @GET("/members")
-    fun members() : Call<List<MemberX>>
+    fun fetchMembers() : Call<List<MemberX>>
 
     @GET("/events")
-    fun events() : Call<List<EventX>>
+    fun fetchEvents() : Call<List<EventX>>
 
     @POST("./docs")
     fun updateDocumentation(

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.uqcs.mobile.fragments.CalendarFragment
 import com.uqcs.mobile.fragments.DocumentationFragment
+import com.uqcs.mobile.fragments.DocumentationFragmentX
 import com.uqcs.mobile.fragments.MembersListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_calendar -> frag = CalendarFragment.newInstance()
             R.id.menu_members -> frag = MembersListFragment.newInstance()
-            R.id.menu_docs -> frag = DocumentationFragment.newInstance()
+            R.id.menu_docs -> frag = DocumentationFragmentX.newInstance()
         }
 
         // update selected item
