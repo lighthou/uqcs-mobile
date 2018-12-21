@@ -6,12 +6,16 @@ import org.json.JSONObject
 
 class DocumentationStore(private val documentationDictionary : JSONObject) {
 
+    fun getInitialState() : List<String> {
+        return Lists.newArrayList(documentationDictionary.keys())
+    }
+
     fun getFileTextByKeys(keys : List<String>) : String {
         var tempDictionary : JSONObject = documentationDictionary
         for (i in 0 until keys.size - 1) {
             tempDictionary = tempDictionary.getJSONObject(keys[i])
         }
-        return keys[keys.size - 1]
+        return tempDictionary.getString(keys[keys.size - 1])
     }
 
     fun getListByKeys(keys : List<String>) : List<String> {
@@ -19,7 +23,7 @@ class DocumentationStore(private val documentationDictionary : JSONObject) {
         for (i in 0 until keys.size) {
             tempDictionary = tempDictionary.getJSONObject(keys[i])
         }
-        return tempDictionary.keys() as List<String>
+        return Lists.newArrayList(tempDictionary.keys())
     }
 
     fun getFileByName(filename : String) {
@@ -63,8 +67,10 @@ class DocumentationStore(private val documentationDictionary : JSONObject) {
         return null
     }
 
-    fun getListBySearchQuery(queryText: String) {
-        return searchQueryHelper(documentationDictionary, mutableListOf(), queryText)
+    fun getListBySearchQuery(queryText: String) : List<String>{
+        val returnList = mutableListOf<String>()
+        searchQueryHelper(documentationDictionary, returnList, queryText)
+        return returnList
     }
 
     private fun searchQueryHelper(currentDic : JSONObject, returnList: MutableList<String>, queryText : String) {

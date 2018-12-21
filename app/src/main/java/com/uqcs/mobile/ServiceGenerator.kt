@@ -28,7 +28,7 @@ object ServiceGenerator {
         serviceClass: Class<S>, username: String?, password: String?
     ): S {
         if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
-            val authToken = Credentials.basic(username!!, password)
+            val authToken : String = Credentials.basic(username!!, password!!)
             return createService(serviceClass, authToken)
         }
 

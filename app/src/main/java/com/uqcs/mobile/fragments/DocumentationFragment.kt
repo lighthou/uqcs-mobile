@@ -210,8 +210,6 @@ class DocumentationFragment : ListFragment() {
             }
             documentation_toolbar.title = sb.toString()
         }
-
-
         setToolbarIconVisibility(menu)
 
 
@@ -272,7 +270,6 @@ class DocumentationFragment : ListFragment() {
                     edit_view.setText(uneditedText)
                     updateListAndToolbar()
                 }
-
                 DialogInterface.BUTTON_NEGATIVE -> {}
             }
         }
