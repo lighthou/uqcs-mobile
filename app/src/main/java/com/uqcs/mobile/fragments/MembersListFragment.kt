@@ -168,7 +168,6 @@ class MembersListFragment : Fragment() {
             setColumnComparator(3, MemberComparator.forPaid())
         }
 
-
         filterHelper = FilterHelper(tableView)
         activity?.invalidateOptionsMenu()
 

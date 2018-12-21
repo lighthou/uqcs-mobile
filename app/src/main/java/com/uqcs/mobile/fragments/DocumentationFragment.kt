@@ -278,7 +278,7 @@ class DocumentationFragment : ListFragment() {
         builder.setMessage("Clear all changes?").setPositiveButton("Yes", dialogClickListener)
             .setNegativeButton("No", dialogClickListener)
 
-        progress_overlay.loading_text.text = getString(R.string.fetching_docs)
+        progress_overlay.loading_text.text = getString(R.string.fetching_documentation)
 
         username = (context as MainActivity).username
         password = (context as MainActivity).password

@@ -22,6 +22,7 @@ import com.uqcs.mobile.common.AuthenticatedFragment
 import com.uqcs.mobile.data.classes.DocumentationState
 import kotlinx.android.synthetic.main.activity_documentation.*
 import kotlinx.android.synthetic.main.loading_overlay.*
+import kotlinx.android.synthetic.main.loading_overlay.view.*
 import ru.noties.markwon.Markwon
 
 class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
@@ -46,9 +47,13 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
         setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(this).get(DocumentationViewModel::class.java)
 
+
         setUpObservers()
         registerServerCredentials()
-        viewModel.getDocumentationFromServer()
+        progress_overlay.loading_text.text = getString(R.string.fetching_documentation)
+
+
+        viewModel.getDocumentationFromServer() //todo should be in init of viewmodel?
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

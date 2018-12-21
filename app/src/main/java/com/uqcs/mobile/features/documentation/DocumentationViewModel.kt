@@ -54,7 +54,7 @@ class DocumentationViewModel : ViewModel(), AuthenticatedViewModel {
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.i("ReturnValue", t.toString())
+                Log.i("Retrofit Error", t.toString())
                 showLoading.value = false
             }
 
