@@ -1,6 +1,5 @@
 package com.uqcs.mobile.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -25,9 +24,8 @@ import com.uqcs.mobile.Helpers.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.data.classes.Member
 import com.uqcs.mobile.tableview.MemberComparator
-import com.uqcs.mobile.tableview.MemberFilter
-import com.uqcs.mobile.tableview.MemberStringValueExtractor
-import kotlinx.android.synthetic.main.activity_documentation.*
+import com.uqcs.mobile.features.memberslist.MemberFilter
+import com.uqcs.mobile.features.memberslist.MemberStringValueExtractor
 import kotlinx.android.synthetic.main.activity_member_list.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*

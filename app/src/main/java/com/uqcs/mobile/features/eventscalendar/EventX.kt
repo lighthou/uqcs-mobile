@@ -1,4 +1,4 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.features.eventscalendar
 
 import com.google.gson.annotations.SerializedName
 

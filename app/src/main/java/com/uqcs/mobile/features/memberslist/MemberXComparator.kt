@@ -7,11 +7,11 @@ class MemberXComparator {
 
     companion object {
         fun forFirstName(): Comparator<MemberX> {
-            return Comparator<MemberX> { member1, member2 -> member1.first_name.compareTo(member2.first_name) }
+            return Comparator<MemberX> { member1, member2 -> member1.firstName.compareTo(member2.firstName) }
         }
 
         fun forLastName(): Comparator<MemberX> {
-            return Comparator<MemberX> { member1, member2 -> member1.last_name.compareTo(member2.last_name) }
+            return Comparator<MemberX> { member1, member2 -> member1.lastName.compareTo(member2.lastName) }
         }
 
         fun forEmail(): Comparator<MemberX> {

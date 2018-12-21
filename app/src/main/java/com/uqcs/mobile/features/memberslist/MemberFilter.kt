@@ -1,6 +1,5 @@
-package com.uqcs.mobile.tableview
+package com.uqcs.mobile.features.memberslist
 
-import android.util.Log
 import com.sortabletableview.recyclerview.toolkit.FilterHelper
 import com.uqcs.mobile.data.classes.Member
 

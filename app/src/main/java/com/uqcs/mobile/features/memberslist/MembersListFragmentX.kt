@@ -14,7 +14,6 @@ import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.MemberX
 import com.uqcs.mobile.R
 import com.uqcs.mobile.common.AuthenticatedFragment
-import com.uqcs.mobile.tableview.MemberStringValueExtractor
 import kotlinx.android.synthetic.main.activity_member_list.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
@@ -105,7 +104,7 @@ class MembersListFragmentX : Fragment(), AuthenticatedFragment {
     }
 
     private fun SortableTableView<MemberX>.addSortingFunctionality() : SortableTableView<MemberX>? {
-        this.headerSortStateViewProvider = SortStateViewProviders.brightArrows();
+        this.headerSortStateViewProvider = SortStateViewProviders.brightArrows()
         this.apply {
             setColumnComparator(0, MemberXComparator.forFirstName())
             setColumnComparator(1, MemberXComparator.forLastName())

@@ -1,4 +1,4 @@
-package com.uqcs.mobile.features.memberslist
+package com.uqcs.mobile.features.eventscalendar
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -7,32 +7,28 @@ import com.uqcs.mobile.MemberX
 import com.uqcs.mobile.ServiceGenerator
 import com.uqcs.mobile.Webserver
 import com.uqcs.mobile.common.AuthenticatedViewModel
-import com.uqcs.mobile.data.classes.DocumentationState
-import com.uqcs.mobile.features.documentation.DocumentationStore
-import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MembersListViewModel : ViewModel(), AuthenticatedViewModel {
+class EventsCalendarViewModel : ViewModel(), AuthenticatedViewModel {
 
     private lateinit var webserver: Webserver
 
     var showLoading : MutableLiveData<Boolean> = MutableLiveData()
-    var membersList : MutableLiveData<List<MemberX>> = MutableLiveData()
+    var eventsList : MutableLiveData<List<EventX>> = MutableLiveData()
 
-    fun getMembersListFromServer() { //TODO Should this be in the viewmodel or the view
+    fun getEventsListFromServer() { //TODO Should this call be in the viewmodel or the view
         showLoading.value = true
-        val membersRequest : Call<List<MemberX>> = webserver.fetchMembers()
+        val eventsRequest : Call<List<EventX>> = webserver.fetchEvents()
 
-        membersRequest.enqueue(object : Callback<List<MemberX>> {
-            override fun onResponse(call: Call<List<MemberX>>, response: Response<List<MemberX>>) {
-                membersList.value = response.body()
+        eventsRequest.enqueue(object : Callback<List<EventX>> {
+            override fun onResponse(call: Call<List<EventX>>, response: Response<List<EventX>>) {
+                eventsList.value = response.body()
                 showLoading.value = false
             }
 
-            override fun onFailure(call: Call<List<MemberX>>, t: Throwable) {
+            override fun onFailure(call: Call<List<EventX>>, t: Throwable) {
                 Log.i("Retrofit Error", t.toString())
                 showLoading.value = false
             }
@@ -42,8 +38,4 @@ class MembersListViewModel : ViewModel(), AuthenticatedViewModel {
     override fun registerCredentials(username : String, password : String) {
         webserver = ServiceGenerator.createService(Webserver::class.java, username, password)
     }
-
-
-
-
 }

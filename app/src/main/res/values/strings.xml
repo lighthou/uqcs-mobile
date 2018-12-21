@@ -41,4 +41,5 @@
 
     <!-- Documentation -->
     <string name="fetching_documentation">Fetching Documentation...</string>
+    <string name="editing">Editing...</string>
 </resources>
