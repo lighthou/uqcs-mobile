@@ -25,24 +25,25 @@ class DocumentationViewModel : ViewModel() {
     var listItems : MutableLiveData<List<String>> = MutableLiveData(listOf())
     var textData : MutableLiveData<String> = MutableLiveData("")
 
+    var titleText : MutableLiveData<String> = MutableLiveData("")
     var screenState : MutableLiveData<DocumentationState> = MutableLiveData(INITIAL)
     private var stateKeys = mutableListOf<String>()
     var showLoading : MutableLiveData<Boolean> = MutableLiveData()
 
     fun getDocumentationFromServer() {
-        showLoading.postValue(true)
+        showLoading.value = true
         val documentationRequests : Call<ResponseBody> = webserver.fetchDocumentation()
 
         documentationRequests.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 documentationStore = DocumentationStore(JSONObject( response.body()?.string()))
-                listItems.postValue(documentationStore.getInitialState())
-                showLoading.postValue(false)
+                listItems.value = documentationStore.getInitialState()
+                showLoading.value = false
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.i("ReturnValue", t.toString())
-                showLoading.postValue(false)
+                showLoading.setValue(false)
             }
 
         })
@@ -54,17 +55,17 @@ class DocumentationViewModel : ViewModel() {
 
     fun search(queryText : String) {
         val searchList = documentationStore.getListBySearchQuery(queryText)
-        listItems.postValue(searchList)
+        listItems.value = searchList
     }
 
     fun onBackPressed() {
         if (screenState.value == LIST || screenState.value == VIEW_FILE) {
             stateKeys.removeAt(stateKeys.size - 1)
             val newList = documentationStore.getListByKeys(stateKeys)
-            listItems.postValue(newList)
+            listItems.value = newList
         }
 
-        screenState.postValue( when {
+        screenState.value = when {
             screenState.value == INITIAL -> INITIAL
             screenState.value == LIST && stateKeys.size == 0 -> INITIAL
             screenState.value == LIST ->  LIST
@@ -72,28 +73,47 @@ class DocumentationViewModel : ViewModel() {
             screenState.value == EDIT_FILE -> VIEW_FILE
             screenState.value == PREVIEW_FILE -> VIEW_FILE
             else -> LIST
-        })
+        }
+
+        updateTitleText()
+    }
+
+    private fun updateTitleText() {
+        if (screenState.value == EDIT_FILE || screenState.value == PREVIEW_FILE) {
+            titleText.setValue("Editing...")
+        } else {
+            val sb = StringBuilder()
+            for (key in stateKeys) {
+                sb.append(key)
+                sb.append('/')
+            }
+            titleText.setValue(sb.toString())
+        }
     }
 
     fun onListItemSelected(selectedItem : String) {
         stateKeys.add(selectedItem)
         if (selectedItem.endsWith(".md")) {
-            screenState.postValue(VIEW_FILE)
+            screenState.value = VIEW_FILE
             val fileText = documentationStore.getFileTextByKeys(stateKeys)
-            textData.postValue(fileText)
+            textData.setValue(fileText)
         } else {
-            screenState.postValue(LIST)
+            screenState.value = LIST
             val newList = documentationStore.getListByKeys(stateKeys)
-            listItems.postValue(newList)
+            listItems.setValue(newList)
         }
+        updateTitleText()
     }
 
     fun setEditMode() {
-        screenState.postValue(EDIT_FILE)
+        screenState.value = EDIT_FILE
+        updateTitleText()
     }
 
     fun setPreviewMode() {
-        screenState.postValue(PREVIEW_FILE)
+        screenState.value = PREVIEW_FILE
+        updateTitleText()
+
     }
 
 

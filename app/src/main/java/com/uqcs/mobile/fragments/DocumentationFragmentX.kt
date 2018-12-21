@@ -1,5 +1,6 @@
 package com.uqcs.mobile.fragments
 
+import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -7,10 +8,12 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.ListFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -148,7 +151,6 @@ class DocumentationFragmentX : ListFragment() {
 
     private fun updateToolbar(menu : Menu) {
         setToolbarIconVisibility(menu)
-        
         if (myState == DocumentationState.INITIAL) {
             documentation_toolbar.navigationIcon = null
         } else {
@@ -208,10 +210,14 @@ class DocumentationFragmentX : ListFragment() {
 
         })
 
-        viewModel.textData.observe(this, Observer<String> {text ->
+        viewModel.textData.observe(this, Observer<String> { text ->
             uneditedText = text
             Markwon.setMarkdown(markdown_view, text)
             edit_view.setText(text)
+        })
+
+        viewModel.titleText.observe(this, Observer<String> { text ->
+            documentation_toolbar.title = text
         })
     }
 
