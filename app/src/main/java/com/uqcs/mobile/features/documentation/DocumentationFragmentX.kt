@@ -1,6 +1,5 @@
-package com.uqcs.mobile.fragments
+package com.uqcs.mobile.features.documentation
 
-import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,33 +7,31 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.ListFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.uqcs.mobile.CommitDialog
-import com.uqcs.mobile.DocumentationViewModel
 import com.uqcs.mobile.Helpers.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
+import com.uqcs.mobile.common.AuthenticatedFragment
 import com.uqcs.mobile.data.classes.DocumentationState
 import kotlinx.android.synthetic.main.activity_documentation.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import ru.noties.markwon.Markwon
 
-class DocumentationFragmentX : ListFragment() {
+class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
 
     private lateinit var viewModel : DocumentationViewModel
-
     private lateinit var adapter : ArrayAdapter<String>
     private lateinit var builder : AlertDialog.Builder
-    private var myState : DocumentationState = DocumentationState.INITIAL
     private lateinit var uneditedText : String
+
+    private var myState : DocumentationState = DocumentationState.INITIAL
     private var fileHasBeenEdited : Boolean = false
     private var listItems = mutableListOf<String>()
 
@@ -137,6 +134,12 @@ class DocumentationFragmentX : ListFragment() {
         }
     }
 
+    override fun registerServerCredentials() {
+        val username = (context as MainActivity).username
+        val password = (context as MainActivity).password
+        viewModel.registerCredentials(username, password)
+    }
+
     private fun setToolbarIconVisibility(menu : Menu) {
         //Search Icon
         menu.findItem(R.id.action_search).isVisible = myState == DocumentationState.LIST
@@ -227,11 +230,5 @@ class DocumentationFragmentX : ListFragment() {
 
     private fun hideLoadingOverlay() {
         Util.animateView(context!!, progress_overlay, View.GONE, 0.8f, 200)
-    }
-
-    private fun registerServerCredentials() {
-        val username = (context as MainActivity).username
-        val password = (context as MainActivity).password
-        viewModel.registerCredentials(username, password)
     }
 }

@@ -1,55 +1,67 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.features.documentation
 
 
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.uqcs.mobile.ServiceGenerator
+import com.uqcs.mobile.Webserver
+import com.uqcs.mobile.common.AuthenticatedViewModel
 import com.uqcs.mobile.data.classes.DocumentationState
 import com.uqcs.mobile.data.classes.DocumentationState.*
 
-import com.uqcs.mobile.data.classes.DocumentationStore
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-private const val DOCUMENTATION_URL = "http://www.ryankurz.me/docs"
-
-class DocumentationViewModel : ViewModel() {
+class DocumentationViewModel : ViewModel(), AuthenticatedViewModel {
 
     private lateinit var documentationStore : DocumentationStore
     private lateinit var webserver: Webserver
+    private var stateKeys = mutableListOf<String>()
 
     var listItems : MutableLiveData<List<String>> = MutableLiveData(listOf())
     var textData : MutableLiveData<String> = MutableLiveData("")
-
     var titleText : MutableLiveData<String> = MutableLiveData("")
     var screenState : MutableLiveData<DocumentationState> = MutableLiveData(INITIAL)
-    private var stateKeys = mutableListOf<String>()
     var showLoading : MutableLiveData<Boolean> = MutableLiveData()
 
-    fun getDocumentationFromServer() {
+    private fun updateTitleText() {
+        if (screenState.value == EDIT_FILE || screenState.value == PREVIEW_FILE) {
+            titleText.setValue("Editing...")
+        } else {
+            val sb = StringBuilder()
+            for (key in stateKeys) {
+                sb.append(key)
+                sb.append('/')
+            }
+            titleText.setValue(sb.toString())
+        }
+    }
+
+    fun getDocumentationFromServer() { //TODO Should this be in the viewmodel or the view. Should it be private?
         showLoading.value = true
         val documentationRequests : Call<ResponseBody> = webserver.fetchDocumentation()
 
         documentationRequests.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                documentationStore = DocumentationStore(JSONObject( response.body()?.string()))
+                documentationStore =
+                        DocumentationStore(JSONObject(response.body()?.string()))
                 listItems.value = documentationStore.getInitialState()
                 showLoading.value = false
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.i("ReturnValue", t.toString())
-                showLoading.setValue(false)
+                showLoading.value = false
             }
 
         })
     }
 
-    fun registerCredentials(username : String, password : String) {
+    override fun registerCredentials(username : String, password : String) {
         webserver = ServiceGenerator.createService(Webserver::class.java, username, password)
     }
 
@@ -78,19 +90,6 @@ class DocumentationViewModel : ViewModel() {
         updateTitleText()
     }
 
-    private fun updateTitleText() {
-        if (screenState.value == EDIT_FILE || screenState.value == PREVIEW_FILE) {
-            titleText.setValue("Editing...")
-        } else {
-            val sb = StringBuilder()
-            for (key in stateKeys) {
-                sb.append(key)
-                sb.append('/')
-            }
-            titleText.setValue(sb.toString())
-        }
-    }
-
     fun onListItemSelected(selectedItem : String) {
         stateKeys.add(selectedItem)
         if (selectedItem.endsWith(".md")) {
@@ -115,10 +114,4 @@ class DocumentationViewModel : ViewModel() {
         updateTitleText()
 
     }
-
-
-
-
-
-
 }

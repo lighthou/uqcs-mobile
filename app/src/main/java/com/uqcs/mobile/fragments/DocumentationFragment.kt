@@ -28,8 +28,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.ListFragment
 import com.uqcs.mobile.CommitDialog
-import com.uqcs.mobile.DocumentationViewModel
-import com.uqcs.mobile.R.id.documentation_toolbar
+import com.uqcs.mobile.features.documentation.DocumentationViewModel
 import kotlinx.android.synthetic.main.activity_documentation.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*

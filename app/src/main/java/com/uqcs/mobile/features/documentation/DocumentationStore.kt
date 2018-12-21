@@ -1,4 +1,4 @@
-package com.uqcs.mobile.data.classes
+package com.uqcs.mobile.features.documentation
 
 import com.google.common.collect.Lists
 import org.json.JSONObject
