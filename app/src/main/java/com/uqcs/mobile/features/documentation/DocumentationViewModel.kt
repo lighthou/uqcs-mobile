@@ -111,6 +111,5 @@ class DocumentationViewModel : ViewModel(), AuthenticatedViewModel {
     fun setPreviewMode() {
         screenState.value = PREVIEW_FILE
         updateTitleText()
-
     }
 }

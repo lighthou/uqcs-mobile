@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             selectedMenuItem = savedInstanceState.getInt(SELECTED_ITEM, 0)
             selectedItem = bottom_nav.menu.findItem(selectedMenuItem ?: return)
         } else {
-            selectedItem = bottom_nav.menu.getItem(0)
+            selectedItem = bottom_nav.menu.getItem(2)
         }
         selectFragment(selectedItem)
     }
@@ -59,9 +59,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (frag != null) {
-            container.removeAllViews()
             val ft = supportFragmentManager.beginTransaction()
-            ft.add(R.id.container, frag, frag.tag)
+            ft.replace(R.id.container, frag, frag.tag)
             ft.commit()
         }
     }

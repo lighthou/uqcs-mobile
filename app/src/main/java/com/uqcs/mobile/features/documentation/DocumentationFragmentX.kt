@@ -44,8 +44,6 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(this).get(DocumentationViewModel::class.java)
-
-
         setUpObservers()
         registerServerCredentials()
 
@@ -143,7 +141,8 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
 
     private fun setToolbarIconVisibility(menu : Menu) {
         //Search Icon
-        menu.findItem(R.id.action_search).isVisible = myState == DocumentationState.LIST
+        menu.findItem(R.id.action_search).isVisible = myState == DocumentationState.LIST ||
+                myState == DocumentationState.INITIAL
         //Edit File Icon
         menu.findItem(R.id.edit_item).isVisible = myState == DocumentationState.VIEW_FILE ||
                 myState == DocumentationState.PREVIEW_FILE
@@ -211,7 +210,6 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
             myState = state
             updateViewByScreenState(state)
             activity?.invalidateOptionsMenu()
-
         })
 
         viewModel.textData.observe(this, Observer<String> { text ->
