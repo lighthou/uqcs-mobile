@@ -1,8 +1,5 @@
 package com.uqcs.mobile.features.memberslist
 
-import com.uqcs.mobile.MemberX
-import com.uqcs.mobile.data.classes.Member
-
 class MemberXComparator {
 
     companion object {

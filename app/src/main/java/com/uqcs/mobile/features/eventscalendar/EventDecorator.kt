@@ -1,4 +1,4 @@
-package com.uqcs.mobile.decorators
+package com.uqcs.mobile.features.eventscalendar
 
 import android.content.Context
 import android.graphics.drawable.Drawable

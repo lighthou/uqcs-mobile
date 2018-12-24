@@ -1,7 +1,6 @@
 package com.uqcs.mobile.data.classes
 
-import android.util.Log
-import android.widget.Toast
+import com.uqcs.mobile.features.documentation.DocumentationState
 import org.json.JSONObject
 
 class Documentation(val docsDictionary : JSONObject) {

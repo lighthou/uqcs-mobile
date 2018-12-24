@@ -1,5 +1,6 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.common
 
+import com.uqcs.mobile.features.memberslist.MemberX
 import com.uqcs.mobile.features.eventscalendar.EventX
 import okhttp3.ResponseBody
 import retrofit2.Call

@@ -1,4 +1,4 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.common
 
 import okhttp3.Interceptor
 import okhttp3.Response

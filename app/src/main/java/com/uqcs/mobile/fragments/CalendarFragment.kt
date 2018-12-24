@@ -1,7 +1,6 @@
 package com.uqcs.mobile.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -20,12 +19,12 @@ import com.android.volley.toolbox.Volley
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
-import com.uqcs.mobile.EventDetailsDialog
+import com.uqcs.mobile.features.eventscalendar.EventsCalendarDetailsDialog
 import com.uqcs.mobile.R
 import com.uqcs.mobile.Helpers.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.data.classes.Event
-import com.uqcs.mobile.decorators.EventDecorator
+import com.uqcs.mobile.features.eventscalendar.EventDecorator
 import kotlinx.android.synthetic.main.activity_events_calendar.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
@@ -152,7 +151,10 @@ class CalendarFragment : Fragment(), OnDateSelectedListener {
     }
 
     private fun viewEventDetails(v : View) {
-        val dialog = EventDetailsDialog(activity as Activity, eventsMap[currentlySelectedDate] as Event)
+        val dialog = EventsCalendarDetailsDialog(
+            activity as Activity,
+            eventsMap[currentlySelectedDate] as Event
+        )
         dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }

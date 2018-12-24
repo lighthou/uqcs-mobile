@@ -1,4 +1,4 @@
-package com.uqcs.mobile.features.memberslist
+package com.uqcs.mobile
 
 import com.sortabletableview.recyclerview.toolkit.SimpleTableDataColumnAdapter
 import com.uqcs.mobile.data.classes.Member

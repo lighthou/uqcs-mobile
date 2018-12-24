@@ -3,14 +3,9 @@ package com.uqcs.mobile.features.memberslist
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.uqcs.mobile.MemberX
-import com.uqcs.mobile.ServiceGenerator
-import com.uqcs.mobile.Webserver
+import com.uqcs.mobile.common.ServiceGenerator
+import com.uqcs.mobile.common.Webserver
 import com.uqcs.mobile.common.AuthenticatedViewModel
-import com.uqcs.mobile.data.classes.DocumentationState
-import com.uqcs.mobile.features.documentation.DocumentationStore
-import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

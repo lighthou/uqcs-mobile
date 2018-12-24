@@ -1,11 +1,10 @@
 package com.uqcs.mobile.features.memberslist
 
 import com.sortabletableview.recyclerview.toolkit.FilterHelper
-import com.uqcs.mobile.data.classes.Member
 
-internal class MemberFilter(private val query: String) : FilterHelper.Filter<Member> {
+internal class MemberXFilter(private val query: String) : FilterHelper.Filter<MemberX> {
 
-    override fun apply(member: Member): Boolean {
+    override fun apply(member: MemberX): Boolean {
         val queryLowerCase = query.toLowerCase()
         return when {
             member.firstName.toLowerCase().contains(queryLowerCase) -> true

@@ -1,11 +1,10 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.common
 
 import android.text.TextUtils
 import okhttp3.Credentials
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.OkHttpClient
-import retrofit2.converter.scalars.ScalarsConverterFactory
 
 
 object ServiceGenerator {

@@ -3,9 +3,8 @@ package com.uqcs.mobile.features.eventscalendar
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.uqcs.mobile.MemberX
-import com.uqcs.mobile.ServiceGenerator
-import com.uqcs.mobile.Webserver
+import com.uqcs.mobile.common.ServiceGenerator
+import com.uqcs.mobile.common.Webserver
 import com.uqcs.mobile.common.AuthenticatedViewModel
 import retrofit2.Call
 import retrofit2.Callback

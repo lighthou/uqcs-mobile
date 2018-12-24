@@ -14,12 +14,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.ListFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.uqcs.mobile.CommitDialog
 import com.uqcs.mobile.Helpers.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
 import com.uqcs.mobile.common.AuthenticatedFragment
-import com.uqcs.mobile.data.classes.DocumentationState
 import kotlinx.android.synthetic.main.activity_documentation.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
@@ -50,8 +48,6 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
 
         setUpObservers()
         registerServerCredentials()
-        progress_overlay.loading_text.text = getString(R.string.fetching_documentation)
-
 
         viewModel.getDocumentationFromServer() //todo should be in init of viewmodel?
     }
@@ -64,7 +60,7 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
         super.onViewCreated(view, savedInstanceState)
         documentation_toolbar.title = ""
         (activity as AppCompatActivity).setSupportActionBar(documentation_toolbar)
-
+        progress_overlay.loading_text.text = getString(R.string.fetching_documentation)
 
         list.onItemClickListener = AdapterView.OnItemClickListener { parent, _, position, _ ->
             val selectedItem = parent.getItemAtPosition(position) as String
@@ -129,7 +125,7 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
                 true
             }
             R.id.save -> {
-                val dialog = CommitDialog(activity!!)
+                val dialog = DocumentationCommitDialog(activity!!)
                 dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.show()
                 true

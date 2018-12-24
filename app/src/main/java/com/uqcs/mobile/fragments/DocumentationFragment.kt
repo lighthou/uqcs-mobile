@@ -19,7 +19,7 @@ import android.widget.ArrayAdapter
 import com.uqcs.mobile.data.classes.Documentation
 import android.text.Editable
 import android.text.TextWatcher
-import com.uqcs.mobile.data.classes.DocumentationState
+import com.uqcs.mobile.features.documentation.DocumentationState
 import ru.noties.markwon.Markwon
 import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
@@ -27,7 +27,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.ListFragment
-import com.uqcs.mobile.CommitDialog
+import com.uqcs.mobile.features.documentation.DocumentationCommitDialog
 import com.uqcs.mobile.features.documentation.DocumentationViewModel
 import kotlinx.android.synthetic.main.activity_documentation.*
 import kotlinx.android.synthetic.main.loading_overlay.*
@@ -77,7 +77,7 @@ class DocumentationFragment : ListFragment() {
                 true
             }
             R.id.save -> {
-                val dialog = CommitDialog(activity!!)
+                val dialog = DocumentationCommitDialog(activity!!)
                 dialog.window.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
                 dialog.show()
                 true

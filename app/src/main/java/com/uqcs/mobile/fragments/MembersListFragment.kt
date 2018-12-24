@@ -24,8 +24,8 @@ import com.uqcs.mobile.Helpers.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.data.classes.Member
 import com.uqcs.mobile.tableview.MemberComparator
-import com.uqcs.mobile.features.memberslist.MemberFilter
-import com.uqcs.mobile.features.memberslist.MemberStringValueExtractor
+import com.uqcs.mobile.MemberFilter
+import com.uqcs.mobile.MemberStringValueExtractor
 import kotlinx.android.synthetic.main.activity_member_list.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
@@ -132,6 +132,7 @@ class MembersListFragment : Fragment() {
             setColumnAdapter(1, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forLastName()))
             setColumnAdapter(2, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forEmail()))
             setColumnAdapter(3, SimpleTableDataColumnAdapter(MemberStringValueExtractor.forPaid()))
+
         }
 
 

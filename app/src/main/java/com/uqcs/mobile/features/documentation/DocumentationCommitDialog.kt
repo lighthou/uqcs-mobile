@@ -1,16 +1,14 @@
-package com.uqcs.mobile
+package com.uqcs.mobile.features.documentation
 
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
-import android.view.View
 import android.view.Window
 import android.widget.Toast
+import com.uqcs.mobile.R
 import kotlinx.android.synthetic.main.commit_dialog.*
-import kotlinx.android.synthetic.main.event_details_layout.*
 
-class CommitDialog(private var activity: Activity) : Dialog(activity) {
+class DocumentationCommitDialog(private var activity: Activity) : Dialog(activity) {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
