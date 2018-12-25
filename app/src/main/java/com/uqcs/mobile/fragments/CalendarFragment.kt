@@ -19,7 +19,7 @@ import com.android.volley.toolbox.Volley
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
-import com.uqcs.mobile.features.eventscalendar.EventsCalendarDetailsDialog
+import com.uqcs.mobile.EventsCalendarDetailsDialog
 import com.uqcs.mobile.R
 import com.uqcs.mobile.Helpers.Util
 import com.uqcs.mobile.MainActivity

@@ -1,16 +1,16 @@
 package com.uqcs.mobile.features.eventscalendar
 
+import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
-import android.view.Window
-import kotlinx.android.synthetic.main.event_details_layout.*
-import android.app.Activity
 import android.text.method.ScrollingMovementMethod
+import android.view.Window
 import com.uqcs.mobile.R
 import com.uqcs.mobile.data.classes.Event
+import kotlinx.android.synthetic.main.event_details_layout.*
 
 
-class EventsCalendarDetailsDialog(private var activity: Activity, private var event: Event) : Dialog(activity) {
+class EventXCalendarDetailsDialog(private var activity: Activity, private var event: EventX) : Dialog(activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class EventsCalendarDetailsDialog(private var activity: Activity, private var ev
 
         cancelButton.setOnClickListener { dismiss() }
         locationText.text = event.location
-        dateText.text = event.date.toString()
+        dateText.text = event.start.dateTime //todo fix formatting
         titleText.text = event.summary
         descriptionText.text = event.description
     }
