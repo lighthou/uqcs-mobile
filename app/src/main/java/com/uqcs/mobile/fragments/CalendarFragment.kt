@@ -21,7 +21,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import com.uqcs.mobile.EventsCalendarDetailsDialog
 import com.uqcs.mobile.R
-import com.uqcs.mobile.Helpers.Util
+import com.uqcs.mobile.common.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.data.classes.Event
 import com.uqcs.mobile.features.eventscalendar.EventDecorator

@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.ListFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.uqcs.mobile.Helpers.Util
+import com.uqcs.mobile.common.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
 import com.uqcs.mobile.common.AuthenticatedFragment

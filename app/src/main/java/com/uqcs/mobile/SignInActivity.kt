@@ -16,7 +16,7 @@ import android.util.Base64.NO_WRAP
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.toolbox.Volley
-import com.uqcs.mobile.Helpers.Util
+import com.uqcs.mobile.common.Util
 import kotlinx.android.synthetic.main.loading_overlay.view.*
 
 

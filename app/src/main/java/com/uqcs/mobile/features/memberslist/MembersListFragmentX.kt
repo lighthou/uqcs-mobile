@@ -12,11 +12,10 @@ import com.sortabletableview.recyclerview.SortableTableView
 import com.sortabletableview.recyclerview.TableDataColumnAdapterDelegator
 import com.sortabletableview.recyclerview.model.TableColumnWeightModel
 import com.sortabletableview.recyclerview.toolkit.*
-import com.uqcs.mobile.Helpers.Util
+import com.uqcs.mobile.common.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
 import com.uqcs.mobile.common.AuthenticatedFragment
-import kotlinx.android.synthetic.main.activity_documentation.*
 import kotlinx.android.synthetic.main.activity_member_list.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*

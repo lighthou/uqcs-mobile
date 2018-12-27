@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
-import com.uqcs.mobile.Helpers.Util
+import com.uqcs.mobile.common.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
 import com.uqcs.mobile.common.AuthenticatedFragment
@@ -59,7 +59,7 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
         viewModel.initialCalendarSetUp()
 
         eventDetailsButton.setOnClickListener { v ->
-            viewEventDetails(v)
+            showEventDetailsDialog(v)
         }
     }
 
@@ -83,7 +83,7 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
         calendarView.addDecorator(EventDecorator(calendarDays, context!!))
     }
 
-    private fun viewEventDetails(v : View) {
+    private fun showEventDetailsDialog(v : View) {
         val dialog = EventXCalendarDetailsDialog(
             activity as Activity,
             selectedEvent

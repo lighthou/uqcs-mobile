@@ -22,7 +22,7 @@ class EventsCalendarViewModel : ViewModel(), AuthenticatedViewModel {
     var eventsList : MutableLiveData<List<EventX>> = MutableLiveData()
     var selectedDate : MutableLiveData<CalendarDay> = MutableLiveData()
     var selectedEvent : MutableLiveData<EventX> = MutableLiveData()
-    var dateToEventStore : Map<CalendarDay, EventX> = mapOf()
+    var dateToEventStore : MutableMap<CalendarDay, EventX> = mutableMapOf<CalendarDay, EventX>()
 
     fun getEventsListFromServer() { //TODO Should this call be in the viewmodel or the view
         showLoading.value = true
@@ -31,6 +31,7 @@ class EventsCalendarViewModel : ViewModel(), AuthenticatedViewModel {
         eventsRequest.enqueue(object : Callback<List<EventX>> {
             override fun onResponse(call: Call<List<EventX>>, response: Response<List<EventX>>) {
                 eventsList.value = response.body()
+                registerDatesInEventsMap()
                 showLoading.value = false
             }
 
@@ -75,7 +76,7 @@ class EventsCalendarViewModel : ViewModel(), AuthenticatedViewModel {
     fun registerDatesInEventsMap() {
         for (event : EventX in eventsList.value.orEmpty()) {
             val date = calendarDayFromEvent(event)
-
+            dateToEventStore[date] = event
         }
     }
 }

@@ -20,7 +20,7 @@ import com.sortabletableview.recyclerview.TableDataColumnAdapterDelegator
 import com.sortabletableview.recyclerview.model.TableColumnWeightModel
 import com.sortabletableview.recyclerview.toolkit.*
 import com.uqcs.mobile.R
-import com.uqcs.mobile.Helpers.Util
+import com.uqcs.mobile.common.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.data.classes.Member
 import com.uqcs.mobile.tableview.MemberComparator
