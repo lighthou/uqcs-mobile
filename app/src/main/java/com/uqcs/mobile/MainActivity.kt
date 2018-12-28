@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.uqcs.mobile.fragments.CalendarFragment
 import com.uqcs.mobile.features.documentation.DocumentationFragmentX
+import com.uqcs.mobile.features.eventscalendar.EventsCalendarFragment
 import com.uqcs.mobile.features.memberslist.MembersListFragmentX
 import com.uqcs.mobile.fragments.MembersListFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         var frag: Fragment? = null
         // init corresponding fragment
         when (item.itemId) {
-            R.id.menu_calendar -> frag = CalendarFragment.newInstance()
+            R.id.menu_calendar -> frag = EventsCalendarFragment.newInstance()
             R.id.menu_members -> frag = MembersListFragmentX.newInstance()
             R.id.menu_docs -> frag = DocumentationFragmentX.newInstance()
         }

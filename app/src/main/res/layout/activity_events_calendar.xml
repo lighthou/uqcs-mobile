@@ -8,6 +8,15 @@
         tools:context=".MainActivity">
     <include layout="@layout/loading_overlay"/>
 
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/events_calendar_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,8 +27,7 @@
             android:padding="10dp"
             android:fontFamily="@font/open_sans_light"
             android:background="@drawable/event_calendar_background"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleText"
+            app:layout_constraintTop_toBottomOf="@id/events_calendar_toolbar"
             app:mcv_headerTextAppearance="@style/CustomTextAppearance"
             app:mcv_weekDayTextAppearance="@style/CustomTextAppearance"
             app:mcv_showOtherDates="all"
@@ -45,7 +53,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dateText"
-            app:layout_constraintBottom_toTopOf="@id/addEventButton">
+            app:layout_constraintBottom_toBottomOf="parent">
             <TextView
                     android:id="@+id/eventName"
                     android:layout_width="0dp"
@@ -72,18 +80,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-    <Button
-            android:id="@+id/addEventButton"
-            android:layout_width="150dp"
-            android:layout_height="35dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/uqcs_button"
-            android:text="@string/add_event"
-            android:fontFamily="@font/open_sans_semibold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
     
 </androidx.constraintlayout.widget.ConstraintLayout>

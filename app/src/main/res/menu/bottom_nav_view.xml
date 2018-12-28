@@ -3,16 +3,16 @@
     <item
             android:id="@+id/menu_calendar"
             android:title="@string/events_calendar_title"
-            android:icon="@drawable/ic_events_calendar"
+            android:icon="@drawable/ic_calendar"
             />
     <item
             android:id="@+id/menu_members"
             android:title="@string/view_members_list"
-            android:icon="@drawable/ic_membericon"
+            android:icon="@drawable/ic_person"
             />
 
     <item
             android:id="@+id/menu_docs"
             android:title="@string/view_docs"
-            android:icon="@drawable/ic_docs"/>
+            android:icon="@drawable/ic_documentation"/>
 </menu>

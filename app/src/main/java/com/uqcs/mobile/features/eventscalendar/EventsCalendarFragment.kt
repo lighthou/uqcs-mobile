@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -25,7 +27,9 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
 
     private lateinit var viewModel : EventsCalendarViewModel
     private var eventsList : MutableList<EventX> = mutableListOf()
-    private lateinit var selectedEvent : EventX
+    private var selectedEvent : EventX? = null
+    private lateinit var datesToDecorate : MutableList<CalendarDay>
+    private var displayedText : String = ""
 
     companion object {
         fun newInstance(): EventsCalendarFragment {
@@ -38,21 +42,40 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
         setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(this).get(EventsCalendarViewModel::class.java)
 
-        progress_overlay.loading_text.text = getString(R.string.fetching_members)
 
         setUpObservers()
+        registerServerCredentials()
 
         viewModel.getEventsListFromServer() //TODO do here or on viewmodel init?
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         menu?.clear()
-        inflater?.inflate(R.menu.members_list_toolbar_menu, menu)
+        inflater?.inflate(R.menu.events_calendar_toolbar_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_add_event -> {
+                Toast.makeText(context!!, "Not implemented", Toast.LENGTH_LONG).show()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progress_overlay.loading_text.text = getString(R.string.fetching_events)
+
+        events_calendar_toolbar.title = ""
+        (activity as AppCompatActivity).setSupportActionBar(events_calendar_toolbar)
+
         calendarView.setOnDateChangedListener(this)
         //Set calendar to current date.
         calendarView.setSelectedDate(LocalDate.now())
@@ -85,15 +108,24 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
 
     private fun showEventDetailsDialog(v : View) {
         val dialog = EventXCalendarDetailsDialog(
-            activity as Activity,
-            selectedEvent
+            activity!!,
+            selectedEvent!!
         )
         dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
 
     private fun updateUiByDate(date : CalendarDay) {
-
+        dateText.text = resources.getString(
+            R.string.date_format,
+            Util.monthNumberToName(date.month - 1), date.day,date.year)
+        if (selectedEvent != null) {
+            eventName.text = displayedText
+            eventDetailsButton.visibility = View.VISIBLE
+        } else {
+            eventName.text = getString(R.string.no_events)
+            eventDetailsButton.visibility = View.GONE
+        }
     }
 
     private fun setUpObservers() {
@@ -106,8 +138,21 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
             updateUiByDate(selectedDate)
         })
 
+        viewModel.selectedEvent.observe(this, Observer<EventX?> { selectedEvent ->
+            this.selectedEvent = selectedEvent
+        })
+
         viewModel.showLoading.observe(this, Observer<Boolean> { shouldShowLoading ->
             if (shouldShowLoading) showLoadingOverlay() else hideLoadingOverlay()
+        })
+
+        viewModel.displayedText.observe(this, Observer<String> { text ->
+            this.displayedText = text
+        })
+
+        viewModel.datesToDecorate.observe(this, Observer<Set<CalendarDay>> { days ->
+            calendarView.addDecorator(EventDecorator(days, context!!))
+            calendarView.invalidateDecorators()
         })
     }
 

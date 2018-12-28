@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_events_calendar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,8 +22,12 @@ class EventsCalendarViewModel : ViewModel(), AuthenticatedViewModel {
     var showLoading : MutableLiveData<Boolean> = MutableLiveData()
     var eventsList : MutableLiveData<List<EventX>> = MutableLiveData()
     var selectedDate : MutableLiveData<CalendarDay> = MutableLiveData()
-    var selectedEvent : MutableLiveData<EventX> = MutableLiveData()
+    var selectedEvent : MutableLiveData<EventX?> = MutableLiveData()
+    var displayedText : MutableLiveData<String> = MutableLiveData()
+    var displayShowDetails : MutableLiveData<Boolean> = MutableLiveData()
     var dateToEventStore : MutableMap<CalendarDay, EventX> = mutableMapOf<CalendarDay, EventX>()
+    var datesToDecorate : MutableLiveData<Set<CalendarDay>> = MutableLiveData()
+
 
     fun getEventsListFromServer() { //TODO Should this call be in the viewmodel or the view
         showLoading.value = true
@@ -55,17 +60,13 @@ class EventsCalendarViewModel : ViewModel(), AuthenticatedViewModel {
     }
 
     fun onDateSelected(date : CalendarDay) {
-//        dateText.text = resources.getString(
-//            R.string.date_format,
-//            Util.monthNumberToName(date.month - 1), date.day,date.year)
-//        if (eventsMap.containsKey(date)) {
-//            eventName.text = eventsMap[date]?.summary
-//            eventDetailsButton.visibility = View.VISIBLE
-//        } else {
-//            eventName.text = getString(R.string.no_events)
-//            eventDetailsButton.visibility = View.GONE
-//        }
-//        currentlySelectedDate = date
+        if (dateToEventStore.containsKey(date)) {
+            displayedText.value = dateToEventStore[date]?.summary
+            selectedEvent.value = dateToEventStore[date]
+        } else {
+            selectedEvent.value = null
+        }
+        selectedDate.value = date
     }
 
     fun initialCalendarSetUp() {
@@ -75,8 +76,13 @@ class EventsCalendarViewModel : ViewModel(), AuthenticatedViewModel {
 
     fun registerDatesInEventsMap() {
         for (event : EventX in eventsList.value.orEmpty()) {
-            val date = calendarDayFromEvent(event)
-            dateToEventStore[date] = event
+            try {
+                val date = calendarDayFromEvent(event)
+                dateToEventStore[date] = event
+            } catch (e : Exception) {
+                Log.i("Error Parsing Event", event.summary)
+            }
         }
+        datesToDecorate.value = dateToEventStore.keys
     }
 }
