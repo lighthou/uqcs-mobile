@@ -9,7 +9,7 @@ import okhttp3.OkHttpClient
 
 object ServiceGenerator {
 
-    val API_BASE_URL = "http://www.ryankurz.me"
+    private const val API_BASE_URL = "http://www.ryankurz.me"
 
     private val httpClient = OkHttpClient.Builder()
 
