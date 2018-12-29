@@ -26,11 +26,11 @@ class DocumentationStore(private val documentationDictionary : JSONObject) {
         return Lists.newArrayList(tempDictionary.keys())
     }
 
-    fun getFileByName(filename : String) {
-        getFileHelper(documentationDictionary, filename, mutableListOf())
+    fun getFileByName(filename : String) : Pair<MutableList<String>, String>? {
+        return getFileHelper(documentationDictionary, filename, mutableListOf())
     }
 
-    private fun getFileHelper(tempDictionary: JSONObject, filename: String, keyState : MutableList<String>) : Pair<List<String>, String>? {
+    private fun getFileHelper(tempDictionary: JSONObject, filename: String, keyState : MutableList<String>) : Pair<MutableList<String>, String>? {
         for (key : String in tempDictionary.keys()) {
             val newKeyState = mutableListOf<String>()
             newKeyState.addAll(keyState)
@@ -46,11 +46,11 @@ class DocumentationStore(private val documentationDictionary : JSONObject) {
         return null
     }
 
-    fun getListByDirectoryName(directoryName: String) {
-        getListHelper(documentationDictionary, directoryName, mutableListOf())
+    fun getListByDirectoryName(directoryName: String) : Pair<MutableList<String>, MutableList<String>>? {
+        return getListHelper(documentationDictionary, directoryName, mutableListOf())
     }
 
-    private fun getListHelper(tempDictionary: JSONObject, directoryName: String, keyState : MutableList<String>) : Pair<List<String>, List<String>>? {
+    private fun getListHelper(tempDictionary: JSONObject, directoryName: String, keyState : MutableList<String>) : Pair<MutableList<String>, MutableList<String>>? {
         for (key : String in tempDictionary.keys()) {
             val newKeyState = mutableListOf<String>()
             newKeyState.addAll(keyState)
@@ -75,7 +75,7 @@ class DocumentationStore(private val documentationDictionary : JSONObject) {
 
     private fun searchQueryHelper(currentDic : JSONObject, returnList: MutableList<String>, queryText : String) {
         for (key : String in currentDic.keys()) {
-            if (queryText in key) returnList.add(key)
+            if (queryText.toLowerCase() in key.toLowerCase()) returnList.add(key)
             if (!key.endsWith(".md")) {
                 searchQueryHelper(currentDic.getJSONObject(key), returnList, queryText)
             }

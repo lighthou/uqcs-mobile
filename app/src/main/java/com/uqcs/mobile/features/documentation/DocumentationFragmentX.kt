@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.ListFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -30,6 +31,7 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
     private lateinit var builder : AlertDialog.Builder
     private lateinit var uneditedText : String
 
+    private var searching = false
     private var myState : DocumentationState = DocumentationState.INITIAL
     private var fileHasBeenEdited : Boolean = false
     private var listItems = mutableListOf<String>()
@@ -62,7 +64,7 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
 
         list.onItemClickListener = AdapterView.OnItemClickListener { parent, _, position, _ ->
             val selectedItem = parent.getItemAtPosition(position) as String
-            viewModel.onListItemSelected(selectedItem)
+            viewModel.onListItemSelected(selectedItem, searching)
         }
 
         val dialogClickListener = DialogInterface.OnClickListener { dialog, item ->
@@ -154,6 +156,7 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
 
     private fun updateToolbar(menu : Menu) {
         setToolbarIconVisibility(menu)
+        setSearchTextChangedListener(menu)
         if (myState == DocumentationState.INITIAL) {
             documentation_toolbar.navigationIcon = null
         } else {
@@ -162,6 +165,36 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
             documentation_toolbar.setNavigationOnClickListener {
                 if (fileHasBeenEdited) builder.show() else viewModel.onBackPressed()
             }
+        }
+    }
+
+    private fun setSearchTextChangedListener(menu : Menu) {
+        val myActionMenuItem = menu.findItem(R.id.action_search)
+        myActionMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                viewModel.search("")
+                searching = true
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                searching = false
+                return true
+            }
+        })
+
+        if (myActionMenuItem.actionView != null) {
+            val searchView = (myActionMenuItem.actionView as SearchView)
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(s: String): Boolean {
+                    if (s != "") viewModel.search(s)
+                    return false
+                }
+            })
         }
     }
 

@@ -36,6 +36,7 @@ class DocumentationViewModel : ViewModel(), AuthenticatedViewModel {
                 sb.append(key)
                 sb.append('/')
             }
+
             titleText.setValue(sb.toString())
         }
     }
@@ -89,16 +90,32 @@ class DocumentationViewModel : ViewModel(), AuthenticatedViewModel {
         updateTitleText()
     }
 
-    fun onListItemSelected(selectedItem : String) {
-        stateKeys.add(selectedItem)
-        if (selectedItem.endsWith(".md")) {
-            screenState.value = VIEW_FILE
-            val fileText = documentationStore.getFileTextByKeys(stateKeys)
-            textData.setValue(fileText)
+    fun onListItemSelected(selectedItem : String, searching : Boolean) {
+        if (searching) {
+            if (selectedItem.endsWith(".md")) {
+                screenState.value = VIEW_FILE
+                val textAndState = documentationStore.getFileByName(selectedItem)
+                stateKeys = textAndState?.first!!
+                stateKeys.add(selectedItem)
+                textData.value = textAndState.second
+            } else {
+                screenState.value = LIST
+                val listAndState = documentationStore.getListByDirectoryName(selectedItem)
+                stateKeys = listAndState!!.first
+                stateKeys.add(selectedItem)
+                listItems.value = listAndState.second
+            }
         } else {
-            screenState.value = LIST
-            val newList = documentationStore.getListByKeys(stateKeys)
-            listItems.setValue(newList)
+            stateKeys.add(selectedItem)
+            if (selectedItem.endsWith(".md")) {
+                screenState.value = VIEW_FILE
+                val fileText = documentationStore.getFileTextByKeys(stateKeys)
+                textData.setValue(fileText)
+            } else {
+                screenState.value = LIST
+                val newList = documentationStore.getListByKeys(stateKeys)
+                listItems.setValue(newList)
+            }
         }
         updateTitleText()
     }
