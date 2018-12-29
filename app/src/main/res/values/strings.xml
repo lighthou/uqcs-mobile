@@ -14,7 +14,7 @@
     <string name="events_calendar_title">Events Calendar</string>
     <string name="view_details">View Details</string>
     <string name="no_events">No Event Selected</string>
-    <string name="fetching_events">Fetching Events...</string>
+    <string name="fetching_events">Fetching Events…</string>
 
     <!-- Events Details -->
     <string name="events_details_title"> Events Details</string>
@@ -26,20 +26,20 @@
 
 
     <!-- Members List -->
-    <string name="fetching_members">Fetching Members...</string>
+    <string name="fetching_members">Fetching Members…</string>
 
 
     <!-- Sign In -->
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="login">Login</string>
-
+    <string name="authenticating">Authenticating…</string>
 
     <!-- Misc -->
-    <string name="loading_text">Loading...</string>
+    <string name="loading_text">Loading…</string>
     <string name="uqcs_logo_content_desc">Uqcs logo</string>
 
     <!-- Documentation -->
-    <string name="fetching_documentation">Fetching Documentation...</string>
-    <string name="editing">Editing...</string>
+    <string name="fetching_documentation">Fetching Documentation…</string>
+    <string name="editing">Editing…</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.uqcs.mobile.features.memberslist
 
 import com.sortabletableview.recyclerview.toolkit.SimpleTableDataColumnAdapter
-import com.uqcs.mobile.data.classes.Member
 
 class MemberXStringValueExtractor {
 

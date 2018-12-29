@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.uqcs.mobile.fragments.CalendarFragment
 import com.uqcs.mobile.features.documentation.DocumentationFragmentX
 import com.uqcs.mobile.features.eventscalendar.EventsCalendarFragment
 import com.uqcs.mobile.features.memberslist.MembersListFragmentX
-import com.uqcs.mobile.fragments.MembersListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
