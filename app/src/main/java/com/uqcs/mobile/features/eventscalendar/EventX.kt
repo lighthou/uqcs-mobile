@@ -2,7 +2,7 @@ package com.uqcs.mobile.features.eventscalendar
 
 import com.google.gson.annotations.SerializedName
 
-class EventX (
+data class EventX (
     @SerializedName("description") val description : String,
     @SerializedName("location") val location : String,
     @SerializedName("start") val start : Start,

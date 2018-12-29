@@ -7,6 +7,7 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
 import com.uqcs.mobile.R
 import kotlinx.android.synthetic.main.loading_overlay.view.*
 
@@ -43,6 +44,18 @@ class Util {
                         view.visibility = toVisibility
                     }
                 })
+        }
+
+        fun closeKeyboardIfPresent(context : Context, focus : View?) {
+            focus?.let {
+                try {
+                    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(it.windowToken, 0)
+                } catch (e: Exception) {
+                    // Failed to hide keyboard. Doesn't matter.
+                }
+            }
+
         }
     }
 

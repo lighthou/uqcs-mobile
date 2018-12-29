@@ -19,6 +19,9 @@ interface Webserver {
     @GET("/docs")
     fun fetchDocumentation() : Call<ResponseBody>
 
+    @GET("sign_in")
+    fun signIn() : Call<ResponseBody>
+
     @POST("/docs")
     fun updateDocumentation(
         @Field("file_name") fileName : String,

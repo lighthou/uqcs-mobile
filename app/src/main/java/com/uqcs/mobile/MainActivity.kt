@@ -1,5 +1,7 @@
 package com.uqcs.mobile
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +18,15 @@ class MainActivity : AppCompatActivity() {
     private var selectedMenuItem : Int? = null
     var username : String = ""
     var password : String = ""
+
+    companion object {
+        fun getIntent(context : Context, username : String, password : String) : Intent {
+            val homeIntent = Intent(context, MainActivity::class.java)
+            homeIntent.putExtra("USERNAME", username)
+            homeIntent.putExtra("PASSWORD", password)
+            return homeIntent
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

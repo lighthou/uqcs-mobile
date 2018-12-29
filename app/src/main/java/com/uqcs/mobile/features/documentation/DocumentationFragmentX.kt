@@ -74,7 +74,6 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
                     Markwon.setMarkdown(markdown_view, uneditedText)
                     edit_view.setText(uneditedText)
                     viewModel.onBackPressed()
-                    //updateListAndToolbar()
                 }
 
                 DialogInterface.BUTTON_NEGATIVE -> {}

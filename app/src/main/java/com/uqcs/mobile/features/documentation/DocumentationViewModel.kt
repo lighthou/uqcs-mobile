@@ -2,6 +2,7 @@ package com.uqcs.mobile.features.documentation
 
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.uqcs.mobile.common.ServiceGenerator
@@ -14,6 +15,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 class DocumentationViewModel : ViewModel(), AuthenticatedViewModel {
 
@@ -47,10 +49,14 @@ class DocumentationViewModel : ViewModel(), AuthenticatedViewModel {
 
         documentationRequests.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                try {
+                    documentationStore =
+                            DocumentationStore(JSONObject(response.body()?.string()))
+                    listItems.value = documentationStore.getInitialState()
 
-                documentationStore =
-                        DocumentationStore(JSONObject(response.body()?.string()))
-                listItems.value = documentationStore.getInitialState()
+                } catch (e : Exception) {
+                    //Failed to parse response
+                }
                 showLoading.value = false
             }
 
