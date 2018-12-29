@@ -3,6 +3,13 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+            android:id="@+id/edit_item"
+            android:title="Edit"
+            android:icon="@drawable/ic_mode_edit"
+            app:showAsAction="always"
+            />
+
+    <item
             android:id="@+id/action_add_event"
             android:icon="@drawable/ic_add"
             app:showAsAction="always"
@@ -11,7 +18,7 @@
     <item
             android:id="@+id/action_search"
             android:icon="@drawable/ic_search"
-            app:showAsAction="ifRoom|collapseActionView"
+            app:showAsAction="always|collapseActionView"
             app:actionViewClass="androidx.appcompat.widget.SearchView"
             android:title="Search"/>
 

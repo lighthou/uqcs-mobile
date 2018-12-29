@@ -4,14 +4,12 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.uqcs.mobile.common.AuthenticatedViewModel
 import com.uqcs.mobile.common.ServiceGenerator
 import com.uqcs.mobile.common.Webserver
-import com.uqcs.mobile.common.AuthenticatedViewModel
-import kotlinx.android.synthetic.main.activity_events_calendar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,8 +22,7 @@ class EventsCalendarViewModel : ViewModel(), AuthenticatedViewModel {
     var selectedDate : MutableLiveData<CalendarDay> = MutableLiveData()
     var selectedEvent : MutableLiveData<EventX?> = MutableLiveData()
     var displayedText : MutableLiveData<String> = MutableLiveData()
-    var displayShowDetails : MutableLiveData<Boolean> = MutableLiveData()
-    var dateToEventStore : MutableMap<CalendarDay, EventX> = mutableMapOf<CalendarDay, EventX>()
+    private var dateToEventStore : MutableMap<CalendarDay, EventX> = mutableMapOf()
     var datesToDecorate : MutableLiveData<Set<CalendarDay>> = MutableLiveData()
 
 

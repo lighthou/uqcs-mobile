@@ -47,6 +47,7 @@ class DocumentationViewModel : ViewModel(), AuthenticatedViewModel {
 
         documentationRequests.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
                 documentationStore =
                         DocumentationStore(JSONObject(response.body()?.string()))
                 listItems.value = documentationStore.getInitialState()

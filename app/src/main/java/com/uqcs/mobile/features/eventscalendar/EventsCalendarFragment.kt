@@ -1,6 +1,5 @@
 package com.uqcs.mobile.features.eventscalendar
 
-import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -13,10 +12,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
-import com.uqcs.mobile.common.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
 import com.uqcs.mobile.common.AuthenticatedFragment
+import com.uqcs.mobile.common.Util
 import kotlinx.android.synthetic.main.activity_events_calendar.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
@@ -28,7 +27,6 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
     private lateinit var viewModel : EventsCalendarViewModel
     private var eventsList : MutableList<EventX> = mutableListOf()
     private var selectedEvent : EventX? = null
-    private lateinit var datesToDecorate : MutableList<CalendarDay>
     private var displayedText : String = ""
 
     companion object {
@@ -68,7 +66,6 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
         }
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         progress_overlay.loading_text.text = getString(R.string.fetching_events)
@@ -81,8 +78,8 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
         calendarView.setSelectedDate(LocalDate.now())
         viewModel.initialCalendarSetUp()
 
-        eventDetailsButton.setOnClickListener { v ->
-            showEventDetailsDialog(v)
+        eventDetailsButton.setOnClickListener {
+            showEventDetailsDialog()
         }
     }
 
@@ -100,18 +97,12 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
         viewModel.onDateSelected(date)
     }
 
-    private fun addEventToCalendar(day : CalendarDay) {
-        val calendarDays : MutableList<CalendarDay> = mutableListOf()
-        calendarDays.add(day)
-        calendarView.addDecorator(EventDecorator(calendarDays, context!!))
-    }
-
-    private fun showEventDetailsDialog(v : View) {
+    private fun showEventDetailsDialog() {
         val dialog = EventXCalendarDetailsDialog(
             activity!!,
             selectedEvent!!
         )
-        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
 
@@ -121,9 +112,11 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
             Util.monthNumberToName(date.month - 1), date.day,date.year)
         if (selectedEvent != null) {
             eventName.text = displayedText
+            events_calendar_toolbar.title = displayedText
             eventDetailsButton.visibility = View.VISIBLE
         } else {
             eventName.text = getString(R.string.no_events)
+            events_calendar_toolbar.title = getString(R.string.no_events)
             eventDetailsButton.visibility = View.GONE
         }
     }
@@ -138,7 +131,7 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
             updateUiByDate(selectedDate)
         })
 
-        viewModel.selectedEvent.observe(this, Observer<EventX?> { selectedEvent ->
+        viewModel.selectedEvent.observe(this, Observer { selectedEvent ->
             this.selectedEvent = selectedEvent
         })
 

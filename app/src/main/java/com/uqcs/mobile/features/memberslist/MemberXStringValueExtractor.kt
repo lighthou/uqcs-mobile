@@ -7,19 +7,19 @@ class MemberXStringValueExtractor {
 
     companion object {
         fun forFirstName(): SimpleTableDataColumnAdapter.StringValueExtractor<MemberX> {
-            return SimpleTableDataColumnAdapter.StringValueExtractor<MemberX> { member -> member.firstName }
+            return SimpleTableDataColumnAdapter.StringValueExtractor { member -> member.firstName }
         }
 
         fun forLastName(): SimpleTableDataColumnAdapter.StringValueExtractor<MemberX> {
-            return SimpleTableDataColumnAdapter.StringValueExtractor<MemberX> { member -> member.lastName }
+            return SimpleTableDataColumnAdapter.StringValueExtractor { member -> member.lastName }
         }
 
         fun forEmail(): SimpleTableDataColumnAdapter.StringValueExtractor<MemberX> {
-            return SimpleTableDataColumnAdapter.StringValueExtractor<MemberX> { member -> member.email }
+            return SimpleTableDataColumnAdapter.StringValueExtractor { member -> member.email }
         }
 
         fun forPaid(): SimpleTableDataColumnAdapter.StringValueExtractor<MemberX> {
-            return SimpleTableDataColumnAdapter.StringValueExtractor<MemberX> { member -> member.paid.toString() }
+            return SimpleTableDataColumnAdapter.StringValueExtractor { member -> member.paid.toString() }
         }
     }
 }

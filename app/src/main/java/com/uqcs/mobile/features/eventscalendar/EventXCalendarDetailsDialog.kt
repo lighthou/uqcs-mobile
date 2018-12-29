@@ -6,11 +6,10 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.Window
 import com.uqcs.mobile.R
-import com.uqcs.mobile.data.classes.Event
 import kotlinx.android.synthetic.main.event_details_layout.*
 
 
-class EventXCalendarDetailsDialog(private var activity: Activity, private var event: EventX) : Dialog(activity) {
+class EventXCalendarDetailsDialog(activity: Activity, private var event: EventX) : Dialog(activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

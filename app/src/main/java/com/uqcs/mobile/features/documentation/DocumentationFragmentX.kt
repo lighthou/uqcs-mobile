@@ -67,7 +67,7 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
             viewModel.onListItemSelected(selectedItem, searching)
         }
 
-        val dialogClickListener = DialogInterface.OnClickListener { dialog, item ->
+        val dialogClickListener = DialogInterface.OnClickListener { _, item ->
             when (item) {
                 DialogInterface.BUTTON_POSITIVE -> {
                     fileHasBeenEdited = false
@@ -83,8 +83,8 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
 
         builder = AlertDialog.Builder(context!!)
         builder.setTitle("Confirm Cancel")
-        builder.setMessage("Clear all changes?").setPositiveButton("Yes", dialogClickListener)
-            .setNegativeButton("No", dialogClickListener)
+        builder.setMessage("Discard changes?").setPositiveButton("Discard", dialogClickListener)
+            .setNegativeButton("Cancel", dialogClickListener)
 
 
         edit_view.addTextChangedListener(object : TextWatcher {
@@ -126,7 +126,7 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
             }
             R.id.save -> {
                 val dialog = DocumentationCommitDialog(activity!!)
-                dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.show()
                 true
             }
@@ -160,8 +160,8 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
         if (myState == DocumentationState.INITIAL) {
             documentation_toolbar.navigationIcon = null
         } else {
-            documentation_toolbar.setNavigationIcon(if (fileHasBeenEdited) R.drawable.abc_ic_clear_material else
-                                                                           R.drawable.abc_ic_ab_back_material)
+            documentation_toolbar.setNavigationIcon(if (fileHasBeenEdited) R.drawable.ic_clear else
+                                                                           R.drawable.ic_arrow_back)
             documentation_toolbar.setNavigationOnClickListener {
                 if (fileHasBeenEdited) builder.show() else viewModel.onBackPressed()
             }

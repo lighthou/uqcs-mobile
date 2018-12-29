@@ -2,7 +2,7 @@
     <string name="app_name">UQCS</string>
 
     <!-- Home Page -->
-    <string name="view_members_list">Members list</string>
+    <string name="view_members_list">Members</string>
     <string name="view_docs">Documentation</string>
     <string name="uqcs_full_name">The University of Queensland Computing Society</string>
     <string name="calendar">Calender</string>
@@ -13,7 +13,7 @@
     <string name="add_event">Add event</string>
     <string name="events_calendar_title">Events Calendar</string>
     <string name="view_details">View Details</string>
-    <string name="no_events">No Events</string>
+    <string name="no_events">No Event Selected</string>
     <string name="fetching_events">Fetching Events...</string>
 
     <!-- Events Details -->
