@@ -1,9 +1,7 @@
 package com.uqcs.mobile
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.uqcs.mobile.common.ServiceGenerator
@@ -27,15 +25,17 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
         progress_overlay.loading_text.text = getString(R.string.authenticating)
+
+        btn_login.setOnClickListener {
+            Util.animateView(this, progress_overlay, View.VISIBLE, 0.8f, 200)
+            registerCredentials()
+            Util.closeKeyboardIfPresent(this@SignInActivity, currentFocus)
+            checkSignIn()
+        }
     }
 
-    fun login(v: View) {
-        Util.animateView(this, progress_overlay, View.VISIBLE, 0.8f, 200)
-        registerCredentials()
+    private fun checkSignIn() {
         val loginRequest : Call<ResponseBody> = webserver.signIn()
-
-        Util.closeKeyboardIfPresent(this@SignInActivity, currentFocus)
-
         loginRequest.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {
                 Util.animateView(this@SignInActivity , progress_overlay, View.GONE, 0.8f, 200)
@@ -54,8 +54,6 @@ class SignInActivity : AppCompatActivity() {
             }
 
         })
-
-
     }
 
     private fun registerCredentials() {

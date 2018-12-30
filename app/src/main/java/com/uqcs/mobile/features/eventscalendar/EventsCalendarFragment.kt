@@ -78,9 +78,7 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
         calendarView.setSelectedDate(LocalDate.now())
         viewModel.initialCalendarSetUp()
 
-        eventDetailsButton.setOnClickListener {
-            showEventDetailsDialog()
-        }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -110,15 +108,7 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
         dateText.text = resources.getString(
             R.string.date_format,
             Util.monthNumberToName(date.month - 1), date.day,date.year)
-        if (selectedEvent != null) {
-            eventName.text = displayedText
-            events_calendar_toolbar.title = displayedText
-            eventDetailsButton.visibility = View.VISIBLE
-        } else {
-            eventName.text = getString(R.string.no_events)
-            events_calendar_toolbar.title = getString(R.string.no_events)
-            eventDetailsButton.visibility = View.GONE
-        }
+        events_calendar_toolbar.title = if (selectedEvent != null) displayedText else getString(R.string.no_events)
     }
 
     private fun setUpObservers() {

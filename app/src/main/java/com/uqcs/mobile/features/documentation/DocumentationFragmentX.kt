@@ -82,7 +82,8 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
 
         builder = AlertDialog.Builder(context!!)
         builder.setTitle("Confirm Cancel")
-        builder.setMessage("Discard changes?").setPositiveButton("Discard", dialogClickListener)
+        builder.setMessage("Discard changes?")
+            .setPositiveButton("Discard", dialogClickListener)
             .setNegativeButton("Cancel", dialogClickListener)
 
 
@@ -210,6 +211,7 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
                 edit_view.visibility = View.GONE
             }
             DocumentationState.VIEW_FILE -> {
+                Util.closeKeyboardIfPresent(context!!, activity?.currentFocus)
                 markdown_view.visibility = View.VISIBLE
                 list.visibility = View.GONE
                 edit_view.visibility = View.GONE
