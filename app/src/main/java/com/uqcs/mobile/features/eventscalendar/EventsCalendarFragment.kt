@@ -50,6 +50,7 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         menu?.clear()
         inflater?.inflate(R.menu.events_calendar_toolbar_menu, menu)
+        menu?.findItem(R.id.view_event_details)?.isVisible = selectedEvent != null
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -58,6 +59,10 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
         return when (item.itemId) {
             R.id.action_add_event -> {
                 Toast.makeText(context!!, "Not implemented", Toast.LENGTH_LONG).show()
+                true
+            }
+            R.id.view_event_details -> {
+                showEventDetailsDialog()
                 true
             }
             else -> {
@@ -109,6 +114,7 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
             R.string.date_format,
             Util.monthNumberToName(date.month - 1), date.day,date.year)
         events_calendar_toolbar.title = if (selectedEvent != null) displayedText else getString(R.string.no_events)
+        activity?.invalidateOptionsMenu()
     }
 
     private fun setUpObservers() {

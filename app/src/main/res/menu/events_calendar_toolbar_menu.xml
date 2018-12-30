@@ -4,22 +4,22 @@
 
     <item
             android:id="@+id/edit_item"
-            android:title="Edit"
+            android:title="Edit Event"
             android:icon="@drawable/ic_mode_edit"
-            app:showAsAction="collapseActionView"
+            app:showAsAction="always"
+            android:visible="false"
+            />
+
+    <item
+            android:id="@+id/view_event_details"
+            android:title="View Details"
+            android:icon="@drawable/ic_remove_red_eye"
+            app:showAsAction="always"
             />
 
     <item
             android:id="@+id/action_add_event"
             android:icon="@drawable/ic_add"
-            app:showAsAction="collapseActionView"
+            app:showAsAction="always"
             android:title="Add"/>
-
-    <item
-            android:id="@+id/action_search"
-            android:icon="@drawable/ic_search"
-            app:showAsAction="collapseActionView"
-            app:actionViewClass="androidx.appcompat.widget.SearchView"
-            android:title="Search"/>
-
 </menu>
