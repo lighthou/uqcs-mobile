@@ -1,7 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/body_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+                  android:id="@+id/body_input"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:inputType="textCapSentences|textMultiLine"
+                  android:hint="Body"
+                  android:maxLines="6"
+                  android:scrollbars="vertical"
+                  android:autofillHints="@string/username"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/body_input_layout"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/slack_preview_background"/>
+
+        <TextView
+                android:id="@+id/body_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:fontFamily="@font/open_sans_regular"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="20dp"/>
+
+
+
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
