@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
             android:id="@+id/menu_calendar"
             android:title="@string/events_calendar_title"
             android:icon="@drawable/ic_calendar"
             />
+
+    <item
+            android:id="@+id/menu_announcements"
+            android:title="Post"
+            android:icon="@drawable/ic_announcement"/>
+
     <item
             android:id="@+id/menu_members"
             android:title="@string/view_members_list"
@@ -15,4 +22,5 @@
             android:id="@+id/menu_docs"
             android:title="@string/view_docs"
             android:icon="@drawable/ic_documentation"/>
+
 </menu>

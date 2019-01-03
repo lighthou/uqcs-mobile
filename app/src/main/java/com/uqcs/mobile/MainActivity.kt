@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.uqcs.mobile.features.announcements.AnnouncementFragment
 import com.uqcs.mobile.features.documentation.DocumentationFragmentX
 import com.uqcs.mobile.features.eventscalendar.EventsCalendarFragment
 import com.uqcs.mobile.features.memberslist.MembersListFragmentX
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_calendar -> frag = EventsCalendarFragment.newInstance()
             R.id.menu_members -> frag = MembersListFragmentX.newInstance()
             R.id.menu_docs -> frag = DocumentationFragmentX.newInstance()
+            R.id.menu_announcements -> frag = AnnouncementFragment.newInstance()
         }
 
         // update selected item

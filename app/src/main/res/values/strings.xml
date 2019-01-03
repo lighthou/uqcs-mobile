@@ -3,7 +3,7 @@
 
     <!-- Home Page -->
     <string name="view_members_list">Members</string>
-    <string name="view_docs">Documentation</string>
+    <string name="view_docs">Documents</string>
     <string name="uqcs_full_name">The University of Queensland Computing Society</string>
     <string name="calendar">Calender</string>
 
@@ -11,7 +11,7 @@
     <!-- Events Calendar -->
     <string name="date_format">%s %d, %d</string>
     <string name="add_event">Add event</string>
-    <string name="events_calendar_title">Events Calendar</string>
+    <string name="events_calendar_title">Events</string>
     <string name="view_details">View Details</string>
     <string name="no_events">No Event Selected</string>
     <string name="fetching_events">Fetching Events…</string>
