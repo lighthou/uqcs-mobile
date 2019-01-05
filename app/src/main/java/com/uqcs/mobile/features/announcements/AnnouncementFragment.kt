@@ -29,6 +29,14 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpTextChangeListener()
+
+        val list = mutableListOf<String>("#committee", "#general", "#events")
+        spinner.setItems(list)
+        val spinneritems = spinner.selectedItemsAsString
+    }
+
+    fun setUpTextChangeListener() {
         body_input.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 var sb = StringBuilder()
