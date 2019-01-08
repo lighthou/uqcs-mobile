@@ -20,12 +20,12 @@
 
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/body_input"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:inputType="textCapSentences|textMultiLine"
                     android:hint="Body"
-                    android:maxLines="4"
+                    android:maxLines="5"
                     android:scrollbars="vertical"
                     android:autofillHints="@string/username"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -46,11 +46,13 @@
 
             <TextView
                     android:id="@+id/body_preview"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="4"
+                    android:maxLines="5"
                     android:textColor="@color/black"
+                    android:scrollbars="vertical"
                     android:fontFamily="@font/open_sans_regular"
+
                     android:layout_marginStart="43dp"
                     android:layout_marginTop="20dp"/>
         </RelativeLayout>
