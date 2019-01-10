@@ -31,6 +31,10 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
 
         setUpTextChangeListener()
 
+        collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            collapse_region.visibility = if (isChecked) View.VISIBLE else View.GONE
+
+        }
         val list = mutableListOf<String>("#committee", "#general", "#events")
         spinner.setItems(list)
         val spinneritems = spinner.selectedItemsAsString
@@ -62,6 +66,10 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
 
     override fun registerServerCredentials() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun onCheckboxTicked() {
+
     }
 
 }
