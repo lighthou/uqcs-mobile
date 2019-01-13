@@ -28,9 +28,11 @@
                     />
 
             <TextView
+                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_regular"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:gravity="center"
                     android:text="Slack Announcement"/>
 
         </LinearLayout>
