@@ -41,7 +41,7 @@
                 android:id="@+id/collapse_region"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
+                android:visibility="">
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/body_input_layout"
@@ -109,7 +109,7 @@
                     android:id="@+id/spinner_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:background="@drawable/documentation_background"
                     app:layout_constraintTop_toBottomOf="@id/body_preview_layout"
                     app:layout_constraintRight_toRightOf="parent"
@@ -121,6 +121,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                 </com.uqcs.mobile.common.resources.MultiSelectionSpinner>
+
+
+
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
