@@ -159,6 +159,7 @@ class MembersListFragmentX : Fragment(), AuthenticatedFragment {
         viewModel.membersList.observe(this, Observer<List<MemberX>> { updatedList ->
             this.membersList.clear()
             this.membersList.addAll(updatedList)
+            members_list_toolbar.title = "Number of Members: ${membersList.size}"
             setUpTableView()
         })
 

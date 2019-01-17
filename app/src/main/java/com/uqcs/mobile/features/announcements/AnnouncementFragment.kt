@@ -33,6 +33,12 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
 
         collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
             collapse_region.visibility = if (isChecked) View.VISIBLE else View.GONE
+            if (isChecked && body_input.text?.toString()?.isEmpty()!!) body_input.text = fb_body_input.text
+        }
+
+        fb_collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            fb_collapse_region.visibility = if (isChecked) View.VISIBLE else View.GONE
+            if (isChecked && fb_body_input.text?.toString()?.isEmpty()!!) fb_body_input.text = body_input.text
 
         }
         val list = mutableListOf<String>("#committee", "#general", "#events")
@@ -40,7 +46,7 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
         val spinneritems = spinner.selectedItemsAsString
     }
 
-    fun setUpTextChangeListener() {
+    private fun setUpTextChangeListener() {
         body_input.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 var sb = StringBuilder()
@@ -56,7 +62,14 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
 
+        fb_body_input.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                fb_body_preview.text = s.toString()
+            }
         })
     }
 
