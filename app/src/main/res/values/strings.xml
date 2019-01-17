@@ -42,4 +42,10 @@
     <!-- Documentation -->
     <string name="fetching_documentation">Fetching Documentation…</string>
     <string name="editing">Editing…</string>
+
+    <!-- Announcements -->
+    <string name="slack_announcement">Slack Announcement</string>
+    <string name="body">Body</string>
+    <string name="channels">Channels :</string>
+
 </resources>

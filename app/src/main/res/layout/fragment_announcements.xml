@@ -28,12 +28,12 @@
                     />
 
             <TextView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_bold"
                     android:gravity="center"
-                    android:text="Slack Announcement"/>
+                    android:text="@string/slack_announcement"/>
 
         </LinearLayout>
 
@@ -41,7 +41,7 @@
                 android:id="@+id/collapse_region"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="">
+                android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/body_input_layout"
@@ -59,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:inputType="textCapSentences|textMultiLine"
-                        android:hint="Body"
+                        android:hint="@string/body"
                         android:maxLines="5"
                         android:scrollbars="vertical"
                         android:autofillHints="@string/username"/>
@@ -97,7 +97,7 @@
                     android:id="@+id/channel_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Channels : "
+                    android:text="@string/channels"
                     android:fontFamily="@font/open_sans_bold"
                     android:layout_margin="5dp"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -121,9 +121,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                 </com.uqcs.mobile.common.resources.MultiSelectionSpinner>
-
-
-
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

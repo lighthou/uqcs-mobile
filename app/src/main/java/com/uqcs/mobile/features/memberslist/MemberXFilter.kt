@@ -11,6 +11,7 @@ internal class MemberXFilter(private val query: String) : FilterHelper.Filter<Me
             member.lastName.toLowerCase().contains(queryLowerCase) -> true
             member.email.toLowerCase().contains(queryLowerCase) -> true
             member.paid.toString().contains(queryLowerCase) -> true
+            "${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}".contains(queryLowerCase) -> true
             else -> false
         }
     }
