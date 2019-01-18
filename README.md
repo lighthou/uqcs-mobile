@@ -12,6 +12,12 @@ The app uses [retrofit](https://github.com/square/retrofit) for REST API calls.
 
 # Running the app
 
+clone the repo.
+
+start it in android studio
+
+deploy to phone by running spp module
+
 
 # License
 
