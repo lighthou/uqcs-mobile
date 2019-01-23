@@ -14,7 +14,6 @@ import ru.noties.markwon.Markwon
 
 class AnnouncementFragment : Fragment(), AuthenticatedFragment {
 
-
     companion object {
         fun newInstance(): AnnouncementFragment {
             return AnnouncementFragment()
