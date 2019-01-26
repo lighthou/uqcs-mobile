@@ -16,7 +16,7 @@ import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
 import com.uqcs.mobile.common.AuthenticatedFragment
 import com.uqcs.mobile.common.Util
-import kotlinx.android.synthetic.main.activity_events_calendar.*
+import kotlinx.android.synthetic.main.fragment_events_calendar.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
 import org.threeten.bp.LocalDate
@@ -87,7 +87,7 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.activity_events_calendar, container, false)
+        return inflater.inflate(R.layout.fragment_events_calendar, container, false)
     }
 
     override fun registerServerCredentials() {

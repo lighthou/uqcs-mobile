@@ -19,7 +19,7 @@ import com.uqcs.mobile.common.Util
 import com.uqcs.mobile.MainActivity
 import com.uqcs.mobile.R
 import com.uqcs.mobile.common.AuthenticatedFragment
-import kotlinx.android.synthetic.main.activity_documentation.*
+import kotlinx.android.synthetic.main.fragment_documentation.*
 import kotlinx.android.synthetic.main.loading_overlay.*
 import kotlinx.android.synthetic.main.loading_overlay.view.*
 import ru.noties.markwon.Markwon
@@ -53,7 +53,7 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.activity_documentation, container, false)
+        return inflater.inflate(R.layout.fragment_documentation, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
