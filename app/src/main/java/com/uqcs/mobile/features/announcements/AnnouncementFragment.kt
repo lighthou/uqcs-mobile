@@ -31,18 +31,58 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
         setUpTextChangeListener()
 
         collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            collapse_region.visibility = if (isChecked) View.VISIBLE else View.GONE
+            if (isChecked) {
+                slack_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
+                collapse_region.visibility = View.VISIBLE
+            } else {
+                slack_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
+                collapse_region.visibility = View.GONE
+            }
             if (isChecked && body_input.text?.toString()?.isEmpty()!!) body_input.text = fb_body_input.text
         }
 
         fb_collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            fb_collapse_region.visibility = if (isChecked) View.VISIBLE else View.GONE
+            if (isChecked) {
+                fb_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
+                fb_collapse_region.visibility = View.VISIBLE
+            } else {
+                fb_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
+                fb_collapse_region.visibility = View.GONE
+            }
             if (isChecked && fb_body_input.text?.toString()?.isEmpty()!!) fb_body_input.text = body_input.text
 
         }
+
+        fb_expand.setOnClickListener {
+            if (fb_collapse_region.visibility == View.GONE) {
+                fb_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
+                fb_collapse_region.visibility = View.VISIBLE
+            } else {
+                fb_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
+                fb_collapse_region.visibility = View.GONE
+            }
+        }
+
+        slack_expand.setOnClickListener {
+            if (collapse_region.visibility == View.GONE) {
+                slack_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
+                collapse_region.visibility = View.VISIBLE
+            } else {
+                slack_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
+                collapse_region.visibility = View.GONE
+            }
+        }
+
+
+
+
         val list = mutableListOf<String>("#committee", "#general", "#events")
         spinner.setItems(list)
         val spinneritems = spinner.selectedItemsAsString
+    }
+
+    fun slackExpand() {
+
     }
 
     private fun setUpTextChangeListener() {
