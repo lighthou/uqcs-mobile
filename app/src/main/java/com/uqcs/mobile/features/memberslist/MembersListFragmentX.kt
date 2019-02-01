@@ -140,7 +140,6 @@ class MembersListFragmentX : Fragment(), AuthenticatedFragment {
     private fun SortableTableView<MemberX>.addDataAdapter() : SortableTableView<MemberX>? {
         val dataAdapter = TableDataColumnAdapterDelegator<MemberX>(context!!, membersList)
         dataAdapter.apply {
-            //These errors seems to not be actual errors? Created on androidx migration.
             setColumnAdapter(0, SimpleTableDataColumnAdapter(MemberXStringValueExtractor.forFirstName()))
             setColumnAdapter(1, SimpleTableDataColumnAdapter(MemberXStringValueExtractor.forLastName()))
             setColumnAdapter(2, SimpleTableDataColumnAdapter(MemberXStringValueExtractor.forEmail()))

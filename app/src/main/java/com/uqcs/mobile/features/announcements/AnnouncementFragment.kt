@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import com.uqcs.mobile.R
 import com.uqcs.mobile.common.AuthenticatedFragment
@@ -25,64 +26,39 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
         setHasOptionsMenu(true)
     }
 
+    private fun setSlackExpand(expand : Boolean) {
+        if (expand) {
+            slack_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
+            collapse_region.visibility = View.VISIBLE
+        } else {
+            slack_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
+            collapse_region.visibility = View.GONE
+        }
+    }
+
+    private fun setFacebookExpand(expand : Boolean) {
+        if (expand) {
+            fb_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
+            fb_collapse_region.visibility = View.VISIBLE
+        } else {
+            fb_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
+            fb_collapse_region.visibility = View.GONE
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setUpTextChangeListener()
+        setUpCheckboxes()
 
-        collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                slack_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
-                collapse_region.visibility = View.VISIBLE
-            } else {
-                slack_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
-                collapse_region.visibility = View.GONE
-            }
-            if (isChecked && body_input.text?.toString()?.isEmpty()!!) body_input.text = fb_body_input.text
-        }
-
-        fb_collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                fb_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
-                fb_collapse_region.visibility = View.VISIBLE
-            } else {
-                fb_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
-                fb_collapse_region.visibility = View.GONE
-            }
-            if (isChecked && fb_body_input.text?.toString()?.isEmpty()!!) fb_body_input.text = body_input.text
-
-        }
-
-        fb_expand.setOnClickListener {
-            if (fb_collapse_region.visibility == View.GONE) {
-                fb_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
-                fb_collapse_region.visibility = View.VISIBLE
-            } else {
-                fb_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
-                fb_collapse_region.visibility = View.GONE
-            }
-        }
-
-        slack_expand.setOnClickListener {
-            if (collapse_region.visibility == View.GONE) {
-                slack_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
-                collapse_region.visibility = View.VISIBLE
-            } else {
-                slack_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
-                collapse_region.visibility = View.GONE
-            }
-        }
-
-
-
+        fb_expand.setOnClickListener { setFacebookExpand(fb_collapse_region.visibility == View.GONE) }
+        slack_expand.setOnClickListener { setSlackExpand(collapse_region.visibility == View.GONE) }
+        
 
         val list = mutableListOf<String>("#committee", "#general", "#events")
         spinner.setItems(list)
         val spinneritems = spinner.selectedItemsAsString
-    }
-
-    fun slackExpand() {
-
     }
 
     private fun setUpTextChangeListener() {
@@ -120,8 +96,17 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    fun onCheckboxTicked() {
+    private fun setUpCheckboxes() {
+        collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            setSlackExpand(isChecked)
+            if (isChecked && body_input.text?.toString()?.isEmpty()!!) body_input.text = fb_body_input.text
+        }
 
+        fb_collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            setFacebookExpand(isChecked)
+            if (isChecked && fb_body_input.text?.toString()?.isEmpty()!!) fb_body_input.text = body_input.text
+
+        }
     }
 
 }
