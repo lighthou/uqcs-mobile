@@ -34,7 +34,7 @@
                     android:fontFamily="@font/open_sans_light"/>
 
             <ImageView android:id="@+id/uqcs_logo"
-                       android:src="@drawable/uqcs_logo_no_bg"
+                       android:src="@drawable/uqcs_logo"
                        android:layout_width="80dp"
                        android:layout_height="80dp"
                        android:layout_margin="24dp"

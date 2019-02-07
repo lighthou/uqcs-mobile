@@ -13,17 +13,17 @@
 
     <ImageView
             android:id="@+id/loading_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="90dp"
             android:layout_gravity="center"
-            android:background="@mipmap/uqcs_logo"
+            android:background="@drawable/uqcs_logo"
             android:indeterminate="true"/>
 
     <TextView
             android:id="@+id/loading_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="80dp"
             android:fontFamily="@font/open_sans_semibold"
             android:text="@string/loading_text"
             android:layout_gravity="center"
