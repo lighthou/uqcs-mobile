@@ -10,6 +10,7 @@ import com.uqcs.mobile.features.announcements.AnnouncementFragment
 import com.uqcs.mobile.features.documentation.DocumentationFragmentX
 import com.uqcs.mobile.features.eventscalendar.EventsCalendarFragment
 import com.uqcs.mobile.features.memberslist.MembersListFragmentX
+import com.uqcs.mobile.features.signup.SignupFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_members -> frag = MembersListFragmentX.newInstance()
             R.id.menu_docs -> frag = DocumentationFragmentX.newInstance()
             R.id.menu_announcements -> frag = AnnouncementFragment.newInstance()
+            R.id.menu_signup -> frag = SignupFragment.newInstance()
         }
 
         // update selected item

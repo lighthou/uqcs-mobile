@@ -47,10 +47,10 @@ class EventsCalendarFragment : Fragment(), AuthenticatedFragment, OnDateSelected
         viewModel.getEventsListFromServer() //TODO do here or on viewmodel init?
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
-        inflater?.inflate(R.menu.events_calendar_toolbar_menu, menu)
-        menu?.findItem(R.id.view_event_details)?.isVisible = selectedEvent != null
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.events_calendar_toolbar_menu, menu)
+        menu.findItem(R.id.view_event_details)?.isVisible = selectedEvent != null
         super.onCreateOptionsMenu(menu, inflater)
     }
 

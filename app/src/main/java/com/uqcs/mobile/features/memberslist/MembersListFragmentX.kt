@@ -41,10 +41,10 @@ class MembersListFragmentX : Fragment(), AuthenticatedFragment {
         viewModel.getMembersListFromServer() //TODO do here or on viewmodel init?
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
-        inflater?.inflate(R.menu.members_list_toolbar_menu, menu)
-        val myActionMenuItem = menu?.findItem(R.id.action_search)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.members_list_toolbar_menu, menu)
+        val myActionMenuItem = menu.findItem(R.id.action_search)
         if (myActionMenuItem?.actionView != null) {
             val searchView = (myActionMenuItem.actionView as SearchView)
             searchView.isIconified = false

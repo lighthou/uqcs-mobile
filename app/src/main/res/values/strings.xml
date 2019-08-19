@@ -28,6 +28,8 @@
     <!-- Members List -->
     <string name="fetching_members">Fetching Members…</string>
 
+    <string name="signup">Signup</string>
+
 
     <!-- Sign In -->
     <string name="password">Password</string>

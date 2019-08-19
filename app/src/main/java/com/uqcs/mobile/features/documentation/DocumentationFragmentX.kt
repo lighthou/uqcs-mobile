@@ -106,10 +106,10 @@ class DocumentationFragmentX : ListFragment(), AuthenticatedFragment {
         listAdapter = adapter
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
-        inflater?.inflate(R.menu.documentation_toolbar_menu, menu)
-        updateToolbar(menu!!)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.documentation_toolbar_menu, menu)
+        updateToolbar(menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

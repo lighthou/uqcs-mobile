@@ -36,24 +36,26 @@ class SignInActivity : AppCompatActivity() {
 
     private fun checkSignIn() {
         val loginRequest : Call<ResponseBody> = webserver.signIn()
-        loginRequest.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {
-                Util.animateView(this@SignInActivity , progress_overlay, View.GONE, 0.8f, 200)
-                //showLoading.value = false
-                if (response.code() == 200) {
-                    startActivity(MainActivity.getIntent(this@SignInActivity, usernameText, passwordText))
-                } else {
-                    Toast.makeText(this@SignInActivity, "Invalid Credentials", Toast.LENGTH_LONG).show()
-                }
-            }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Util.animateView(this@SignInActivity, progress_overlay, View.GONE, 0.8f, 200)
-                Toast.makeText(this@SignInActivity, "Something went wrong, Try again", Toast.LENGTH_LONG).show()
-                //showLoading.value = false
-            }
-
-        })
+        startActivity(MainActivity.getIntent(this@SignInActivity, usernameText, passwordText))
+//        loginRequest.enqueue(object : Callback<ResponseBody> {
+//            override fun onResponse(call: Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {
+//                Util.animateView(this@SignInActivity , progress_overlay, View.GONE, 0.8f, 200)
+//                //showLoading.value = false
+//                if (response.code() == 200) {
+//                    startActivity(MainActivity.getIntent(this@SignInActivity, usernameText, passwordText))
+//                } else {
+//                    Toast.makeText(this@SignInActivity, "Invalid Credentials", Toast.LENGTH_LONG).show()
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                Util.animateView(this@SignInActivity, progress_overlay, View.GONE, 0.8f, 200)
+//                Toast.makeText(this@SignInActivity, "Something went wrong, Try again", Toast.LENGTH_LONG).show()
+//                //showLoading.value = false
+//            }
+//
+//        })
     }
 
     private fun registerCredentials() {
