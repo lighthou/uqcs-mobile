@@ -43,7 +43,7 @@ class DocumentationViewModel : ViewModel(), AuthenticatedViewModel {
         }
     }
 
-    fun getDocumentationFromServer() { //TODO Should this be in the viewmodel or the view. Should it be private?
+    fun getDocumentationFromServer() { //TODO Should this be in the viewmodel or the view. Should it be private
         showLoading.value = true
         val documentationRequests : Call<ResponseBody> = webserver.fetchDocumentation()
 
