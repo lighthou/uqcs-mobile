@@ -16,7 +16,7 @@ clone the repo.
 
 start it in android studio
 
-deploy to phone by running spp module
+deploy to phone by running app module
 
 
 # License
