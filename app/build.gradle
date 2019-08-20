@@ -26,6 +26,10 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://dl.bintray.com/camerakit/camerakit-android-snapshots' }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -56,6 +60,9 @@ dependencies {
 
 
     implementation 'com.camerakit:camerakit:1.0.0-beta3.10'
+    //implementation 'com.camerakit:camerakit:1.0.0-Snapshot'
+
+
     implementation 'com.camerakit:jpegkit:0.1.0'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.21'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
