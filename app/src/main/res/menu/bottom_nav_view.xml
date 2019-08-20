@@ -26,6 +26,6 @@
     <item
             android:id="@+id/menu_signup"
             android:title="@string/signup"
-            android:icon="@drawable/ic_documentation"/>
+            android:icon="@drawable/ic_person_add"/>
 
 </menu>

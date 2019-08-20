@@ -13,14 +13,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/camerabackground">
 
         <com.camerakit.CameraKitView xmlns:app="http://schemas.android.com/apk/res-auto"
                                      android:id="@+id/camera"
                                      android:layout_width="match_parent"
                                      android:layout_height="match_parent"
                                      android:adjustViewBounds="true"
-                                     app:camera_facing="back"/>
+                                     app:camera_facing="back"
+                                     app:camera_permissions="camera"
+                                     app:camera_focus="continuous"/>
 
         <View
                 android:id="@+id/myRectangleView"

@@ -2,6 +2,7 @@ package com.uqcs.mobile.common
 
 import com.uqcs.mobile.features.memberslist.MemberX
 import com.uqcs.mobile.features.eventscalendar.EventX
+import okhttp3.Response
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Field
@@ -28,4 +29,9 @@ interface Webserver {
         @Field("file_data") fileData : String,
         @Field("commit_message") commitMessage : String
     )
+
+    @POST("/signup")
+    fun createMember(
+        @Field("image") image : String
+    ) : Call<ResponseBody>
 }

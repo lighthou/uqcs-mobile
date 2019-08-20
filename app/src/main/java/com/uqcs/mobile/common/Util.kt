@@ -1,15 +1,18 @@
 package com.uqcs.mobile.common
 
 import java.text.SimpleDateFormat
-import java.util.*
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import com.uqcs.mobile.R
 import kotlinx.android.synthetic.main.loading_overlay.view.*
+import android.graphics.Bitmap
+import android.util.Base64
+import com.uqcs.mobile.R
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 
 class Util {
