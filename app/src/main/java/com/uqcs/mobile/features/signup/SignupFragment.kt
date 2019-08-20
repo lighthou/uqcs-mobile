@@ -1,15 +1,10 @@
 package com.uqcs.mobile.features.signup
 
 import android.app.Activity
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.PointF
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
-import android.provider.MediaStore
-import android.util.Log
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +12,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.gms.vision.Frame
-import com.google.android.gms.vision.face.Face
-import com.google.android.gms.vision.face.FaceDetector
 import com.google.android.gms.vision.text.TextBlock
 import com.google.android.gms.vision.text.TextRecognizer
 import com.uqcs.mobile.MainActivity
@@ -27,15 +20,13 @@ import com.uqcs.mobile.common.AuthenticatedFragment
 import com.uqcs.mobile.common.CameraPermissionHelper
 import com.uqcs.mobile.common.Util
 import kotlinx.android.synthetic.main.fragment_signup.*
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
+import kotlinx.android.synthetic.main.loading_overlay.*
 
 
 class SignupFragment : Fragment(), AuthenticatedFragment {
 
     private val STUDENT_SERIAL_NUMBER_LENGTH = 14
-    private lateinit var faceDetector : FaceDetector
+
     private lateinit var textRecognizer : TextRecognizer
     private lateinit var viewModel : SignupViewModel
     private var handler = Handler(Looper.getMainLooper())
@@ -43,7 +34,7 @@ class SignupFragment : Fragment(), AuthenticatedFragment {
     private var runnable : Runnable = object : Runnable {
         override fun run() {
             camera.captureImage { _, bytes ->
-                BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.let {image ->
+                BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.let { image ->
                     val textFrame = Frame.Builder()
                         .setBitmap(image)
                         .build()
@@ -54,6 +45,7 @@ class SignupFragment : Fragment(), AuthenticatedFragment {
                         val value = textBlocks.get(textBlocks.keyAt(i)).value.toString()
                         if (value.length == STUDENT_SERIAL_NUMBER_LENGTH && value.toLongOrNull() != null) {
                             Toast.makeText(context, value, Toast.LENGTH_LONG).show()
+                            Util.animateView(context!!, progress_overlay, View.VISIBLE, 0.8f, 200)
                         }
                     }
                 }
@@ -99,12 +91,6 @@ class SignupFragment : Fragment(), AuthenticatedFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-        faceDetector = FaceDetector.Builder(context)
-            .setTrackingEnabled(true)
-            .setProminentFaceOnly(true)
-            .setMode(FaceDetector.FAST_MODE)
-            .build()
 
         textRecognizer = TextRecognizer.Builder(context)
             .build()
