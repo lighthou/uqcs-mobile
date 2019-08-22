@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import com.uqcs.mobile.R
 import com.uqcs.mobile.common.AuthenticatedFragment
@@ -46,6 +45,27 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
         }
     }
 
+    private fun setTwitterExpand(expand : Boolean) {
+        if (expand) {
+            tt_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
+            tt_collapse_region.visibility = View.VISIBLE
+        } else {
+            tt_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
+            tt_collapse_region.visibility = View.GONE
+        }
+    }
+
+    private fun setLinkedInExpand(expand : Boolean) {
+        if (expand) {
+            linkedin_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_up)
+            linkedin_collapse_region.visibility = View.VISIBLE
+        } else {
+            linkedin_expand.background = resources.getDrawable(R.drawable.ic_keyboard_arrow_down)
+            linkedin_collapse_region.visibility = View.GONE
+        }
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -54,9 +74,10 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
 
         fb_expand.setOnClickListener { setFacebookExpand(fb_collapse_region.visibility == View.GONE) }
         slack_expand.setOnClickListener { setSlackExpand(collapse_region.visibility == View.GONE) }
-        
+        tt_expand.setOnClickListener { setTwitterExpand(tt_collapse_region.visibility == View.GONE) }
+        linkedin_expand.setOnClickListener { setLinkedInExpand(linkedin_collapse_region.visibility == View.GONE) }
 
-        val list = mutableListOf<String>("#committee", "#general", "#events")
+        val list = mutableListOf<String>("#announcements", "#committee", "#general", "#events")
         spinner.setItems(list)
         val spinneritems = spinner.selectedItemsAsString
     }
@@ -79,11 +100,13 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        fb_body_input.addTextChangedListener(object : TextWatcher {
+        body_input.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 fb_body_preview.text = s.toString()
+                tt_body_preview.text = s.toString()
+                linkedin_body_preview.text = s.toString()
             }
         })
     }
@@ -98,14 +121,19 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
 
     private fun setUpCheckboxes() {
         collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            setSlackExpand(isChecked)
-            if (isChecked && body_input.text?.toString()?.isEmpty()!!) body_input.text = fb_body_input.text
+            if (!isChecked) setSlackExpand(isChecked)
         }
 
         fb_collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            setFacebookExpand(isChecked)
-            if (isChecked && fb_body_input.text?.toString()?.isEmpty()!!) fb_body_input.text = body_input.text
+            if (!isChecked) setFacebookExpand(isChecked)
+        }
 
+        tt_collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (!isChecked) setFacebookExpand(isChecked)
+        }
+
+        linkedin_collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (!isChecked) setLinkedInExpand(isChecked)
         }
     }
 
