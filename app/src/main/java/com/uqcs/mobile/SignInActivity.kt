@@ -52,6 +52,7 @@ class SignInActivity : AppCompatActivity() {
         google_sign_in_button.setOnClickListener { v ->
             when (v.id) {
                 R.id.google_sign_in_button -> {
+                    Util.animateView(this, progress_overlay, View.VISIBLE, 0.8f, 200)
                     val signInIntent = mGoogleSignInClient.signInIntent
                     startActivityForResult(signInIntent, GOOGLE_SIGN_IN_RC)
                 }
@@ -91,6 +92,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun signIn() {
+        Util.animateView(this, progress_overlay, View.GONE, 0.8f, 200)
         startActivity(MainActivity.getIntent(this@SignInActivity, "", ""))
     }
 
@@ -122,6 +124,7 @@ class SignInActivity : AppCompatActivity() {
                 signIn()
             } else {
                 mGoogleSignInClient.signOut()
+                Util.animateView(this, progress_overlay, View.GONE, 0.8f, 200)
                 Toast.makeText(this, "Invalid Login", Toast.LENGTH_LONG).show()
             }
         } catch (e: ApiException) {
