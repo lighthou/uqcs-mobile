@@ -298,9 +298,9 @@
                             android:background="@drawable/documentation_background">
 
                         <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/facebook_preview_background"/>
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/twitter_preview_background"/>
 
                         <TextView
                                 android:id="@+id/tt_body_preview"
@@ -310,7 +310,7 @@
                                 android:textColor="@color/black"
                                 android:scrollbars="vertical"
                                 android:fontFamily="@font/open_sans_regular"
-                                android:layout_marginStart="40dp"
+                                android:layout_marginStart="35dp"
                                 android:layout_marginTop="40dp"/>
                     </RelativeLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -365,8 +365,9 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/linkedin_collapse_region"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="5dp"
                         android:visibility="gone">
 
                     <RelativeLayout
@@ -381,7 +382,7 @@
                         <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/facebook_preview_background"/>
+                                android:background="@drawable/linkedin_preview_background"/>
 
                         <TextView
                                 android:id="@+id/linkedin_body_preview"
@@ -392,7 +393,7 @@
                                 android:scrollbars="vertical"
                                 android:fontFamily="@font/open_sans_regular"
                                 android:layout_marginStart="40dp"
-                                android:layout_marginTop="40dp"/>
+                                android:layout_marginTop="45dp"/>
                     </RelativeLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>

@@ -129,7 +129,7 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
         }
 
         tt_collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (!isChecked) setFacebookExpand(isChecked)
+            if (!isChecked) setTwitterExpand(isChecked)
         }
 
         linkedin_collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
