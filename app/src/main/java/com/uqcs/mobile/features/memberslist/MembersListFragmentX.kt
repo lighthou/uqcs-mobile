@@ -89,6 +89,15 @@ class MembersListFragmentX : Fragment(), AuthenticatedFragment {
 
     private fun setUpTableView() {
         val tableView = view?.findViewById<SortableTableView<MemberX>>(R.id.tableView)
+
+//        tableView?.apply {  todo this looks better but added when table not fetching members at the moment
+//            addTableHeaders()
+//            addDataAdapter()
+//            addRowBackgroundColors()
+//            addFilteringFunctionality()
+//            addColumnWeights()
+//        }
+
         tableView?.addTableHeaders()
             ?.addDataAdapter()
             ?.addRowBackgroundColors()

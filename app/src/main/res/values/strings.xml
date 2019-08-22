@@ -25,9 +25,10 @@
     <string name="back">Back</string>
 
 
-    <!-- Members List -->
+    <!-- Members List -->n
     <string name="fetching_members">Fetching Members…</string>
 
+    <!-- Signup -->
     <string name="signup">Signup</string>
 
 

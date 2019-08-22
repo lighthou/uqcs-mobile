@@ -3,16 +3,32 @@ package com.uqcs.mobile.features.announcements
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uqcs.mobile.R
 import com.uqcs.mobile.common.AuthenticatedFragment
 import kotlinx.android.synthetic.main.fragment_announcements.*
 import ru.noties.markwon.Markwon
+import android.provider.MediaStore
+import android.graphics.Bitmap
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.view.*
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import com.uqcs.mobile.common.CameraPermissionHelper
+import com.uqcs.mobile.common.StoragePermissionHelper
+import java.io.FileNotFoundException
+import java.io.IOException
+
+
+
 
 class AnnouncementFragment : Fragment(), AuthenticatedFragment {
+
+    private val GET_FROM_GALLERY : Int = 3
+    private var announcementImage : Bitmap? = null
 
     companion object {
         fun newInstance(): AnnouncementFragment {
@@ -68,7 +84,8 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        announcements_toolbar.title = "Announcements"
+        (activity as AppCompatActivity).setSupportActionBar(announcements_toolbar)
         setUpTextChangeListener()
         setUpCheckboxes()
 
@@ -76,6 +93,23 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
         slack_expand.setOnClickListener { setSlackExpand(collapse_region.visibility == View.GONE) }
         tt_expand.setOnClickListener { setTwitterExpand(tt_collapse_region.visibility == View.GONE) }
         linkedin_expand.setOnClickListener { setLinkedInExpand(linkedin_collapse_region.visibility == View.GONE) }
+
+
+        add_image_buttom.setOnClickListener {
+            if (!StoragePermissionHelper.hasStoragePermission(this.activity as Activity)) {
+                StoragePermissionHelper.requestStoragePermission(this.activity as Activity)
+            }
+            if (!StoragePermissionHelper.hasStoragePermission(this.activity as Activity)) {
+                return@setOnClickListener
+            }
+
+                startActivityForResult(
+                Intent(
+                    Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI
+                ), GET_FROM_GALLERY
+            )
+        }
 
         val list = mutableListOf<String>("#announcements", "#committee", "#general", "#events")
         spinner.setItems(list)
@@ -115,6 +149,12 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
         return inflater.inflate(R.layout.fragment_announcements, container, false)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.announcement_toolbar_menu, menu)
+
+    }
+
     override fun registerServerCredentials() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -134,6 +174,30 @@ class AnnouncementFragment : Fragment(), AuthenticatedFragment {
 
         linkedin_collapse_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (!isChecked) setLinkedInExpand(isChecked)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        //Detects request codes
+        if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            val selectedImage = data!!.data
+            var bitmap: Bitmap? = null
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, selectedImage)
+                //add_image_buttom.background = BitmapDrawable(resources, bitmap)
+                add_image_buttom.scaleType = ImageView.ScaleType.FIT_CENTER
+                add_image_buttom.setImageBitmap(bitmap)
+                add_image_buttom.setBackgroundColor(Color.WHITE)
+            } catch (e: FileNotFoundException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace()
+            } catch (e: IOException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace()
+            }
+
         }
     }
 
